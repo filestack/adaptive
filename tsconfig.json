@@ -1,0 +1,42 @@
+{
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "declaration": true,
+    "importHelpers": true,
+    "lib": [ 
+      "dom",
+      "es6"
+    ],
+    "listFiles": false,
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "outDir": "./build/main",
+    "pretty": true,
+    "rootDir": "src",
+    "target": "es5",
+    "traceResolution": false,
+    "types": [
+      "mocha",
+      "node"
+    ],
+    "typeRoots": [
+      "@types",
+      "./src/types"
+    ],
+
+    "strictNullChecks": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitAny" : true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true
+  },
+  "include": [
+    "src/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}

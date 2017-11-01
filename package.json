@@ -1,0 +1,99 @@
+{
+  "name": "filestack-adaptive",
+  "author": "Filestack (https://filestack.com)",
+  "version": "0.1.0",
+  "description": "HTML5 picture elements powered by Filestack",
+  "main": "build/main/index.js",
+  "module": "build/module/index.js",
+  "browser": "build/browser/index.umd.js",
+  "typings": "build/main/index.d.ts",
+  "repository": "https://github.com/filestack/adaptive",
+  "scripts": {
+    "build": "trash build && npm run build:main && npm run build:module && npm run build:browser",
+    "build:main": "tsc -p tsconfig.json",
+    "build:module": "tsc -p config/tsconfig.module.json",
+    "build:browser": "rollup -c config/rollup.config.js && npm run build:resolve-sourcemaps",
+    "build:cdn": "NODE_ENV=production rollup -c config/rollup.config.js",
+    "build:resolve-sourcemaps": "sorcery -i build/browser/index.umd.js",
+    "build:test": "tsc -p tsconfig.json --inlineSourceMap",
+    "commitmsg": "validate-commit-msg",
+    "docs": "trash build/docs && typedoc src",
+    "docs:publish": "npm run docs && gh-pages -d build/docs",
+    "lint": "tslint --project .",
+    "publish": "npm run build && npm run build:cdn && node scripts/publish.js",
+    "pretest": "trash build && npm run build:test",
+    "release": "standard-version",
+    "test": "npm run lint && nyc mocha"
+  },
+  "license": "Apache-2.0",
+  "keywords": [
+    "filestack",
+    "responsive images",
+    "adaptive images",
+    "picture",
+    "pictures",
+    "react",
+    "ssr",
+    "mobile web",
+    "html5",
+    "html picture"
+  ],
+  "dependencies": {
+    "@types/ramda": "^0.24.17",
+    "bel": "^5.1.5",
+    "hyperx": "^2.3.1",
+    "ramda": "^0.25.0"
+  },
+  "devDependencies": {
+    "@types/mocha": "^2.2.43",
+    "@types/node": "^8.0.46",
+    "aws-sdk": "^2.142.0",
+    "commitizen": "^2.9.6",
+    "cz-conventional-changelog": "^2.1.0",
+    "fs-jetpack": "^1.2.0",
+    "gh-pages": "^1.0.0",
+    "html-validator": "^2.2.3",
+    "husky": "^0.14.3",
+    "mime-types": "^2.1.17",
+    "mocha": "^4.0.1",
+    "nyc": "^11.2.1",
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0",
+    "rollup": "^0.50.0",
+    "rollup-plugin-commonjs": "^8.2.4",
+    "rollup-plugin-node-resolve": "^3.0.0",
+    "rollup-plugin-uglify": "^2.0.1",
+    "sorcery": "^0.10.0",
+    "standard-version": "^4.2.0",
+    "trash-cli": "^1.4.0",
+    "tslint": "^5.8.0",
+    "tslint-config-semistandard": "^6.0.4",
+    "typedoc": "^0.9.0",
+    "typescript": "^2.6.1",
+    "validate-commit-msg": "^2.14.0"
+  },
+  "nyc": {
+    "check-coverage": true,
+    "lines": 80,
+    "statements": 80,
+    "functions": 80,
+    "branches": 80,
+    "exclude": [
+      "src/index.ts",
+      "**/*.spec.*"
+    ],
+    "reporter": [
+      "lcov",
+      "text-summary"
+    ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "node_modules/cz-conventional-changelog"
+    },
+    "validate-commit-msg": {
+      "types": "conventional-commit-types",
+      "helpMessage": "Use \"git cz\" or conventional-changelog format :) (https://github.com/commitizen/cz-cli)"
+    }
+  }
+}
