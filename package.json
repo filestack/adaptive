@@ -1,7 +1,7 @@
 {
   "name": "filestack-adaptive",
   "author": "Filestack (https://filestack.com)",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "HTML5 picture elements powered by Filestack",
   "main": "build/main/index.js",
   "module": "build/module/index.js",
@@ -22,7 +22,7 @@
     "lint": "tslint --project .",
     "publish": "npm run build && npm run build:cdn && node scripts/publish.js",
     "pretest": "trash build && npm run build:test",
-    "release": "standard-version",
+    "release": "npm test && npm run build && standard-version",
     "test": "npm run lint && nyc mocha"
   },
   "license": "Apache-2.0",
