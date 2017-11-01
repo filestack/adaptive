@@ -31,6 +31,10 @@ The `package.json` specifies three separate modules:
 
 You can find a minified UMD module on the Filestack CDN [here](https://static.filestackapi.com/adaptive/adaptive.min.js).
 
+## API Documentation
+
+[https://filestack.github.io/adaptive/](https://filestack.github.io/adaptive/)
+
 ## What can this do?
 
 Adaptive at its core is a generator for objects representing the structure of HTML picture tags. These in turn can be consumed by different interpreters. 
