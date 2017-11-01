@@ -265,12 +265,10 @@ const makeImgTree = (base: string[], options: PictureOptions): Img => {
   const fallback = options.sizes && options.sizes.fallback;
   return removeEmpty({
     src: fallback ? makeSrc(base, fallback, options) : getCdnUrl(base, options),
-    srcSet: options.sizes ? makeSrcSet(base, options, fallback) : null,
+    srcSet: options.sizes ? makeSrcSet(base, options, fallback) : undefined,
     alt: options.alt,
     width: options.width,
-    sizes: options.sizes && options.sizes.fallback
-      ? options.sizes.fallback
-      : null,
+    sizes: fallback || undefined,
   });
 };
 
@@ -281,12 +279,12 @@ const makeImgTree = (base: string[], options: PictureOptions): Img => {
  * This allows passing the structure into hyperscript-like virtual DOM generators.
  * For example see https://github.com/choojs/hyperx
  */
-export const makePictureTree = (handle?: string, opts?: any): Picture => {
+export const makePictureTree = (handle?: string, opts?: PictureOptions): Picture => {
   if (typeof handle !== 'string') {
     throw new TypeError('Filestack handle must be a string');
   }
   if (opts && opts.resolutions && opts.resolutions.length) {
-    const rUnits: string[] = R.map(getUnit, opts.resolutions);
+    const rUnits: string[] = R.map(getUnit, R.filter(R.is(String), opts.resolutions));
     if (!opts.sizes && (R.any(R.is(Number), opts.resolutions) || R.contains('w', rUnits))) {
       throw new Error('You must specify at least one size to use width descriptors');
     }
