@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://www.filestack.com"><img src="http://static.filestackapi.com/adaptive/adaptive.svg" align="center" width="230" /></a>  
+  <a href="https://www.filestack.com"><img src="http://static.filestackapi.com/adaptive/adaptive.svg?refresh" align="center" width="230" /></a>  
 </p>
 <p align="center">
   <p align="center">Generate responsive HTML picture elements powered by on-the-fly Filestack image conversions.</p>
