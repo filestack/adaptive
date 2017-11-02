@@ -49,5 +49,6 @@ module.exports = {
   input: 'build/module/index.js',
   output,
   sourcemap: true,
+  banner: `/* version ${manifest.version} */`,
   plugins,
 }
