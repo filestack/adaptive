@@ -49,7 +49,7 @@ Browser (using umd):
 <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
 <script src="https://static.filestackapi.com/adaptive/adaptive.min.js"></script>
 <script>
-  const options = { alt: 'downtown', sizes: { fallback: '100vw' } };
+  const options = { alt: 'windsurfer', sizes: { fallback: '100vw' } };
   const tree = fsAdaptive.picture('5aYkEQJSQCmYShsoCnZN', options, React.createElement);
   ReactDOM.render(tree, document.body);
 </script>
@@ -67,7 +67,7 @@ const createElement = (Component, props, children) => {
   return React.createElement(Component, props, ...children);
 };
 
-const options = { alt: 'downtown', sizes: { fallback: '100vw' } };
+const options = { alt: 'windsurfer', sizes: { fallback: '100vw' } };
 const tree = picture('5aYkEQJSQCmYShsoCnZN', options, createElement);
 ReactDOM.render(tree, document.body);
 ```
@@ -85,7 +85,7 @@ const createElement = (Component, props, children) => {
   return React.createElement(Component, props, ...children);
 };
 
-const options = { alt: 'downtown', sizes: { fallback: '100vw' } };
+const options = { alt: 'windsurfer', sizes: { fallback: '100vw' } };
 const tree = picture('5aYkEQJSQCmYShsoCnZN', options, createElement);
 console.log(toString(tree));
 ```
@@ -129,12 +129,12 @@ Most cases can be covered with the `picture` function for generating plain DOM e
 import { picture } from 'filestack-adaptive';
 
 const options = { 
-  alt: 'downtown', 
+  alt: 'windsurfer', 
   sizes: { 
     fallback: '60vw',
   }, 
 };
-const el = picture('seW1thvcR1aQBfOCF8bX', options);
+const el = picture('5aYkEQJSQCmYShsoCnZN', options);
 document.body.appendChild(el);
 ```
 
@@ -142,24 +142,24 @@ This will generate a DOM node with the following structure:
 
 ```html
 <picture>
-  <img alt="downtown" 
+  <img alt="windsurfer" 
        sizes="60vw"
-       src="https://cdn.filestackcontent.com/seW1thvcR1aQBfOCF8bX" 
-       srcset="https://cdn.filestackcontent.com/resize=width:180/seW1thvcR1aQBfOCF8bX 180w, 
-               https://cdn.filestackcontent.com/resize=width:360/seW1thvcR1aQBfOCF8bX 360w, 
-               https://cdn.filestackcontent.com/resize=width:540/seW1thvcR1aQBfOCF8bX 540w, 
-               https://cdn.filestackcontent.com/resize=width:720/seW1thvcR1aQBfOCF8bX 720w, 
-               https://cdn.filestackcontent.com/resize=width:900/seW1thvcR1aQBfOCF8bX 900w, 
-               https://cdn.filestackcontent.com/resize=width:1080/seW1thvcR1aQBfOCF8bX 1080w, 
-               https://cdn.filestackcontent.com/resize=width:1296/seW1thvcR1aQBfOCF8bX 1296w, 
-               https://cdn.filestackcontent.com/resize=width:1512/seW1thvcR1aQBfOCF8bX 1512w, 
-               https://cdn.filestackcontent.com/resize=width:1728/seW1thvcR1aQBfOCF8bX 1728w, 
-               https://cdn.filestackcontent.com/resize=width:1944/seW1thvcR1aQBfOCF8bX 1944w, 
-               https://cdn.filestackcontent.com/resize=width:2160/seW1thvcR1aQBfOCF8bX 2160w, 
-               https://cdn.filestackcontent.com/resize=width:2376/seW1thvcR1aQBfOCF8bX 2376w, 
-               https://cdn.filestackcontent.com/resize=width:2592/seW1thvcR1aQBfOCF8bX 2592w, 
-               https://cdn.filestackcontent.com/resize=width:2808/seW1thvcR1aQBfOCF8bX 2808w, 
-               https://cdn.filestackcontent.com/resize=width:3024/seW1thvcR1aQBfOCF8bX 3024w">
+       src="https://cdn.filestackcontent.com/5aYkEQJSQCmYShsoCnZN" 
+       srcset="https://cdn.filestackcontent.com/resize=width:180/5aYkEQJSQCmYShsoCnZN 180w, 
+               https://cdn.filestackcontent.com/resize=width:360/5aYkEQJSQCmYShsoCnZN 360w, 
+               https://cdn.filestackcontent.com/resize=width:540/5aYkEQJSQCmYShsoCnZN 540w, 
+               https://cdn.filestackcontent.com/resize=width:720/5aYkEQJSQCmYShsoCnZN 720w, 
+               https://cdn.filestackcontent.com/resize=width:900/5aYkEQJSQCmYShsoCnZN 900w, 
+               https://cdn.filestackcontent.com/resize=width:1080/5aYkEQJSQCmYShsoCnZN 1080w, 
+               https://cdn.filestackcontent.com/resize=width:1296/5aYkEQJSQCmYShsoCnZN 1296w, 
+               https://cdn.filestackcontent.com/resize=width:1512/5aYkEQJSQCmYShsoCnZN 1512w, 
+               https://cdn.filestackcontent.com/resize=width:1728/5aYkEQJSQCmYShsoCnZN 1728w, 
+               https://cdn.filestackcontent.com/resize=width:1944/5aYkEQJSQCmYShsoCnZN 1944w, 
+               https://cdn.filestackcontent.com/resize=width:2160/5aYkEQJSQCmYShsoCnZN 2160w, 
+               https://cdn.filestackcontent.com/resize=width:2376/5aYkEQJSQCmYShsoCnZN 2376w, 
+               https://cdn.filestackcontent.com/resize=width:2592/5aYkEQJSQCmYShsoCnZN 2592w, 
+               https://cdn.filestackcontent.com/resize=width:2808/5aYkEQJSQCmYShsoCnZN 2808w, 
+               https://cdn.filestackcontent.com/resize=width:3024/5aYkEQJSQCmYShsoCnZN 3024w">
 </picture>
 ```
 
@@ -181,10 +181,10 @@ by passing an array to the `resolutions` option, e.g. `resolutions: ['1x', '2x',
 
 ```js
 const options = { 
-  alt: 'downtown', 
+  alt: 'windsurfer', 
   width: '768px',
 };
-picture('seW1thvcR1aQBfOCF8bX', options);
+picture('5aYkEQJSQCmYShsoCnZN', options);
 ```
 
 Output:
@@ -194,7 +194,7 @@ Output:
   <img src="https://cdn.filestackcontent.com/resize=width:768/5aYkEQJSQCmYShsoCnZN" 
        srcset="https://cdn.filestackcontent.com/resize=width:768/5aYkEQJSQCmYShsoCnZN 1x, 
                https://cdn.filestackcontent.com/resize=width:1536/5aYkEQJSQCmYShsoCnZN 2x" 
-       alt="downtown" 
+       alt="windsurfer" 
        width="768">
 </picture>
 ```
@@ -206,14 +206,14 @@ of numbers or strings (e.g. `540` or `'540w'`).
 
 ```js
 const options = { 
-  alt: 'downtown', 
+  alt: 'windsurfer', 
   sizes: {
     '(min-width: 1080px)': '100vw',
     fallback: '90vw',
   },
   resolutions: [540, 1080],
 };
-picture('seW1thvcR1aQBfOCF8bX', options);
+picture('5aYkEQJSQCmYShsoCnZN', options);
 ```
 
 Output:
@@ -227,7 +227,7 @@ Output:
   <img src="https://cdn.filestackcontent.com/5aYkEQJSQCmYShsoCnZN" 
        srcset="https://cdn.filestackcontent.com/resize=width:540/5aYkEQJSQCmYShsoCnZN 540w, 
                https://cdn.filestackcontent.com/resize=width:1080/5aYkEQJSQCmYShsoCnZN 1080w" 
-       alt="downtown" 
+       alt="windsurfer" 
        sizes="90vw">
 </picture>
 ```
@@ -239,10 +239,10 @@ and cache it on the delivery network for future requests.
 
 ```js
 const options = { 
-  alt: 'downtown', 
+  alt: 'windsurfer', 
   formats: ['webp', 'jpg'], // order matters!
 };
-picture('seW1thvcR1aQBfOCF8bX', options);
+picture('5aYkEQJSQCmYShsoCnZN', options);
 ```
 
 Output:
@@ -253,7 +253,7 @@ Output:
           type="image/webp">
   <source srcset="https://cdn.filestackcontent.com/output=format:jpg/5aYkEQJSQCmYShsoCnZN" 
           type="image/jpg"> 
-  <img src="https://cdn.filestackcontent.com/5aYkEQJSQCmYShsoCnZN" alt="downtown">
+  <img src="https://cdn.filestackcontent.com/5aYkEQJSQCmYShsoCnZN" alt="windsurfer">
 </picture>
 ```
 
