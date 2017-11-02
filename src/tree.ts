@@ -109,10 +109,7 @@ const getN = R.ifElse(
  * Utility to get unit of width or resolution
  */
 const getUnit = (data: string) => {
-  if (R.is(String, data)) {
-    return data.replace(/\d*(\D+)$/gi, '$1');
-  }
-  return data;
+  return data.replace(/\d*(\D+)$/gi, '$1');
 };
 
 /**
