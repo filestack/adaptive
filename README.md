@@ -10,6 +10,7 @@
   <a href="https://static.filestackapi.com/adaptive/adaptive.min.js"><img src="http://img.badgesize.io/http://static.filestackapi.com/adaptive/adaptive.min.js?color=green" /></a>
   <img src="https://img.shields.io/badge/module%20formats-cjs%2C%20umd%2C%20esm-green.svg" />
   <a href="https://conventionalcommits.org"><img src="https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg" /></a>
+  <a href="https://travis-ci.org/filestack/adaptive"><img src="https://travis-ci.org/filestack/adaptive.svg?branch=develop" /></a>
 <hr/>
 
 You will need a Filestack developer account to use this library. Get a free one [here](https://dev.filestack.com/register/free).
