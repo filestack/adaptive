@@ -42,7 +42,8 @@
     "@types/ramda": "^0.24.17",
     "bel": "^5.1.5",
     "hyperx": "^2.3.1",
-    "ramda": "^0.25.0"
+    "ramda": "^0.25.0",
+    "tcomb-validation": "^3.4.1"
   },
   "devDependencies": {
     "@types/mocha": "^2.2.43",
