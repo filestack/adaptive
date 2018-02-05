@@ -213,7 +213,7 @@ const makeSrc = (base: string[], fallback: string, options: PictureOptions) => {
   }
 
   const width: number = getN(fallback);
-  return R.join('/', injectTransforms(base, options.transforms || {})(width));
+  return R.join('/', injectTransforms(base, options.transforms)(width));
 };
 
 /**
@@ -304,7 +304,7 @@ export const makePictureTree = (handle?: string, opts?: PictureOptions): Picture
     ...opts,
   };
 
-  options.transforms = options.transforms || {}; // ensure transforms are empty object
+  options.transforms = options.transforms || {}; // ensure transforms are defined
 
   if (options.security) {
     options.transforms.security = options.security;
