@@ -1,0 +1,17 @@
+{
+    "node_modules/tcomb-validation/index.js": [
+        "Boolean",
+        "Function",
+        "Integer",
+        "Number",
+        "String",
+        "enums",
+        "refinement",
+        "union",
+        "tuple",
+        "struct",
+        "validate",
+        "maybe",
+        "list"
+    ]
+}

@@ -1,3 +1,4 @@
+import { TransformationOptions } from './transformations';
 import { makePictureTree } from './tree';
 import * as assert from 'assert';
 
@@ -68,7 +69,7 @@ describe('makePictureTree', () => {
       },
       keys: false,
     });
-    const url = result(`security=p:abc,s:xyz`);
+    const url = result(`security=policy:abc,signature:xyz`);
     const expected = {
       img: {
         src: url,
@@ -135,7 +136,7 @@ describe('makePictureTree', () => {
       },
       keys: false,
     });
-    const srcSet = `${result('resize=width:320/security=p:abc,s:xyz')} 320w, ${result('resize=width:640/security=p:abc,s:xyz')} 640w`;
+    const srcSet = `${result('security=policy:abc,signature:xyz/resize=width:320')} 320w, ${result('security=policy:abc,signature:xyz/resize=width:640')} 640w`;
     const expected = {
       sources: [
         {
@@ -145,7 +146,7 @@ describe('makePictureTree', () => {
         },
       ],
       img: {
-        src: result('security=p:abc,s:xyz'),
+        src: result('security=policy:abc,signature:xyz'),
         srcSet,
       },
     };
@@ -162,7 +163,7 @@ describe('makePictureTree', () => {
       keys: false,
     });
     const imgSrcset = `${result('resize=width:320')} 320w, ${result('resize=width:640')} 640w`;
-    const url = `${result('resize=width:320/output=format:webp')} 320w, ${result('resize=width:640/output=format:webp')} 640w`;
+    const url = `${result('output=format:webp/resize=width:320')} 320w, ${result('output=format:webp/resize=width:640')} 640w`;
     const expected = {
       sources: [
         {
@@ -212,23 +213,23 @@ describe('makePictureTree', () => {
         {
           media: '(min-width: 640px)',
           sizes: '90vw',
-          srcSet: `${result('resize=width:640/output=format:webp')} 640w`,
+          srcSet: `${result('output=format:webp/resize=width:640')} 640w`,
           type: 'image/webp',
         },
         {
           media: '(min-width: 640px)',
           sizes: '90vw',
-          srcSet: `${result('resize=width:640/output=format:jpg')} 640w`,
+          srcSet: `${result('output=format:jpg/resize=width:640')} 640w`,
           type: 'image/jpg',
         },
         {
           sizes: '80vw',
-          srcSet: `${result('resize=width:640/output=format:webp')} 640w`,
+          srcSet: `${result('output=format:webp/resize=width:640')} 640w`,
           type: 'image/webp',
         },
         {
           sizes: '80vw',
-          srcSet: `${result('resize=width:640/output=format:jpg')} 640w`,
+          srcSet: `${result('output=format:jpg/resize=width:640')} 640w`,
           type: 'image/jpg',
         },
       ],
@@ -280,10 +281,10 @@ describe('makePictureTree', () => {
       keys: false,
     });
     const imgSrcset = `${result('resize=width:320')} 320w, ${result('resize=width:640')} 640w`;
-    const srcSet1 = `${result('resize=width:320/output=format:jpg')} 320w, ${result('resize=width:640/output=format:jpg')} 640w`;
-    const srcSet2 = `${result('resize=width:320/output=format:webp')} 320w, ${result('resize=width:640/output=format:webp')} 640w`;
-    const srcSet3 = `${result('resize=width:320/output=format:jpg')} 320w, ${result('resize=width:640/output=format:jpg')} 640w`;
-    const srcSet4 = `${result('resize=width:320/output=format:webp')} 320w, ${result('resize=width:640/output=format:webp')} 640w`;
+    const srcSet1 = `${result('output=format:jpg/resize=width:320')} 320w, ${result('output=format:jpg/resize=width:640')} 640w`;
+    const srcSet2 = `${result('output=format:webp/resize=width:320')} 320w, ${result('output=format:webp/resize=width:640')} 640w`;
+    const srcSet3 = `${result('output=format:jpg/resize=width:320')} 320w, ${result('output=format:jpg/resize=width:640')} 640w`;
+    const srcSet4 = `${result('output=format:webp/resize=width:320')} 320w, ${result('output=format:webp/resize=width:640')} 640w`;
     const expected = {
       sources: [
         {
@@ -400,5 +401,83 @@ describe('makePictureTree', () => {
     };
     const tree = makePictureTree(handle, options);
     assert.deepEqual(tree, expected);
+  });
+
+  it('should apply transforms to url', () => {
+    let transforms: TransformationOptions = {
+      crop: {
+        dim: [1, 2, 3, 4],
+      },
+      partial_pixelate: {
+        objects: [[92,53,214,207]],
+      },
+    };
+
+    const options = {
+      width: '768px',
+      keys: false,
+      transforms,
+    };
+
+    const tree = makePictureTree(handle, options);
+    const srcSet = `${result('crop=dim:[1,2,3,4]/partial_pixelate=objects:[[92,53,214,207]]/resize=width:768')} 1x, ${result('crop=dim:[1,2,3,4]/partial_pixelate=objects:[[92,53,214,207]]/resize=width:1536')} 2x`;
+    const expected = {
+      img: {
+        width: 768,
+        src: result('crop=dim:[1,2,3,4]/partial_pixelate=objects:[[92,53,214,207]]/resize=width:768'),
+        srcSet,
+      },
+    };
+
+    assert.deepEqual(tree, expected);
+  });
+
+  it('should overwrite transformOption.resize.width when width is provided', () => {
+    let transforms: TransformationOptions = {
+      crop: {
+        dim: [1, 2, 3, 4],
+      },
+      flip: true,
+      resize: {
+        width: 100,
+      },
+    };
+
+    const options = {
+      width: '768px',
+      keys: false,
+      transforms,
+    };
+
+    const tree = makePictureTree(handle, options);
+    const srcSet = `${result('crop=dim:[1,2,3,4]/flip/resize=width:768')} 1x, ${result('crop=dim:[1,2,3,4]/flip/resize=width:1536')} 2x`;
+    const expected = {
+      img: {
+        width: 768,
+        src: result('crop=dim:[1,2,3,4]/flip/resize=width:768'),
+        srcSet,
+      },
+    };
+
+    assert.deepEqual(tree, expected);
+  });
+
+  it('should throw exception when wrong option is provided', () => {
+    let transforms: TransformationOptions = {
+      crop: {
+        dim: [1, 2, 3, 4],
+      },
+      blur: {
+        amount: 100,
+      },
+    };
+
+    const options = {
+      width: '768px',
+      keys: false,
+      transforms,
+    };
+
+    assert.throws(() => makePictureTree(handle, options));
   });
 });

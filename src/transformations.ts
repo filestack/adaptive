@@ -1,7 +1,7 @@
 import * as t from 'tcomb-validation';
 import { ValidationError } from 'tcomb-validation';
 
-export enum AlignOptions {
+export enum EAlignOptions {
   left = 'left',
   right = 'right',
   center = 'center',
@@ -9,7 +9,7 @@ export enum AlignOptions {
   top = 'top',
 }
 
-export enum AlignFacesOptions {
+export enum EAlignFacesOptions {
   left = 'left',
   right = 'right',
   center = 'center',
@@ -18,31 +18,31 @@ export enum AlignFacesOptions {
   faces = 'faces',
 }
 
-export enum FitOptions {
+export enum EFitOptions {
   clip = 'clip',
   crop = 'crop',
   scale = 'scale',
   max = 'max',
 }
 
-export enum BlurMode {
+export enum EBlurMode {
   linear = 'linear',
   gaussian = 'gaussian',
 }
 
-export enum RateType {
+export enum ERateType {
   oval = 'oval',
   rect = 'rect',
 }
 
-export enum NoiseType {
+export enum ENoiseType {
   none = 'none',
   low = 'low',
   medium = 'medium',
   high = 'high',
 }
 
-export enum StyleType {
+export enum EStyleType {
   artwork = 'artwork',
   photo = 'photo',
 }
@@ -50,7 +50,7 @@ export enum StyleType {
 /**
  * @see https://www.filestack.com/docs/image-transformations
  */
-export interface TransformationOptionsInterface {
+export interface TransformationOptions {
   flip?: boolean;
   flop?: boolean;
   monochrome?: boolean;
@@ -61,7 +61,7 @@ export interface TransformationOptionsInterface {
     width?: number;
     height?: number;
     fit?: boolean;
-    align?: AlignFacesOptions;
+    align?: EAlignFacesOptions;
   };
   crop?: {
     dim: [number, number, number, number]
@@ -75,8 +75,6 @@ export interface TransformationOptionsInterface {
   // crop_faces?: any; @todo
   // pixelate_faces: @todo
   // blur_faces: @todo
-  // output: @todo
-  // cache: @todo
   rounded_corners?: {
     radius?: number;
     blur?: number;
@@ -84,7 +82,7 @@ export interface TransformationOptionsInterface {
   };
   vignette?: {
     amount?: number;
-    blurmode?: BlurMode;
+    blurmode?: EBlurMode;
     background?: string;
   };
   polaroid?: {
@@ -137,13 +135,13 @@ export interface TransformationOptionsInterface {
   partial_pixelate?: {
     amount?: number;
     blur?: number;
-    type?: RateType;
+    type?: ERateType;
     objects?: [[number, number, number, number]];
   };
   partial_blur?: {
     amount?: number;
     blur?: number;
-    type?: RateType;
+    type?: ERateType;
     objects?: [[number, number, number, number]];
   };
   collage?: {
@@ -151,13 +149,13 @@ export interface TransformationOptionsInterface {
     width?: number;
     height?: number;
     color?: string;
-    fit?: FitOptions,
+    fit?: EFitOptions,
     files?: [string];
   };
   upscale?: {
     upscale?: boolean;
-    noise?: NoiseType;
-    style?: StyleType;
+    noise?: ENoiseType;
+    style?: EStyleType;
   };
   ascii?: {
     background?: string;
@@ -169,17 +167,32 @@ export interface TransformationOptionsInterface {
   quality?: {
     value: number;
   };
+  security?: {
+    policy?: string;
+    signature?: string;
+  };
+  output?: {
+    format?: string;
+    colorspace?: string;
+    strip?: boolean;
+    quality?: number;
+    page?: number;
+    compress?: boolean;
+    density?: number;
+    background?: string;
+  };
+  cache?: {
+    cache?: boolean;
+    expiry?: number;
+  };
 }
 
 // ===== Custom Validators =====
 
 // Integer range type
-const vMin = (int: number) => t.refinement(t.Integer, (n: number) => n >= int);
-const vMax = (int: number) => t.refinement(t.Integer, (n: number) => n <= int);
-
 const vRange = (start: number, end: number) => {
-  const validator = t.tuple([vMin(start), vMax(end)], 'range');
-  validator['displayName'] = `Value not in allowed range(${start}-${end})`;
+  const validator = t.refinement(t.Number, (n: number) => n >= start && n <= end);
+  validator['displayName'] = `Value is not in allowed range(${start}-${end})`;
 
   return validator;
 };
@@ -344,9 +357,11 @@ const validationSchema: any[] = [{
   },
 }, {
   name: 'blur',
-  props: {
-    amount: vRange(0, 20),
-  },
+  props: [{
+    name: 'amount',
+    validator: vRange(2, 20),
+    required: true,
+  }],
 }, {
   name: 'sepia',
   props: {
@@ -354,9 +369,11 @@ const validationSchema: any[] = [{
   },
 }, {
   name: 'pixelate',
-  props: {
-    amount: vRange(2, 100),
-  },
+  props: [{
+    name: 'amount',
+    validator: vRange(2, 100),
+    required: true,
+  }],
 }, {
   name: 'oil_paint',
   props: {
@@ -417,6 +434,30 @@ const validationSchema: any[] = [{
   props: {
     value: t.Number,
   },
+}, {
+  name: 'security',
+  props: {
+    policy: t.String,
+    signature: t.String,
+  },
+}, {
+  name: 'cache',
+  props: {
+    cache: t.Boolean,
+    expiry: t.Number,
+  },
+}, {
+  name: 'output',
+  props: {
+    format: t.String,
+    colorspace: t.Number,
+    strip: t.Boolean,
+    quality: vRange(1, 100),
+    page: vRange(1, 10000),
+    compress: t.Boolean,
+    density: vRange(1, 500),
+    background: vColor,
+  },
 }];
 
 /**
@@ -476,32 +517,26 @@ const optionToString = (key: string, values: any): string => {
  *   fit: FitOptions.crop,
  *  },
  * }));
- * result => collage=files:[0ZgN5BtJTfmI1O3Rxhce,6a9QVg1LS4uoPN7B4HYA],margin:20,width:100,fit:crop
+ * result => [collage=files:[0ZgN5BtJTfmI1O3Rxhce,6a9QVg1LS4uoPN7B4HYA],margin:20,width:100,fit:crop]
  *
  * @throws Error
  * @param options Transformation options
- * @param quiet  When quiet param is provided, when error will show up function will return it instead of rise it
- *               (usefull during error messages displaying)
  */
-export const transform = (options: TransformationOptionsInterface, quiet: boolean = false) => {
+export const transform = (options: TransformationOptions): string[] => {
 
   // strict will not allow additional params
   const validate = t.validate(options, toTcombSchema(validationSchema), { strict: true });
 
   if (!validate.isValid()) {
-    if (quiet) {
-      return validate.errors;
-    }
-
     const firstError: ValidationError | null = validate.firstError();
     throw new Error(`Wrong options provided: ${firstError ? firstError.message : 'unknown'}`);
   }
 
   let url: string[] = [];
 
-  Object.keys(options).forEach((key: keyof TransformationOptionsInterface) => {
+  Object.keys(options).forEach((key: keyof TransformationOptions) => {
     url.push(optionToString(key, options[key]));
   });
 
-  return url.join('/');
+  return url;
 };

@@ -2,15 +2,21 @@ const commonjs = require('rollup-plugin-commonjs');
 const nodeResolve = require('rollup-plugin-node-resolve');
 const uglify = require('rollup-plugin-uglify');
 const manifest = require('../package.json');
+const namedExports = require('./named_exports.json');
+const builtins = require('rollup-plugin-node-builtins');
+const globals = require('rollup-plugin-node-globals');
 
 const plugins = [
+  builtins(),
   nodeResolve({
     browser: true,
   }),
   commonjs({
     include: 'node_modules/**',
+    namedExports: namedExports,
     ignoreGlobal: true,
   }),
+  globals(),
 ];
 
 if (process.env.NODE_ENV === 'production') {

@@ -43,6 +43,8 @@
     "bel": "^5.1.5",
     "hyperx": "^2.3.1",
     "ramda": "^0.25.0",
+    "rollup-plugin-node-builtins": "^2.1.2",
+    "rollup-plugin-node-globals": "^1.1.0",
     "tcomb-validation": "^3.4.1"
   },
   "devDependencies": {
