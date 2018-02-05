@@ -30,7 +30,7 @@ export enum EBlurMode {
   gaussian = 'gaussian',
 }
 
-export enum ERateType {
+export enum EShapeType {
   oval = 'oval',
   rect = 'rect',
 }
@@ -45,6 +45,12 @@ export enum ENoiseType {
 export enum EStyleType {
   artwork = 'artwork',
   photo = 'photo',
+}
+
+export enum EColorspaceType {
+  RGB = 'RGB',
+  CMYK = 'CMYK',
+  Input = 'Input',
 }
 
 /**
@@ -71,10 +77,37 @@ export interface TransformationOptions {
     color?: string;
     background?: string;
   };
-  // detect_faces?: any; @todo - https://www.filestack.com/docs/image-transformations/facial-detection
-  // crop_faces?: any; @todo
-  // pixelate_faces: @todo
-  // blur_faces: @todo
+  detect_faces?: {
+    minsize?: number; // 0.01 - 10000
+    maxsize?: number; // 0.01 - 10000
+    color?: string;
+    export?: boolean;
+  };
+  crop_faces?: {
+    mode?: string; // todo
+    width?: number;
+    height?: number;
+    faces?: number | string;
+    buffer?: number; // 0 - 1000
+  };
+  pixelate_faces?: {
+    faces?: number | string;
+    minsize?: number; // 0.01 - 10000
+    maxsize?: number; // 0.01 - 10000
+    buffer?: number; // 0 - 1000
+    amount?: number; // 2-100
+    blur?: number; // 0-20
+    type?: EShapeType;
+  };
+  blur_faces?: {
+    faces?: number | string;
+    minsize?: number; // 0.01 - 10000
+    maxsize?: number; // 0.01 - 10000
+    buffer?: number; // 0 - 1000
+    amount?: number; // 2-100
+    blur?: number; // 0-20
+    type?: EShapeType;
+  };
   rounded_corners?: {
     radius?: number;
     blur?: number;
@@ -135,13 +168,13 @@ export interface TransformationOptions {
   partial_pixelate?: {
     amount?: number;
     blur?: number;
-    type?: ERateType;
+    type?: EShapeType;
     objects?: [[number, number, number, number]];
   };
   partial_blur?: {
     amount?: number;
     blur?: number;
-    type?: ERateType;
+    type?: EShapeType;
     objects?: [[number, number, number, number]];
   };
   collage?: {
@@ -191,10 +224,22 @@ export interface TransformationOptions {
 
 // Integer range type
 const vRange = (start: number, end: number) => {
-  const validator = t.refinement(t.Number, (n: number) => n >= start && n <= end);
+  const validator = t.refinement(t.Integer, (n: number) => n >= start && n <= end);
   validator['displayName'] = `Value is not in allowed range(${start}-${end})`;
 
   return validator;
+};
+
+const vFloat = () => {
+  return t.refinement(t.Number, (n: number) => n > 0 && n < 1);
+};
+
+const vFloatOrRange = (start: number, end: number) => {
+  return t.union([vFloat(), vRange(start, end)]);
+};
+
+const vNumberOrAll = () => {
+  return t.union([t.Integer, t.enums.of('all')]);
 };
 
 // Special type for resize align
@@ -204,8 +249,9 @@ const vBlurMode = t.enums.of('linear gaussian');
 // custom predefined validators
 const vColor = t.String;
 const vRotate = vRange(1, 359);
-const vRateType = t.enums.of('rect oval');
+const vShapeType = t.enums.of('rect oval');
 const vFit = t.enums.of('clip crop scale max');
+const vColorspace = t.enums.of('RGB, CMYK, Input');
 
 /**
  * Custom schema interface for tcomb-validatio
@@ -272,21 +318,21 @@ const validationSchema: any[] = [{
 }, {
   name: 'resize',
   props: {
-    width: t.Number,
-    height: t.Number,
+    width: t.Integer,
+    height: t.Integer,
     fit: vFit,
     align: vAlignment,
   },
 }, {
   name: 'crop',
   props: {
-    dim: t.tuple([t.Number, t.Number, t.Number, t.Number]),
+    dim: t.tuple([t.Integer, t.Integer, t.Integer, t.Integer]),
   },
 }, {
   name: 'resize',
   props: {
-    width: t.Number,
-    height: t.Number,
+    width: t.Integer,
+    height: t.Integer,
     fit: vFit,
     align: vAlignment,
   },
@@ -391,24 +437,24 @@ const validationSchema: any[] = [{
   props: {
     amount: vRange(2, 100),
     blur: vRange(0, 20),
-    type: vRateType,
-    objects: t.list(t.tuple([t.Number, t.Number, t.Number, t.Number])),
+    type: vShapeType,
+    objects: t.list(t.tuple([t.Integer, t.Integer, t.Integer, t.Integer])),
   },
 }, {
   name: 'partial_blur',
   props: {
     amount: vRange(2, 100),
     blur: vRange(0, 20),
-    type: vRateType,
-    objects: t.list(t.tuple([t.Number, t.Number, t.Number, t.Number])),
+    type: vShapeType,
+    objects: t.list(t.tuple([t.Integer, t.Integer, t.Integer, t.Integer])),
   },
 }, {
   name: 'collage',
   props: {
     files: t.list(t.String),
-    margin: t.Number,
-    width: t.Number,
-    height: t.Number,
+    margin: t.Integer,
+    width: t.Integer,
+    height: t.Integer,
     color: vColor,
     fit: vFit,
     autorotate: t.Boolean,
@@ -444,19 +490,49 @@ const validationSchema: any[] = [{
   name: 'cache',
   props: {
     cache: t.Boolean,
-    expiry: t.Number,
+    expiry: t.Integer,
   },
 }, {
   name: 'output',
   props: {
     format: t.String,
-    colorspace: t.Number,
+    colorspace: vColorspace,
     strip: t.Boolean,
     quality: vRange(1, 100),
     page: vRange(1, 10000),
     compress: t.Boolean,
     density: vRange(1, 500),
     background: vColor,
+  },
+}, {
+  name: 'detect_faces',
+  props: {
+    minsize: vFloatOrRange(0, 10000),
+    maxsize: vFloatOrRange(0, 10000),
+    color: vColor,
+    export: t.Boolean,
+  },
+}, {
+  name: 'pixelate_faces',
+  props: {
+    faces: vNumberOrAll(),
+    minsize: vFloatOrRange(0, 10000),
+    maxsize: vFloatOrRange(0, 10000),
+    buffer: vRange(0, 1000),
+    amount: vRange(2, 100),
+    blur: vRange(0,20),
+    type: vShapeType,
+  },
+}, {
+  name: 'blur_faces',
+  props: {
+    faces: vNumberOrAll(),
+    minsize: vFloatOrRange(0, 10000),
+    maxsize: vFloatOrRange(0, 10000),
+    buffer: vRange(0, 1000),
+    amount: vRange(2, 100),
+    blur: vRange(0,20),
+    type: vShapeType,
   },
 }];
 

@@ -434,6 +434,9 @@ describe('makePictureTree', () => {
 
   it('should overwrite transformOption.resize.width when width is provided', () => {
     let transforms: TransformationOptions = {
+      blur_faces: {
+        minsize: 0.1,
+      },
       crop: {
         dim: [1, 2, 3, 4],
       },
@@ -450,11 +453,11 @@ describe('makePictureTree', () => {
     };
 
     const tree = makePictureTree(handle, options);
-    const srcSet = `${result('crop=dim:[1,2,3,4]/flip/resize=width:768')} 1x, ${result('crop=dim:[1,2,3,4]/flip/resize=width:1536')} 2x`;
+    const srcSet = `${result('blur_faces=minsize:0.1/crop=dim:[1,2,3,4]/flip/resize=width:768')} 1x, ${result('blur_faces=minsize:0.1/crop=dim:[1,2,3,4]/flip/resize=width:1536')} 2x`;
     const expected = {
       img: {
         width: 768,
-        src: result('crop=dim:[1,2,3,4]/flip/resize=width:768'),
+        src: result('blur_faces=minsize:0.1/crop=dim:[1,2,3,4]/flip/resize=width:768'),
         srcSet,
       },
     };
