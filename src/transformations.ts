@@ -1,6 +1,9 @@
 import * as t from 'tcomb-validation';
 import { ValidationError } from 'tcomb-validation';
 
+/**
+ * Align enum
+ */
 export enum EAlignOptions {
   left = 'left',
   right = 'right',
@@ -9,6 +12,9 @@ export enum EAlignOptions {
   top = 'top',
 }
 
+/**
+ * Align enum with faces option
+ */
 export enum EAlignFacesOptions {
   left = 'left',
   right = 'right',
@@ -18,6 +24,9 @@ export enum EAlignFacesOptions {
   faces = 'faces',
 }
 
+/**
+ * Fit enum
+ */
 export enum EFitOptions {
   clip = 'clip',
   crop = 'crop',
@@ -25,16 +34,25 @@ export enum EFitOptions {
   max = 'max',
 }
 
+/**
+ * Blur enum
+ */
 export enum EBlurMode {
   linear = 'linear',
   gaussian = 'gaussian',
 }
 
+/**
+ * Shapes enum
+ */
 export enum EShapeType {
   oval = 'oval',
   rect = 'rect',
 }
 
+/**
+ * Noise type enum
+ */
 export enum ENoiseType {
   none = 'none',
   low = 'low',
@@ -42,15 +60,30 @@ export enum ENoiseType {
   high = 'high',
 }
 
+/**
+ * Style type enum
+ */
 export enum EStyleType {
   artwork = 'artwork',
   photo = 'photo',
 }
 
+/**
+ * Color space enum
+ */
 export enum EColorspaceType {
   RGB = 'RGB',
   CMYK = 'CMYK',
   Input = 'Input',
+}
+
+/**
+ * Crop faces options enum
+ */
+export enum ECropfacesType {
+  thumb = 'thumb',
+  crop = 'crop',
+  fill = 'fill',
 }
 
 /**
@@ -78,34 +111,34 @@ export interface TransformationOptions {
     background?: string;
   };
   detect_faces?: {
-    minsize?: number; // 0.01 - 10000
-    maxsize?: number; // 0.01 - 10000
+    minsize?: number;
+    maxsize?: number;
     color?: string;
     export?: boolean;
   };
   crop_faces?: {
-    mode?: string; // todo
+    mode?: ECropfacesType;
     width?: number;
     height?: number;
     faces?: number | string;
-    buffer?: number; // 0 - 1000
+    buffer?: number;
   };
   pixelate_faces?: {
     faces?: number | string;
-    minsize?: number; // 0.01 - 10000
-    maxsize?: number; // 0.01 - 10000
-    buffer?: number; // 0 - 1000
-    amount?: number; // 2-100
-    blur?: number; // 0-20
+    minsize?: number;
+    maxsize?: number;
+    buffer?: number;
+    amount?: number;
+    blur?: number;
     type?: EShapeType;
   };
   blur_faces?: {
     faces?: number | string;
-    minsize?: number; // 0.01 - 10000
-    maxsize?: number; // 0.01 - 10000
-    buffer?: number; // 0 - 1000
-    amount?: number; // 2-100
-    blur?: number; // 0-20
+    minsize?: number;
+    maxsize?: number;
+    buffer?: number;
+    amount?: number;
+    blur?: number;
     type?: EShapeType;
   };
   rounded_corners?: {
@@ -251,7 +284,8 @@ const vColor = t.String;
 const vRotate = vRange(1, 359);
 const vShapeType = t.enums.of('rect oval');
 const vFit = t.enums.of('clip crop scale max');
-const vColorspace = t.enums.of('RGB, CMYK, Input');
+const vColorspace = t.enums.of('RGB CMYK Input');
+const vCropfaces = t.enums.of('thumb crop fill');
 
 /**
  * Custom schema interface for tcomb-validatio
@@ -503,6 +537,15 @@ const validationSchema: any[] = [{
     compress: t.Boolean,
     density: vRange(1, 500),
     background: vColor,
+  },
+}, {
+  name: 'crop_faces',
+  props: {
+    mode: vCropfaces,
+    width: t.Integer,
+    height: t.Integer,
+    faces: vNumberOrAll(),
+    buffer: t.Integer,
   },
 }, {
   name: 'detect_faces',
