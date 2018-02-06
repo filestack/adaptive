@@ -63,6 +63,8 @@ const upload = (from, to) => {
   });
 };
 
+const manifest = require('../package.json');
+
 upload(
   {
     cwd: 'build/cdn',
@@ -70,6 +72,6 @@ upload(
   },
   {
     bucket: 'static.filestackapi.com',
-    folder: 'adaptive',
+    folder: `adaptive/${manifest.version}`,
   }
 );
