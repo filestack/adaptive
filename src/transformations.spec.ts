@@ -53,6 +53,8 @@ describe('ImageTransformations ', () => {
       resize: {
         width: 100,
       },
+      flop: false,
+      ascii: {},
     };
 
     const options = {

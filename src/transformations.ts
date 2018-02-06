@@ -645,7 +645,15 @@ const optionToString = (key: string, values: any): string => {
 
   // if we just want to enable feature
   if (typeof values === 'boolean') {
+    if (!values) {
+      return '';
+    }
+
     return key;
+  }
+
+  if (typeof values === 'object' && !Object.keys(values).length) {
+    return '';
   }
 
   Object.keys(values).forEach((i) => {
@@ -691,6 +699,11 @@ export const transform = (options: TransformationOptions): string[] => {
 
   Object.keys(options).forEach((key: keyof TransformationOptions) => {
     url.push(optionToString(key, options[key]));
+  });
+
+  // remove empty transform entries
+  url = url.filter((val) => {
+    return val.length;
   });
 
   return url;
