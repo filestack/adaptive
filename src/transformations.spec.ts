@@ -73,6 +73,29 @@ describe('ImageTransformations ', () => {
     assert.deepEqual(tree, expected);
   });
 
+  it('should pass if transformation can have default options', () => {
+    let transforms: TransformationOptions = {
+      detect_faces: true,
+    };
+
+    const options = {
+      width: '768px',
+      transforms,
+    };
+
+    const tree = makePictureTree(handle, options);
+    const srcSet = `${result('detect_faces/resize=width:768')} 1x, ${result('detect_faces/resize=width:1536')} 2x`;
+    const expected = {
+      img: {
+        width: 768,
+        src: result('detect_faces/resize=width:768'),
+        srcSet,
+      },
+    };
+
+    assert.deepEqual(tree, expected);
+  });
+
   it('should throw exception when wrong option is provided maxRange', () => {
     let transforms: TransformationOptions = {
       crop: {

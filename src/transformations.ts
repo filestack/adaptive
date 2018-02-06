@@ -106,7 +106,7 @@ export interface TransformationOptions {
     dim: [number, number, number, number]
   };
   rotate?: {
-    rotate?: number;
+    deg: number;
     color?: string;
     background?: string;
   };
@@ -115,7 +115,7 @@ export interface TransformationOptions {
     maxsize?: number;
     color?: string;
     export?: boolean;
-  };
+  } | true;
   crop_faces?: {
     mode?: ECropfacesType;
     width?: number;
@@ -145,7 +145,7 @@ export interface TransformationOptions {
     radius?: number;
     blur?: number;
     background?: string;
-  };
+  } | true;
   vignette?: {
     amount?: number;
     blurmode?: EBlurMode;
@@ -155,49 +155,49 @@ export interface TransformationOptions {
     color?: string;
     rotate?: number;
     background?: string;
-  };
+  } | true;
   torn_edges?: {
     spread?: number;
     background?: number;
-  };
+  } | true;
   shadow?: {
     blur?: number;
     opacity?: number;
     vector?: [number, number];
     color?: string;
     background?: string;
-  };
+  } | true;
   circle?: {
     background?: string;
-  };
+  } | true;
   border?: {
     width?: number;
     color?: string;
     background?: string;
-  };
+  } | true;
   sharpen?: {
     amount: number;
-  };
+  } | true;
   blur?: {
     amount: number;
-  };
+  } | true;
   blackwhite?: {
     threshold: number;
-  };
+  } | true;
   sepia?: {
     tone: number;
-  };
+  } | true;
   pixelate?: {
     amount: number;
-  };
+  } | true;
   oil_paint?: {
     amount: number;
-  };
+  } | true;
   modulate?: {
     brightness?: number;
     hue?: number;
     saturation?: number;
-  };
+  } | true;
   partial_pixelate?: {
     amount?: number;
     blur?: number;
@@ -205,7 +205,7 @@ export interface TransformationOptions {
     objects?: [[number, number, number, number]];
   };
   partial_blur?: {
-    amount?: number;
+    amount: number;
     blur?: number;
     type?: EShapeType;
     objects?: [[number, number, number, number]];
@@ -216,29 +216,29 @@ export interface TransformationOptions {
     height?: number;
     color?: string;
     fit?: EFitOptions,
-    files?: [string];
+    files: [string];
   };
   upscale?: {
     upscale?: boolean;
     noise?: ENoiseType;
     style?: EStyleType;
-  };
+  } | true;
   ascii?: {
     background?: string;
     foreground?: string;
     colored?: boolean;
     size?: number;
     reverse?: boolean;
-  };
+  } | true;
   quality?: {
     value: number;
   };
   security?: {
-    policy?: string;
+    policy: string;
     signature?: string;
   };
   output?: {
-    format?: string;
+    format: string;
     colorspace?: string;
     strip?: boolean;
     quality?: number;
@@ -249,7 +249,7 @@ export interface TransformationOptions {
   };
   cache?: {
     cache?: boolean;
-    expiry?: number;
+    expiry: number;
   };
 }
 
@@ -295,8 +295,32 @@ interface CustomSchemaInterface {
   validator?: Function;
   props?: CustomSchemaInterface[];
   required?: boolean;
+  canBeBoolean?: boolean;
   [index: string]: any;
 }
+
+// @todo use union dispatch
+const applySchemaValidators = (validators: any, canBeBoolean: boolean = false, maybe: boolean = false) => {
+  // single validator
+  if (typeof validators === 'function') {
+    return maybe ? t.maybe(validators) : validators;
+  }
+
+  const defaultValidators = t.struct(validators);
+
+  if (!canBeBoolean) {
+    return maybe ? t.maybe(defaultValidators) : defaultValidators;
+  }
+
+  const vBoolean = t.Boolean;
+
+  const isValid = t.union([vBoolean, defaultValidators], 'canBeBoolean');
+  isValid.dispatch = (x) => {
+    return (typeof x === 'boolean') ? vBoolean : defaultValidators;
+  };
+
+  return maybe ? t.maybe(isValid) : isValid;
+};
 
 /**
  * Convert custom schema for tcomb-validation with maybe function (not required param)
@@ -305,279 +329,291 @@ interface CustomSchemaInterface {
  */
 const toTcombSchema = (schema: CustomSchemaInterface) => {
   let result: any = {};
-
   if (!Array.isArray(schema) && typeof schema === 'object') {
     Object.keys(schema).map((key: string) => {
       result[key] = t.maybe(schema[key]);
     });
 
-    return t.maybe(t.struct(result));
+    return result;
   }
 
   schema.forEach((el: any) => {
     if (el.props) {
-      result[el.name] = toTcombSchema(el.props);
+      result[el.name] = applySchemaValidators(toTcombSchema(el.props), el.canBeBoolean, !el.required);
       return;
     }
 
-    if (!el.required) {
-      result[el.name] = t.maybe(el.validator);
-      return;
-    }
-
-    result[el.name] = el.validator;
+    result[el.name] = applySchemaValidators(el.validator, el.canBeBoolean, !el.required);
   });
 
-  return t.maybe(t.struct(result));
+  return t.struct(result);
 };
 
-const validationSchema: any[] = [{
-  name: 'flip',
-  validator: t.Boolean,
-}, {
-  name: 'flop',
-  validator: t.Boolean,
-}, {
-  name: 'monochrome',
-  validator: t.Boolean,
-}, {
-  name: 'enhance',
-  validator: t.Boolean,
-}, {
-  name: 'redeye',
-  validator: t.Boolean,
-}, {
-  name: 'negative',
-  validator: t.Boolean,
-}, {
-  name: 'resize',
-  props: {
-    width: t.Integer,
-    height: t.Integer,
-    fit: vFit,
-    align: vAlignment,
+const validationSchema: any[] = [
+  {
+    name: 'flip',
+    validator: t.Boolean,
+  }, {
+    name: 'flop',
+    validator: t.Boolean,
+  }, {
+    name: 'monochrome',
+    validator: t.Boolean,
+  }, {
+    name: 'enhance',
+    validator: t.Boolean,
+  }, {
+    name: 'redeye',
+    validator: t.Boolean,
+  }, {
+    name: 'negative',
+    validator: t.Boolean,
+  }, {
+    name: 'resize',
+    props: {
+      width: t.Integer,
+      height: t.Integer,
+      fit: vFit,
+      align: vAlignment,
+    },
+  }, {
+    name: 'crop',
+    props: {
+      dim: t.tuple([t.Integer, t.Integer, t.Integer, t.Integer]),
+    },
+  }, {
+    name: 'resize',
+    props: {
+      width: t.Integer,
+      height: t.Integer,
+      fit: vFit,
+      align: vAlignment,
+    },
+  }, {
+    name: 'rotate',
+    props: {
+      deg: vRotate,
+      colour: vColor,
+      background: vColor,
+    },
+  }, {
+    name: 'rounded_corners',
+    canBeBoolean: true,
+    props: {
+      radius: vRange(1, 10000),
+      blur: vRange(0, 20),
+      background: vColor,
+    },
+  }, {
+    name: 'vignette',
+    props: {
+      amount: vRange(0, 100),
+      blurmode: vBlurMode,
+      background: t.Boolean,
+    },
+  }, {
+    name: 'polaroid',
+    canBeBoolean: true,
+    props: {
+      color: vColor,
+      rotate: vRotate,
+      background: vColor,
+    },
+  }, {
+    name: 'torn_edges',
+    canBeBoolean: true,
+    props: {
+      spread: vRange(1, 10000),
+      background: vColor,
+    },
+  }, {
+    name: 'shadow',
+    canBeBoolean: true,
+    props: {
+      blur: vRange(0, 20),
+      opacity: vRange(0, 100),
+      vector: t.tuple([vRange(-1000, 1000), vRange(-1000, 1000)]),
+      color: vColor,
+      background: vColor,
+    },
+  }, {
+    name: 'circle',
+    canBeBoolean: true,
+    props: {
+      background: vColor,
+    },
+  }, {
+    name: 'border',
+    canBeBoolean: true,
+    props: {
+      width: vRange(1, 1000),
+      color: vColor,
+      background: vColor,
+    },
+  }, {
+    name: 'sharpen',
+    canBeBoolean: true,
+    props: {
+      amount: vRange(1, 20),
+    },
+  }, {
+    name: 'blackwhite',
+    canBeBoolean: true,
+    props: {
+      threshold: vRange(0, 100),
+    },
+  }, {
+    name: 'blur',
+    canBeBoolean: true,
+    props: [{
+      name: 'amount',
+      validator: vRange(2, 20),
+      required: true,
+    }],
+  }, {
+    name: 'sepia',
+    canBeBoolean: true,
+    props: {
+      tone: vRange(1, 100),
+    },
+  }, {
+    name: 'pixelate',
+    canBeBoolean: true,
+    props: [{
+      name: 'amount',
+      validator: vRange(2, 100),
+      required: true,
+    }],
+  }, {
+    name: 'oil_paint',
+    canBeBoolean: true,
+    props: {
+      amount: vRange(1, 10),
+    },
+  }, {
+    name: 'modulate',
+    canBeBoolean: true,
+    props: {
+      brightness: vRange(0, 10000),
+      hue: vRange(0, 359),
+      saturate: vRange(0, 10000),
+    },
+  }, {
+    name: 'partial_pixelate',
+    props: {
+      amount: vRange(2, 100),
+      blur: vRange(0, 20),
+      type: vShapeType,
+      objects: t.list(t.tuple([t.Integer, t.Integer, t.Integer, t.Integer])),
+    },
+  }, {
+    name: 'partial_blur',
+    props: {
+      amount: vRange(2, 100),
+      blur: vRange(0, 20),
+      type: vShapeType,
+      objects: t.list(t.tuple([t.Integer, t.Integer, t.Integer, t.Integer])),
+    },
+  }, {
+    name: 'collage',
+    props: {
+      files: t.list(t.String),
+      margin: t.Integer,
+      width: t.Integer,
+      height: t.Integer,
+      color: vColor,
+      fit: vFit,
+      autorotate: t.Boolean,
+    },
+  }, {
+    name: 'upscale',
+    canBeBoolean: true,
+    props: {
+      upscale: t.Boolean,
+      noise: t.enums.of('none low medium high'),
+      style: t.enums.of('artwork photo'),
+    },
+  }, {
+    name: 'ascii',
+    canBeBoolean: true,
+    props: {
+      background: vColor,
+      foreground: vColor,
+      colored: t.Boolean,
+      size: vRange(10, 100),
+      reverse: t.Boolean,
+    },
+  }, {
+    name: 'quality',
+    props: {
+      value: t.Number,
+    },
+  }, {
+    name: 'security',
+    props: {
+      policy: t.String,
+      signature: t.String,
+    },
+  }, {
+    name: 'cache',
+    props: {
+      cache: t.Boolean,
+      expiry: t.Integer,
+    },
+  }, {
+    name: 'output',
+    props: {
+      format: t.String,
+      colorspace: vColorspace,
+      strip: t.Boolean,
+      quality: vRange(1, 100),
+      page: vRange(1, 10000),
+      compress: t.Boolean,
+      density: vRange(1, 500),
+      background: vColor,
+    },
+  }, {
+    name: 'crop_faces',
+    props: {
+      mode: vCropfaces,
+      width: t.Integer,
+      height: t.Integer,
+      faces: vNumberOrAll(),
+      buffer: t.Integer,
+    },
+  }, {
+    name: 'detect_faces',
+    canBeBoolean: true,
+    props: {
+      minsize: vFloatOrRange(0, 10000),
+      maxsize: vFloatOrRange(0, 10000),
+      color: vColor,
+      export: t.Boolean,
+    },
+  }, {
+    name: 'pixelate_faces',
+    props: {
+      faces: vNumberOrAll(),
+      minsize: vFloatOrRange(0, 10000),
+      maxsize: vFloatOrRange(0, 10000),
+      buffer: vRange(0, 1000),
+      amount: vRange(2, 100),
+      blur: vRange(0, 20),
+      type: vShapeType,
+    },
+  }, {
+    name: 'blur_faces',
+    props: {
+      faces: vNumberOrAll(),
+      minsize: vFloatOrRange(0, 10000),
+      maxsize: vFloatOrRange(0, 10000),
+      buffer: vRange(0, 1000),
+      amount: vRange(2, 100),
+      blur: vRange(0, 20),
+      type: vShapeType,
+    },
   },
-}, {
-  name: 'crop',
-  props: {
-    dim: t.tuple([t.Integer, t.Integer, t.Integer, t.Integer]),
-  },
-}, {
-  name: 'resize',
-  props: {
-    width: t.Integer,
-    height: t.Integer,
-    fit: vFit,
-    align: vAlignment,
-  },
-}, {
-  name: 'rotate',
-  props: {
-    rotate: vRotate,
-    colour: vColor,
-    background: vColor,
-  },
-}, {
-  name: 'rounded_corners',
-  props: {
-    radius: vRange(1, 10000),
-    blur: vRange(0, 20),
-    background: vColor,
-  },
-}, {
-  name: 'vignette',
-  props: {
-    amount: vRange(0, 100),
-    blurmode: vBlurMode,
-    background: t.Boolean,
-  },
-}, {
-  name: 'polaroid',
-  props: {
-    color: vColor,
-    rotate: vRotate,
-    background: vColor,
-  },
-}, {
-  name: 'torn_edges',
-  props: {
-    spread: vRange(1, 10000),
-    background: vColor,
-  },
-}, {
-  name: 'shadow',
-  props: {
-    blur: vRange(0, 20),
-    opacity: vRange(0, 100),
-    vector: t.tuple([vRange(-1000, 1000), vRange(-1000, 1000)]),
-    color: vColor,
-    background: vColor,
-  },
-}, {
-  name: 'circle',
-  props: {
-    background: vColor,
-  },
-}, {
-  name: 'border',
-  props: {
-    width: vRange(1, 1000),
-    color: vColor,
-    background: vColor,
-  },
-}, {
-  name: 'sharpen',
-  props: {
-    amount: vRange(1, 20),
-  },
-}, {
-  name: 'blackwhite',
-  props: {
-    threshold: vRange(0, 100),
-  },
-}, {
-  name: 'blur',
-  props: [{
-    name: 'amount',
-    validator: vRange(2, 20),
-    required: true,
-  }],
-}, {
-  name: 'sepia',
-  props: {
-    tone: vRange(1, 100),
-  },
-}, {
-  name: 'pixelate',
-  props: [{
-    name: 'amount',
-    validator: vRange(2, 100),
-    required: true,
-  }],
-}, {
-  name: 'oil_paint',
-  props: {
-    amount: vRange(1, 10),
-  },
-}, {
-  name: 'modulate',
-  props: {
-    brightness: vRange(0, 10000),
-    hue: vRange(0, 359),
-    saturate: vRange(0, 10000),
-  },
-}, {
-  name: 'partial_pixelate',
-  props: {
-    amount: vRange(2, 100),
-    blur: vRange(0, 20),
-    type: vShapeType,
-    objects: t.list(t.tuple([t.Integer, t.Integer, t.Integer, t.Integer])),
-  },
-}, {
-  name: 'partial_blur',
-  props: {
-    amount: vRange(2, 100),
-    blur: vRange(0, 20),
-    type: vShapeType,
-    objects: t.list(t.tuple([t.Integer, t.Integer, t.Integer, t.Integer])),
-  },
-}, {
-  name: 'collage',
-  props: {
-    files: t.list(t.String),
-    margin: t.Integer,
-    width: t.Integer,
-    height: t.Integer,
-    color: vColor,
-    fit: vFit,
-    autorotate: t.Boolean,
-  },
-}, {
-  name: 'upscale',
-  props: {
-    upscale: t.Boolean,
-    noise: t.enums.of('none low medium high'),
-    style: t.enums.of('artwork photo'),
-  },
-}, {
-  name: 'asci',
-  props: {
-    background: vColor,
-    foreground: vColor,
-    colored: t.Boolean,
-    size: vRange(10, 100),
-    reverse: t.Boolean,
-  },
-}, {
-  name: 'quality',
-  props: {
-    value: t.Number,
-  },
-}, {
-  name: 'security',
-  props: {
-    policy: t.String,
-    signature: t.String,
-  },
-}, {
-  name: 'cache',
-  props: {
-    cache: t.Boolean,
-    expiry: t.Integer,
-  },
-}, {
-  name: 'output',
-  props: {
-    format: t.String,
-    colorspace: vColorspace,
-    strip: t.Boolean,
-    quality: vRange(1, 100),
-    page: vRange(1, 10000),
-    compress: t.Boolean,
-    density: vRange(1, 500),
-    background: vColor,
-  },
-}, {
-  name: 'crop_faces',
-  props: {
-    mode: vCropfaces,
-    width: t.Integer,
-    height: t.Integer,
-    faces: vNumberOrAll(),
-    buffer: t.Integer,
-  },
-}, {
-  name: 'detect_faces',
-  props: {
-    minsize: vFloatOrRange(0, 10000),
-    maxsize: vFloatOrRange(0, 10000),
-    color: vColor,
-    export: t.Boolean,
-  },
-}, {
-  name: 'pixelate_faces',
-  props: {
-    faces: vNumberOrAll(),
-    minsize: vFloatOrRange(0, 10000),
-    maxsize: vFloatOrRange(0, 10000),
-    buffer: vRange(0, 1000),
-    amount: vRange(2, 100),
-    blur: vRange(0,20),
-    type: vShapeType,
-  },
-}, {
-  name: 'blur_faces',
-  props: {
-    faces: vNumberOrAll(),
-    minsize: vFloatOrRange(0, 10000),
-    maxsize: vFloatOrRange(0, 10000),
-    buffer: vRange(0, 1000),
-    amount: vRange(2, 100),
-    blur: vRange(0,20),
-    type: vShapeType,
-  },
-}];
+];
 
 /**
  * Converts nested arrays to string
