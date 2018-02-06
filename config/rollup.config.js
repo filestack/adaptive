@@ -4,6 +4,7 @@ const uglify = require('rollup-plugin-uglify');
 const namedExports = require('./named_exports.json');
 const builtins = require('rollup-plugin-node-builtins');
 const globals = require('rollup-plugin-node-globals');
+const manifest = require('../package.json');
 
 const plugins = [
   builtins(),
