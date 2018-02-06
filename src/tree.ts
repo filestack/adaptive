@@ -1,4 +1,5 @@
 import * as R from 'ramda';
+import { TransformationOptions, transform } from './transformations';
 
 export interface Img {
   alt?: string;
@@ -49,7 +50,7 @@ export interface PictureOptions {
    * between 180w and 3024w. Can also be numbers representing widths
    * or strings representing pixel densities, e.g. ['1x', '2x'].
    */
-  resolutions?: string[]|number[];
+  resolutions?: string[] | number[];
   /**
    * Object containing Filestack security policy and signature.
    */
@@ -71,6 +72,13 @@ export interface PictureOptions {
    * Static width to use for img with optional pixel density support.
    */
   width?: string;
+
+  /**
+   * Image transformations options
+   *
+   * @see https://www.filestack.com/docs/image-transformations
+   */
+  transforms?: TransformationOptions;
 }
 
 const defaultResolutions = [
@@ -109,41 +117,36 @@ const getN = R.ifElse(
  * Utility to get unit of width or resolution
  */
 const getUnit = (data: string) => {
-  return data.replace(/\d*(\D+)$/gi, '$1');
+  return data.replace ? data.replace(/\d*(\D+)$/gi, '$1') : 'px';
 };
 
 /**
  * Injects a task string into a Filestack URL
  */
-const injectTask = (base: string[]) => (task: string) => {
-  const url = R.head(base);
-  const handle = R.last(base);
+const injectTask = (base: string[]) => (task: string): string[] => {
+  const url = R.head(base) || '';
+  const handle = R.last(base) || '';
   const rest = R.dropLast(1, R.tail(base));
   return [url, ...rest, task, handle];
 };
 
-const injectFormat = (format?: string) => (arr: string[]) => {
-  if (format) {
-    const str = `output=format:${format}`;
-    return injectTask(arr)(str);
+const injectTransforms = (arr: string[], transformOptions: TransformationOptions = {}) => (width?: number): string[] => {
+  if (width) {
+    transformOptions.resize = { width };
   }
-  return arr;
+
+  // prevent overwritting original object
+  let result = arr.slice();
+
+  const transformed = transform(transformOptions);
+  transformed.forEach((el) => {
+    result = injectTask(result)(el);
+  });
+
+  return result;
 };
 
-const injectSecurity = (security?: Security) => (arr: string[]) => {
-  if (security) {
-    const str = `security=p:${security.policy},s:${security.signature}`;
-    return injectTask(arr)(str);
-  }
-  return arr;
-};
-
-const injectResize = (arr: string[]) => (width: number) => {
-  const str = `resize=width:${width}`;
-  return injectTask(arr)(str);
-};
-
-const getWidth = (width?: number|string) => (resolution: number|string) => {
+const getWidth = (width?: number | string) => (resolution: number | string) => {
   if (typeof resolution === 'number') {
     return resolution;
   }
@@ -159,11 +162,8 @@ const getWidth = (width?: number|string) => (resolution: number|string) => {
  * Construct Filestack URL out of CDN base and handle, with optional security
  */
 const getCdnUrl = (base: string[], options: PictureOptions) => {
-  if (options.security) {
-    const newBase = injectSecurity(options.security)(base);
-    return R.join('/', newBase);
-  }
-  return R.join('/', base);
+  const transformOptions = Object.assign({}, options.transforms); // prevent overwritting original object
+  return R.join('/', injectTransforms(base, transformOptions)());
 };
 
 /**
@@ -174,23 +174,31 @@ const getCdnUrl = (base: string[], options: PictureOptions) => {
 const makeSrcSet = (
   base: string[],
   options: any,
-  width?: number|string,
+  width?: number | string,
   format?: string,
 ) => {
-  if (!width && format) {
-    return R.join('/', injectFormat(format)(base));
+  // prevent overwritting original object
+  const transformOptions = Object.assign({}, options.transforms);
+
+  if (format) {
+    transformOptions.output = { format };
   }
+
+  if (!width && format) {
+    return R.join('/', injectTransforms(base, transformOptions)());
+  }
+
   const resolutions: any[] = R.map(R.ifElse(
     R.is(Number),
     (n: number) => `${n}w`,
     R.identity,
   ), options.resolutions);
+
   const urls: any[] = R.map(R.compose(
     R.join('/'),
-    injectSecurity(options.security),
-    injectFormat(format),
-    injectResize(base),
+    injectTransforms(base, transformOptions),
     getWidth(width)), options.resolutions);
+
   return R.join(', ', R.map(R.join(' '), R.zip(urls, resolutions)));
 };
 
@@ -203,8 +211,9 @@ const makeSrc = (base: string[], fallback: string, options: PictureOptions) => {
   if (unit === 'vw') {
     return getCdnUrl(base, options);
   }
+
   const width: number = getN(fallback);
-  return R.join('/', injectResize(base)(width));
+  return R.join('/', injectTransforms(base, options.transforms)(width));
 };
 
 /**
@@ -217,7 +226,7 @@ const makeSrc = (base: string[], fallback: string, options: PictureOptions) => {
  * R.xprod lets us compute the Cartesian product of two lists.
  */
 const makeSourcesTree = (base: string[], options: any): Source[] => {
-  const makeSource = (media: any, width: any, format: any): Source|undefined => {
+  const makeSource = (media: any, width: any, format: any): Source | undefined => {
     if (!format && media === 'fallback') {
       return undefined;
     }
@@ -294,6 +303,13 @@ export const makePictureTree = (handle?: string, opts?: PictureOptions): Picture
     keys: true,
     ...opts,
   };
+
+  options.transforms = options.transforms || {}; // ensure transforms are defined
+
+  if (options.security) {
+    options.transforms.security = options.security;
+  }
+
   const base: [string, string] = ['https://cdn.filestackcontent.com', handle];
   const img: Img = makeImgTree(base, options);
   const tree: Picture = { img };

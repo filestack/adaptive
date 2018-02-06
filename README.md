@@ -257,6 +257,35 @@ Output:
 </picture>
 ```
 
+### Transformations support
+
+Adaptive also supports Filestack transformations.
+Available options are listed in doc:
+
+https://www.filestack.com/docs/image-transformations
+
+```js
+const options = { 
+  alt: 'windsurfer', 
+  width: 400,
+  transforms: {
+    blur: {
+      amount: 5
+    },
+    border: true, // use default options of border transformation
+  }
+};
+picture('5aYkEQJSQCmYShsoCnZN', options);
+```
+
+Output:
+
+```html
+<picture>
+  <img src="https://cdn.filestackcontent.com/blur=amount:5/border/resize=width:400/5aYkEQJSQCmYShsoCnZN" srcset="https://cdn.filestackcontent.com/blur=amount:5/border/resize=width:400/5aYkEQJSQCmYShsoCnZN 1x, https://cdn.filestackcontent.com/blur=amount:5/border/resize=width:800/5aYkEQJSQCmYShsoCnZN 2x" alt="windsurfer" width="400">
+</picture>
+```
+
 ## Future
 
 Adaptive is joining an ecosystem already populated with many utilities for responsive images.
