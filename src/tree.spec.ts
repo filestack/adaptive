@@ -56,7 +56,7 @@ describe('makePictureTree', () => {
         src: url,
       },
     };
-    assert.deepEqual(obj, expected);
+    assert.deepStrictEqual(obj, expected);
   });
 
   it('should generate a picture object with no sources (no resolutions) with security', () => {
@@ -74,7 +74,7 @@ describe('makePictureTree', () => {
         src: url,
       },
     };
-    assert.deepEqual(obj, expected);
+    assert.deepStrictEqual(obj, expected);
   });
 
   it('should generate a picture object with 1 source', () => {
@@ -95,7 +95,7 @@ describe('makePictureTree', () => {
         srcSet,
       },
     };
-    assert.deepEqual(obj, expected);
+    assert.deepStrictEqual(obj, expected);
   });
 
   it('should generate a picture object with 1 source and img fallback size', () => {
@@ -120,7 +120,7 @@ describe('makePictureTree', () => {
         srcSet,
       },
     };
-    assert.deepEqual(obj, expected);
+    assert.deepStrictEqual(obj, expected);
   });
 
   it('should generate a picture object with 1 source with security', () => {
@@ -149,7 +149,7 @@ describe('makePictureTree', () => {
         srcSet,
       },
     };
-    assert.deepEqual(obj, expected);
+    assert.deepStrictEqual(obj, expected);
   });
 
   it('should generate a picture object with 1 source and 1 format', () => {
@@ -177,7 +177,7 @@ describe('makePictureTree', () => {
         srcSet: imgSrcset,
       },
     };
-    assert.deepEqual(obj, expected);
+    assert.deepStrictEqual(obj, expected);
   });
 
   it('should generate a picture object with 1 format', () => {
@@ -194,7 +194,7 @@ describe('makePictureTree', () => {
         src: result(),
       },
     };
-    assert.deepEqual(obj, expected);
+    assert.deepStrictEqual(obj, expected);
   });
 
   it('should generate a picture object with 2 formats and 1 size with fallback size', () => {
@@ -238,7 +238,7 @@ describe('makePictureTree', () => {
         srcSet: `${result('resize=width:640')} 640w`,
       },
     };
-    assert.deepEqual(obj, expected);
+    assert.deepStrictEqual(obj, expected);
   });
 
   it('should generate a picture object with 1 format with fallback size', () => {
@@ -264,7 +264,7 @@ describe('makePictureTree', () => {
         srcSet: `${result('resize=width:640')} 640w`,
       },
     };
-    assert.deepEqual(obj, expected);
+    assert.deepStrictEqual(obj, expected);
   });
 
   it('should generate a picture object with 2 sources and 2 formats in order', () => {
@@ -316,7 +316,7 @@ describe('makePictureTree', () => {
         srcSet: imgSrcset,
       },
     };
-    assert.deepEqual(obj, expected);
+    assert.deepStrictEqual(obj, expected);
   });
 
   it('should generate a picture object with a fallback size (no resolutions)', () => {
@@ -334,7 +334,7 @@ describe('makePictureTree', () => {
         sizes: '100vw',
       },
     };
-    assert.deepEqual(tree, expected);
+    assert.deepStrictEqual(tree, expected);
   });
 
   it('should generate a picture object with a fallback size (resolutions)', () => {
@@ -354,7 +354,7 @@ describe('makePictureTree', () => {
         srcSet,
       },
     };
-    assert.deepEqual(tree, expected);
+    assert.deepStrictEqual(tree, expected);
   });
 
   it('should generate a picture object with a fallback img and 1 source (1 resolution)', () => {
@@ -382,7 +382,7 @@ describe('makePictureTree', () => {
         },
       ],
     };
-    assert.deepEqual(tree, expected);
+    assert.deepStrictEqual(tree, expected);
   });
 
   it('should generate a single img element using width and pixel densities', () => {
@@ -399,6 +399,6 @@ describe('makePictureTree', () => {
       },
     };
     const tree = makePictureTree(handle, options);
-    assert.deepEqual(tree, expected);
+    assert.deepStrictEqual(tree, expected);
   });
 });

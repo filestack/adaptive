@@ -1,5 +1,4 @@
 import * as t from 'tcomb-validation';
-import { ValidationError } from 'tcomb-validation';
 
 /**
  * Align enum
@@ -691,7 +690,7 @@ export const transform = (options: TransformationOptions): string[] => {
   const validate = t.validate(options, toTcombSchema(validationSchema), { strict: true });
 
   if (!validate.isValid()) {
-    const firstError: ValidationError | null = validate.firstError();
+    const firstError: t.ValidationError | null = validate.firstError();
     throw new Error(`Wrong options provided: ${firstError ? firstError.message : 'unknown'}`);
   }
 

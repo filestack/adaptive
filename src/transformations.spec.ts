@@ -38,7 +38,7 @@ describe('ImageTransformations ', () => {
       },
     };
 
-    assert.deepEqual(tree, expected);
+    assert.deepStrictEqual(tree, expected);
   });
 
   it('should overwrite transformOption.resize.width when width is provided', () => {
@@ -72,7 +72,7 @@ describe('ImageTransformations ', () => {
       },
     };
 
-    assert.deepEqual(tree, expected);
+    assert.deepStrictEqual(tree, expected);
   });
 
   it('should pass if transformation can have default options', () => {
@@ -95,7 +95,7 @@ describe('ImageTransformations ', () => {
       },
     };
 
-    assert.deepEqual(tree, expected);
+    assert.deepStrictEqual(tree, expected);
   });
 
   it('should throw exception when wrong option is provided maxRange', () => {
