@@ -1,7 +1,7 @@
 {
   "name": "filestack-adaptive",
   "author": "Filestack (https://filestack.com)",
-  "version": "0.2.0",
+  "version": "0.2.3",
   "description": "HTML5 picture elements powered by Filestack",
   "main": "build/main/index.js",
   "module": "build/module/index.js",
@@ -45,7 +45,8 @@
     "ramda": "^0.25.0",
     "rollup-plugin-node-builtins": "^2.1.2",
     "rollup-plugin-node-globals": "^1.1.0",
-    "tcomb-validation": "^3.4.1"
+    "tcomb-validation": "^3.4.1",
+    "tslib": "^1.9.0"
   },
   "devDependencies": {
     "@types/mocha": "^5.2.5",
