@@ -1,6 +1,6 @@
 const commonjs = require('rollup-plugin-commonjs');
 const nodeResolve = require('rollup-plugin-node-resolve');
-const uglify = require('rollup-plugin-uglify');
+const uglify = require('rollup-plugin-uglify').uglify;
 const namedExports = require('./named_exports.json');
 const builtins = require('rollup-plugin-node-builtins');
 const globals = require('rollup-plugin-node-globals');
@@ -22,6 +22,7 @@ const plugins = [
 if (process.env.NODE_ENV === 'production') {
   plugins.push(
     uglify({
+      sourcemap: true,
       compress: {
         pure_getters: true,
         unsafe: true,
@@ -36,6 +37,8 @@ const output = process.env.NODE_ENV === 'production'
   ? [
       {
         file: 'build/cdn/adaptive.min.js',
+        sourcemapFile: 'build/cdn/adaptive.min.js.map',
+        sourcemap: true,
         format: 'umd',
         name: 'fsAdaptive',
       }
@@ -48,8 +51,8 @@ const output = process.env.NODE_ENV === 'production'
 
 module.exports = {
   input: 'build/module/index.js',
-  output,
   sourcemap: true,
+  output,
   banner: `/* version ${manifest.version} */`,
   plugins,
 }
