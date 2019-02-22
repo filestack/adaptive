@@ -1,5 +1,6 @@
 import * as R from 'ramda';
-import { TransformationOptions, transform } from './transformations';
+import { TransformOptions } from './../node_modules/filestack-js/src/lib/api/transform'
+import { Filelink } from 'filestack-js';
 
 export interface Img {
   alt?: string;
@@ -78,7 +79,7 @@ export interface PictureOptions {
    *
    * @see https://www.filestack.com/docs/image-transformations
    */
-  transforms?: TransformationOptions;
+  transforms?: TransformOptions;
 }
 
 const defaultResolutions = [
@@ -120,30 +121,15 @@ const getUnit = (data: string) => {
   return data.replace ? data.replace(/\d*(\D+)$/gi, '$1') : 'px';
 };
 
-/**
- * Injects a task string into a Filestack URL
- */
-const injectTask = (base: string[]) => (task: string): string[] => {
-  const url = R.head(base) || '';
-  const handle = R.last(base) || '';
-  const rest = R.dropLast(1, R.tail(base));
-  return [url, ...rest, task, handle];
-};
-
-const injectTransforms = (arr: string[], transformOptions: TransformationOptions = {}) => (width?: number): string[] => {
+const createFileLink = (handle: string, transformOptions: TransformOptions = {}) => (width?: number): string => {
+  let fileLink = new Filelink(handle);
   if (width) {
     transformOptions.resize = { width };
   }
-
-  // prevent overwritting original object
-  let result = arr.slice();
-
-  const transformed = transform(transformOptions);
-  transformed.forEach((el) => {
-    result = injectTask(result)(el);
-  });
-
-  return result;
+  Object.keys(transformOptions).forEach((key: keyof TransformOptions) => {
+    fileLink = fileLink.addTask(key, transformOptions[key])
+  })
+  return fileLink.toString();
 };
 
 const getWidth = (width?: number | string) => (resolution: number | string) => {
@@ -161,18 +147,18 @@ const getWidth = (width?: number | string) => (resolution: number | string) => {
 /**
  * Construct Filestack URL out of CDN base and handle, with optional security
  */
-const getCdnUrl = (base: string[], options: PictureOptions) => {
+const getCdnUrl = (handle: string, options: PictureOptions) => {
   const transformOptions = Object.assign({}, options.transforms); // prevent overwritting original object
-  return R.join('/', injectTransforms(base, transformOptions)());
+  return createFileLink(handle, transformOptions);
 };
 
 /**
  * Constructs a srcset attribute for source and img elements.
  * Will use resolution descriptors or pixel densities to construct
- * the proper URLs based on the width of the image.
+ * the proper URLs handled on the width of the image.
  */
 const makeSrcSet = (
-  base: string[],
+  handle: string,
   options: any,
   width?: number | string,
   format?: string,
@@ -185,7 +171,7 @@ const makeSrcSet = (
   }
 
   if (!width && format) {
-    return R.join('/', injectTransforms(base, transformOptions)());
+    return createFileLink(handle, transformOptions);
   }
 
   const resolutions: any[] = R.map(R.ifElse(
@@ -195,9 +181,10 @@ const makeSrcSet = (
   ), options.resolutions);
 
   const urls: any[] = R.map(R.compose(
-    R.join('/'),
-    injectTransforms(base, transformOptions),
+    createFileLink(handle, transformOptions),
     getWidth(width)), options.resolutions);
+
+  console.log('###8', createFileLink(handle, transformOptions).toString())
 
   return R.join(', ', R.map(R.join(' '), R.zip(urls, resolutions)));
 };
@@ -206,14 +193,14 @@ const makeSrcSet = (
  * Construct src attribute for img element.
  * This may contain a resized URL if a fallback size is provided.
  */
-const makeSrc = (base: string[], fallback: string, options: PictureOptions) => {
+const makeSrc = (handle: string, fallback: string, options: PictureOptions) => {
   const unit = getUnit(fallback);
   if (unit === 'vw') {
-    return getCdnUrl(base, options);
+    return getCdnUrl(handle, options);
   }
 
   const width: number = getN(fallback);
-  return R.join('/', injectTransforms(base, options.transforms)(width));
+  return createFileLink(handle, options.transforms)(width);
 };
 
 /**
@@ -225,7 +212,7 @@ const makeSrc = (base: string[], fallback: string, options: PictureOptions) => {
  *
  * R.xprod lets us compute the Cartesian product of two lists.
  */
-const makeSourcesTree = (base: string[], options: any): Source[] => {
+const makeSourcesTree = (handle: string, options: any): Source[] => {
   const makeSource = (media: any, width: any, format: any): Source | undefined => {
     if (!format && media === 'fallback') {
       return undefined;
@@ -233,10 +220,10 @@ const makeSourcesTree = (base: string[], options: any): Source[] => {
     return removeEmpty({
       media: media === 'fallback' ? undefined : media,
       sizes: width,
-      srcSet: makeSrcSet(base, options, width, format),
+      srcSet: makeSrcSet(handle, options, width, format),
       type: format ? `image/${format}` : undefined,
       key: options.keys
-        ? `${base[1]}-${media || 'fallback'}-${width || 'auto'}-${format || 'auto'}`
+        ? `${handle}-${media || 'fallback'}-${width || 'auto'}-${format || 'auto'}`
         : undefined,
     });
   };
@@ -259,19 +246,19 @@ const makeSourcesTree = (base: string[], options: any): Source[] => {
  * Just your basic HTML img element. However we can let the user specify
  * a specific width which will incorporate pixel resolutions options in a srcset.
  */
-const makeImgTree = (base: string[], options: PictureOptions): Img => {
+const makeImgTree = (handle: string, options: PictureOptions): Img => {
   if (options.width) {
     return removeEmpty({
-      src: makeSrc(base, options.width, options),
-      srcSet: makeSrcSet(base, options, options.width),
+      src: makeSrc(handle, options.width, options),
+      srcSet: makeSrcSet(handle, options, options.width),
       alt: options.alt,
       width: getN(options.width),
     });
   }
   const fallback = options.sizes && options.sizes.fallback;
   return removeEmpty({
-    src: fallback ? makeSrc(base, fallback, options) : getCdnUrl(base, options),
-    srcSet: options.sizes ? makeSrcSet(base, options, fallback) : undefined,
+    src: fallback ? makeSrc(handle, fallback, options) : getCdnUrl(handle, options),
+    srcSet: options.sizes ? makeSrcSet(handle, options, fallback) : undefined,
     alt: options.alt,
     width: options.width,
     sizes: fallback || undefined,
@@ -310,11 +297,10 @@ export const makePictureTree = (handle?: string, opts?: PictureOptions): Picture
     options.transforms.security = options.security;
   }
 
-  const base: [string, string] = ['https://cdn.filestackcontent.com', handle];
-  const img: Img = makeImgTree(base, options);
+  const img: Img = makeImgTree(handle, options);
   const tree: Picture = { img };
   if (options.sizes || options.formats) {
-    const sources: Source[] = makeSourcesTree(base, options);
+    const sources: Source[] = makeSourcesTree(handle, options);
     tree.sources = sources && sources.length ? sources : undefined;
   }
   return removeEmpty(tree);
