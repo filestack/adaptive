@@ -1,6 +1,5 @@
 import * as R from 'ramda';
-import { TransformOptions } from './../node_modules/filestack-js/src/lib/api/transform'
-import { Filelink } from 'filestack-js';
+import { TransformOptions, Filelink } from 'filestack-js';
 
 export interface Img {
   alt?: string;
@@ -121,14 +120,17 @@ const getUnit = (data: string) => {
   return data.replace ? data.replace(/\d*(\D+)$/gi, '$1') : 'px';
 };
 
+/**
+ * Based on the provided transform options object create filestack filelink
+ */
 const createFileLink = (handle: string, transformOptions: TransformOptions = {}) => (width?: number): string => {
   let fileLink = new Filelink(handle);
   if (width) {
     transformOptions.resize = { width };
   }
   Object.keys(transformOptions).forEach((key: keyof TransformOptions) => {
-    fileLink = fileLink.addTask(key, transformOptions[key])
-  })
+    fileLink = fileLink.addTask(key, transformOptions[key]);
+  });
   return fileLink.toString();
 };
 
@@ -183,8 +185,6 @@ const makeSrcSet = (
   const urls: any[] = R.map(R.compose(
     createFileLink(handle, transformOptions),
     getWidth(width)), options.resolutions);
-
-  console.log('###8', createFileLink(handle, transformOptions).toString())
 
   return R.join(', ', R.map(R.join(' '), R.zip(urls, resolutions)));
 };
