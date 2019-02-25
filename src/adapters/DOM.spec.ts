@@ -78,7 +78,6 @@ describe('DOM adapter', () => {
       resolutions: [540, 670, 1080],
     };
     const picture = makePicture(createElement, makePictureTree(handle, options));
-    console.log('###2', picture.props.children);
     validator({ data: makeHTML(picture) })
       .then((data: any) => {
         if (isInvalid(data)) {

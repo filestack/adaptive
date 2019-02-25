@@ -151,7 +151,7 @@ const getWidth = (width?: number | string) => (resolution: number | string) => {
  */
 const getCdnUrl = (handle: string, options: PictureOptions) => {
   const transformOptions = Object.assign({}, options.transforms); // prevent overwritting original object
-  return createFileLink(handle, transformOptions);
+  return createFileLink(handle, transformOptions)();
 };
 
 /**
@@ -173,7 +173,7 @@ const makeSrcSet = (
   }
 
   if (!width && format) {
-    return createFileLink(handle, transformOptions);
+    return createFileLink(handle, transformOptions)();
   }
 
   const resolutions: any[] = R.map(R.ifElse(
