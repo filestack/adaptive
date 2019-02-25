@@ -15,7 +15,6 @@
     "build:browser": "rollup -c config/rollup.config.js",
     "build:cdn": "NODE_ENV=production rollup -c config/rollup.config.js",
     "build:test": "tsc -p tsconfig.json --inlineSourceMap",
-    "commitmsg": "validate-commit-msg",
     "docs": "trash build/docs && typedoc src",
     "docs:publish": "npm run docs && gh-pages -d build/docs",
     "lint": "tslint --project .",
@@ -97,6 +96,11 @@
     "validate-commit-msg": {
       "types": "conventional-commit-types",
       "helpMessage": "Use \"git cz\" or conventional-changelog format :) (https://github.com/commitizen/cz-cli)"
+    }
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "validate-commit-msg"
     }
   }
 }
