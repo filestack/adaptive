@@ -37,20 +37,16 @@
     "html picture"
   ],
   "dependencies": {
-    "@babel/core": "^7.3.4",
-    "@babel/preset-env": "^7.3.4",
-    "@types/ramda": "^0.25.50",
     "filestack-js": "^1.14.3",
     "hyperx": "^2.5.4",
     "nanohtml": "^1.4.0",
     "ramda": "^0.26.1",
-    "rollup-plugin-babel": "^4.3.2",
-    "rollup-plugin-node-builtins": "^2.1.2",
-    "rollup-plugin-node-globals": "^1.4.0",
-    "tcomb-validation": "^3.4.1",
     "tslib": "^1.9.3"
   },
   "devDependencies": {
+    "@babel/core": "^7.3.4",
+    "@babel/preset-env": "^7.3.4",
+    "@types/ramda": "^0.25.50",
     "@types/mocha": "^5.2.6",
     "@types/node": "^11.9.5",
     "aws-sdk": "^2.410.0",
@@ -70,6 +66,9 @@
     "rollup-plugin-commonjs": "^9.2.1",
     "rollup-plugin-node-resolve": "^4.0.1",
     "rollup-plugin-uglify": "^6.0.2",
+    "rollup-plugin-babel": "^4.3.2",
+    "rollup-plugin-node-builtins": "^2.1.2",
+    "rollup-plugin-node-globals": "^1.4.0",
     "standard-version": "^5.0.0",
     "trash-cli": "^1.4.0",
     "tslint": "^5.13.0",

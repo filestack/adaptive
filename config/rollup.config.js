@@ -68,4 +68,5 @@ module.exports = {
   output,
   banner: `/* version ${manifest.version} */`,
   plugins,
+  treeshake: true
 }

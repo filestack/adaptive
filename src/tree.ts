@@ -229,8 +229,7 @@ const makeSourcesTree = (handle: string, options: any): Source[] => {
   };
   // Handle three cases -- sizes + type, just sizes, just type
   if (!options.sizes && options.formats) {
-    var tempArr = R.map((f: string) => makeSource(null, null, f), options.formats);
-    return R.reject(R.isNil, tempArr);
+    return R.reject(R.isNil, R.map((f: string) => makeSource(null, null, f), options.formats));
   }
   let sources: any[] = R.toPairs(options.sizes);
   if (options.formats) {
