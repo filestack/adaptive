@@ -157,7 +157,7 @@ const getCdnUrl = (handle: string, options: PictureOptions) => {
 /**
  * Constructs a srcset attribute for source and img elements.
  * Will use resolution descriptors or pixel densities to construct
- * the proper URLs handled on the width of the image.
+ * the proper URLs based on the width of the image.
  */
 const makeSrcSet = (
   handle: string,
