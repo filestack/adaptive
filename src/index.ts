@@ -1,4 +1,4 @@
-import { createElement } from 'bel';
+import { createElement } from 'nanohtml';
 import { makePictureTree, PictureOptions } from './tree';
 import {
   TransformOptions,
