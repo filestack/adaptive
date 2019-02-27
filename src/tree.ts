@@ -1,6 +1,20 @@
 import * as R from 'ramda';
 import { TransformOptions, Filelink } from 'filestack-js';
 
+export interface IdentifierByHandle {
+  handle: string,
+  kind: 'handle'
+}
+
+export interface IdentifierByStorageAlias {
+  apiKey: string,
+  storageAlias: string,
+  fileName: string,
+  kind: 'storageAlias'
+}
+
+export type FileIdentifier = IdentifierByHandle | IdentifierByStorageAlias;
+
 export interface Img {
   alt?: string;
   sizes?: string;
@@ -193,14 +207,17 @@ const makeSrcSet = (
  * Construct src attribute for img element.
  * This may contain a resized URL if a fallback size is provided.
  */
-const makeSrc = (handle: string, fallback: string, options: PictureOptions) => {
-  const unit = getUnit(fallback);
-  if (unit === 'vw') {
-    return getCdnUrl(handle, options);
-  }
+const makeSrc = (fileIdentifier: FileIdentifier, fallback: string, options: PictureOptions) => {
+  if (fileIdentifier.kind === 'handle') {
+    const unit = getUnit(fallback);
+    if (unit === 'vw') {
+      return getCdnUrl(fileIdentifier.handle, options);
+    }
+    const width: number = getN(fallback);
+    return createFileLink(fileIdentifier.handle, options.transforms)(width);
+  } else {
 
-  const width: number = getN(fallback);
-  return createFileLink(handle, options.transforms)(width);
+  }
 };
 
 /**
@@ -246,23 +263,23 @@ const makeSourcesTree = (handle: string, options: any): Source[] => {
  * Just your basic HTML img element. However we can let the user specify
  * a specific width which will incorporate pixel resolutions options in a srcset.
  */
-const makeImgTree = (handle: string, options: PictureOptions): Img => {
-  if (options.width) {
+const makeImgTree = (fileIdentifier: FileIdentifier, options: PictureOptions): Img => {
+    if (options.width) {
+      return removeEmpty({
+        src: makeSrc(fileIdentifier, options.width, options),
+        srcSet: makeSrcSet(fileIdentifier, options, options.width),
+        alt: options.alt,
+        width: getN(options.width),
+      });
+    }
+    const fallback = options.sizes && options.sizes.fallback;
     return removeEmpty({
-      src: makeSrc(handle, options.width, options),
-      srcSet: makeSrcSet(handle, options, options.width),
+      src: fallback ? makeSrc(fileIdentifier, fallback, options) : getCdnUrl(fileIdentifier, options),
+      srcSet: options.sizes ? makeSrcSet(fileIdentifier, options, fallback) : undefined,
       alt: options.alt,
-      width: getN(options.width),
+      width: options.width,
+      sizes: fallback || undefined,
     });
-  }
-  const fallback = options.sizes && options.sizes.fallback;
-  return removeEmpty({
-    src: fallback ? makeSrc(handle, fallback, options) : getCdnUrl(handle, options),
-    srcSet: options.sizes ? makeSrcSet(handle, options, fallback) : undefined,
-    alt: options.alt,
-    width: options.width,
-    sizes: fallback || undefined,
-  });
 };
 
 /**
@@ -272,10 +289,10 @@ const makeImgTree = (handle: string, options: PictureOptions): Img => {
  * This allows passing the structure into hyperscript-like virtual DOM generators.
  * For example see https://github.com/choojs/hyperx
  */
-export const makePictureTree = (handle?: string, opts?: PictureOptions): Picture => {
-  if (typeof handle !== 'string') {
-    throw new TypeError('Filestack handle must be a string');
-  }
+export const makePictureTree = (fileIdentifier?: FileIdentifier, opts?: PictureOptions): Picture => {
+  // if (typeof handle !== 'string') {
+  //   throw new TypeError('Filestack handle must be a string');
+  // }
   if (opts && opts.resolutions && opts.resolutions.length) {
     const rUnits: string[] = R.map(getUnit, R.filter(R.is(String), opts.resolutions));
     if (!opts.sizes && (R.any(R.is(Number), opts.resolutions) || R.contains('w', rUnits))) {
@@ -297,7 +314,7 @@ export const makePictureTree = (handle?: string, opts?: PictureOptions): Picture
     options.transforms.security = options.security;
   }
 
-  const img: Img = makeImgTree(handle, options);
+  const img: Img = makeImgTree(fileIdentifier, options);
   const tree: Picture = { img };
   if (options.sizes || options.formats) {
     const sources: Source[] = makeSourcesTree(handle, options);
