@@ -1,5 +1,5 @@
 import { createElement } from 'nanohtml';
-import { makePictureTree, PictureOptions, FileIdentifier } from './tree';
+import { makePictureTree, PictureOptions, FileHandle } from './tree';
 import {
   TransformOptions,
   EFitOptions,
@@ -19,13 +19,14 @@ import {
   EUrlscreenshotMode,
   EUrlscreenshotOrientation
 } from 'filestack-js';
+
 import { makePicture } from './adapters/DOM';
 
 /**
  * Helper that composes makePictureTree with the DOM adapter for generating
  * actual picture elements.
  */
-export const picture = (handle?: FileIdentifier, opts?: PictureOptions, renderer?: any): any => {
+export const picture = (handle?: FileHandle, opts?: PictureOptions, renderer?: any): any => {
   if (renderer) {
     return makePicture(renderer, makePictureTree(handle, opts));
   }

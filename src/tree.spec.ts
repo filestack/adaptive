@@ -2,6 +2,7 @@ import { makePictureTree } from './tree';
 import * as assert from 'assert';
 
 const handle = 'seW1thvcR1aQBfOCF8bX';
+const apiKey = 'BBcu94EFL1STGYvkM6a8usz';
 const baseURL = 'https://cdn.filestackcontent.com';
 const result = (opts?: any) => {
   if (opts) {
@@ -399,6 +400,31 @@ describe('makePictureTree', () => {
       },
     };
     const tree = makePictureTree(handle, options);
+    assert.deepStrictEqual(tree, expected);
+  });
+
+  it('should generate a single img element using storage alias handle', () => {
+    const storageAliasHandle = {
+      srcHandle: handle,
+      apiKey,
+    };
+    const options = {
+      width: '768px',
+      keys: false,
+      transforms: {
+        quality: {
+          value: 5,
+        },
+      },
+    };
+    const expected = {
+      img: {
+        src: 'https://cdn.filestackcontent.com/BBcu94EFL1STGYvkM6a8usz/quality=value:5/resize=width:768/seW1thvcR1aQBfOCF8bX',
+        srcSet: 'https://cdn.filestackcontent.com/BBcu94EFL1STGYvkM6a8usz/quality=value:5/resize=width:768/seW1thvcR1aQBfOCF8bX 1x, https://cdn.filestackcontent.com/BBcu94EFL1STGYvkM6a8usz/quality=value:5/resize=width:1536/seW1thvcR1aQBfOCF8bX 2x',
+        width: 768,
+      },
+    };
+    const tree = makePictureTree(storageAliasHandle, options);
     assert.deepStrictEqual(tree, expected);
   });
 });
