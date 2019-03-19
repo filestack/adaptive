@@ -1,6 +1,17 @@
 import * as R from 'ramda';
 import { TransformOptions, Filelink } from 'filestack-js';
 
+export interface FileHandleByStorageAlias {
+  srcHandle: string;
+  apiKey: string;
+}
+
+export type FileHandle = string | FileHandleByStorageAlias;
+
+function isFileHandleByStorageAlias(handle: String | FileHandleByStorageAlias | undefined): handle is FileHandleByStorageAlias {
+  return (handle as FileHandleByStorageAlias).srcHandle !== undefined;
+}
+
 export interface Img {
   alt?: string;
   sizes?: string;
@@ -123,8 +134,15 @@ const getUnit = (data: string) => {
 /**
  * Based on the provided transform options object create filestack filelink
  */
-const createFileLink = (handle: string, transformOptions: TransformOptions = {}) => (width?: number): string => {
-  let fileLink = new Filelink(handle);
+const createFileLink = (handle: FileHandle, transformOptions: TransformOptions = {}) => (width?: number): string => {
+  let fileLink: Filelink;
+  // Use storage alias handle
+  if (isFileHandleByStorageAlias(handle)) {
+    fileLink = new Filelink(handle.srcHandle, handle.apiKey);
+  } else {
+    fileLink = new Filelink(handle);
+  }
+
   if (width) {
     transformOptions.resize = { width };
   }
@@ -149,7 +167,7 @@ const getWidth = (width?: number | string) => (resolution: number | string) => {
 /**
  * Construct Filestack URL out of CDN base and handle, with optional security
  */
-const getCdnUrl = (handle: string, options: PictureOptions) => {
+const getCdnUrl = (handle: FileHandle, options: PictureOptions) => {
   const transformOptions = Object.assign({}, options.transforms); // prevent overwritting original object
   return createFileLink(handle, transformOptions)();
 };
@@ -160,7 +178,7 @@ const getCdnUrl = (handle: string, options: PictureOptions) => {
  * the proper URLs based on the width of the image.
  */
 const makeSrcSet = (
-  handle: string,
+  handle: FileHandle,
   options: any,
   width?: number | string,
   format?: string,
@@ -193,7 +211,7 @@ const makeSrcSet = (
  * Construct src attribute for img element.
  * This may contain a resized URL if a fallback size is provided.
  */
-const makeSrc = (handle: string, fallback: string, options: PictureOptions) => {
+const makeSrc = (handle: FileHandle, fallback: string, options: PictureOptions) => {
   const unit = getUnit(fallback);
   if (unit === 'vw') {
     return getCdnUrl(handle, options);
@@ -212,7 +230,7 @@ const makeSrc = (handle: string, fallback: string, options: PictureOptions) => {
  *
  * R.xprod lets us compute the Cartesian product of two lists.
  */
-const makeSourcesTree = (handle: string, options: any): Source[] => {
+const makeSourcesTree = (handle: FileHandle, options: any): Source[] => {
   const makeSource = (media: any, width: any, format: any): Source | undefined => {
     if (!format && media === 'fallback') {
       return undefined;
@@ -246,7 +264,7 @@ const makeSourcesTree = (handle: string, options: any): Source[] => {
  * Just your basic HTML img element. However we can let the user specify
  * a specific width which will incorporate pixel resolutions options in a srcset.
  */
-const makeImgTree = (handle: string, options: PictureOptions): Img => {
+const makeImgTree = (handle: FileHandle, options: PictureOptions): Img => {
   if (options.width) {
     return removeEmpty({
       src: makeSrc(handle, options.width, options),
@@ -272,8 +290,8 @@ const makeImgTree = (handle: string, options: PictureOptions): Img => {
  * This allows passing the structure into hyperscript-like virtual DOM generators.
  * For example see https://github.com/choojs/hyperx
  */
-export const makePictureTree = (handle?: string, opts?: PictureOptions): Picture => {
-  if (typeof handle !== 'string') {
+export const makePictureTree = (handle?: FileHandle, opts?: PictureOptions): Picture => {
+  if (typeof handle !== 'string' && !isFileHandleByStorageAlias(handle)) {
     throw new TypeError('Filestack handle must be a string');
   }
   if (opts && opts.resolutions && opts.resolutions.length) {
