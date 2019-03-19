@@ -64,8 +64,8 @@ Browser (using umd and <a href="https://www.filestack.com/docs/concepts/storage/
 <script>
   const options = { alt: 'windsurfer', sizes: { fallback: '100vw' } };
   const storageAliasHandle = {
-    srcHandle: 'src://test123/flug_8-trans_atlantik-300dpi.jpg',
-    apiKey: 'A0NTRSxHcR66kmTku9Gcsz'
+    srcHandle: 'src://your_storage_alias_name/example.jpg',
+    apiKey: 'YOUR_FILESTACK_API_KEY'
   }
   const tree = fsAdaptive.picture(storageAliasHandle, options, React.createElement);
   ReactDOM.render(tree, document.body);
