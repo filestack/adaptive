@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file. See [standa
 ## [0.2.5](https://github.com/filestack/adaptive/compare/v0.2.4...v0.2.5) (2019-03-19)
 
 
+### Features
+
+* Use transforms from filestack-js
+* Implement support for storage aliases
+
 
 <a name="0.2.4"></a>
 ## [0.2.4](https://github.com/filestack/adaptive/compare/v0.2.3...v0.2.4) (2019-01-28)
