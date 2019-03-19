@@ -42,7 +42,7 @@ Adaptive at its core is a generator for objects representing the structure of HT
 
 This library ships with a built-in virtual DOM adapter powered by [hyperx](https://github.com/choojs/hyperx), which allows you to simply call `picture(handle, options, renderer)`, where `renderer` can be any DOM builder supported by hyperx. If `renderer` is not provided then `picture` will default to returning plain DOM. For example it can support React components:
 
-Browser (using umd):
+Browser (using umd and just simple handle):
 
 ```html
 <script crossorigin src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
@@ -51,6 +51,23 @@ Browser (using umd):
 <script>
   const options = { alt: 'windsurfer', sizes: { fallback: '100vw' } };
   const tree = fsAdaptive.picture('5aYkEQJSQCmYShsoCnZN', options, React.createElement);
+  ReactDOM.render(tree, document.body);
+</script>
+```
+
+Browser (using umd and <a href="https://www.filestack.com/docs/concepts/storage/#storage-aliases">storage alias handle)</a>:
+
+```html
+<script crossorigin src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
+<script src="https://static.filestackapi.com/adaptive/adaptive.min.js"></script>
+<script>
+  const options = { alt: 'windsurfer', sizes: { fallback: '100vw' } };
+  const storageAliasHandle = {
+    srcHandle: 'src://your_storage_alias_name/example.jpg',
+    apiKey: 'YOUR_FILESTACK_API_KEY'
+  }
+  const tree = fsAdaptive.picture(storageAliasHandle, options, React.createElement);
   ReactDOM.render(tree, document.body);
 </script>
 ```

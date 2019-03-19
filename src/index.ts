@@ -1,24 +1,32 @@
-import { createElement } from 'bel';
-import { makePictureTree, PictureOptions } from './tree';
+import { createElement } from 'nanohtml';
+import { makePictureTree, PictureOptions, FileHandle } from './tree';
 import {
-  TransformationOptions,
-  EStyleType,
-  EShapeType,
-  ENoiseType,
+  TransformOptions,
   EFitOptions,
-  EColorspaceType,
-  EBlurMode,
-  EAlignOptions,
   EAlignFacesOptions,
-  ECropfacesType
-} from './transformations';
+  ECropfacesType,
+  EShapeType,
+  EBlurMode,
+  ENoiseType,
+  EStyleType,
+  EColorspaceType,
+  EAlignOptions,
+  EVideoAccessMode,
+  EVideoTypes,
+  EVideoLocations,
+  EVideoAccess,
+  EUrlscreenshotAgent,
+  EUrlscreenshotMode,
+  EUrlscreenshotOrientation
+} from 'filestack-js';
+
 import { makePicture } from './adapters/DOM';
 
 /**
  * Helper that composes makePictureTree with the DOM adapter for generating
  * actual picture elements.
  */
-export const picture = (handle?: string, opts?: PictureOptions, renderer?: any): any => {
+export const picture = (handle?: FileHandle, opts?: PictureOptions, renderer?: any): any => {
   if (renderer) {
     return makePicture(renderer, makePictureTree(handle, opts));
   }
@@ -27,7 +35,7 @@ export const picture = (handle?: string, opts?: PictureOptions, renderer?: any):
 
 export {
   makePictureTree,
-  TransformationOptions,
+  TransformOptions,
   EStyleType,
   EShapeType,
   ENoiseType,
@@ -37,4 +45,11 @@ export {
   EAlignOptions,
   EAlignFacesOptions,
   ECropfacesType,
+  EVideoAccessMode,
+  EVideoTypes,
+  EVideoLocations,
+  EVideoAccess,
+  EUrlscreenshotAgent,
+  EUrlscreenshotMode,
+  EUrlscreenshotOrientation
 };
