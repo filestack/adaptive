@@ -138,7 +138,7 @@ const getUnit = (data: string) => {
 /**
  * Based on the provided transform options object create filestack filelink
  */
-const createFileLink = (handle: FileHandle, transformOptions: TransformOptions = {}, useValidator: boolean) => (width?: number, indexInSet?: number): string => {
+const createFileLink = (handle: FileHandle, transformOptions: TransformOptions = {}, useValidator: boolean, indexInSet?: number) => (width?: number): string => {
   let fileLink: Filelink;
   // Use storage alias handle
   if (isFileHandleByStorageAlias(handle)) {
@@ -215,7 +215,7 @@ const makeSrcSet = (
   const widths = R.map(getWidth(width), options.resolutions);
 
   const urls: any[] = mapIndexed((width: number, index: number) => {
-    return createFileLink(handle, transformOptions, options.useValidator)(width, index);
+    return createFileLink(handle, transformOptions, options.useValidator, index)(width);
   }, widths);
 
   return R.join(', ', R.map(R.join(' '), R.zip(urls, resolutions)));
