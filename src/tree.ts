@@ -134,7 +134,7 @@ const getUnit = (data: string) => {
 /**
  * Based on the provided transform options object create filestack filelink
  */
-const createFileLink = (handle: FileHandle, transformOptions: TransformOptions = {}) => (width?: number): string => {
+const createFileLink = (handle: FileHandle, transformOptions: TransformOptions = {}) => (width?: number, indexInSet?: number): string => {
   let fileLink: Filelink;
   // Use storage alias handle
   if (isFileHandleByStorageAlias(handle)) {
@@ -149,6 +149,7 @@ const createFileLink = (handle: FileHandle, transformOptions: TransformOptions =
   Object.keys(transformOptions).forEach((key: keyof TransformOptions) => {
     fileLink = fileLink.addTask(key, transformOptions[key]);
   });
+  console.log('###666', indexInSet, width, fileLink.toString());
   return fileLink.toString();
 };
 
@@ -183,6 +184,7 @@ const makeSrcSet = (
   width?: number | string,
   format?: string,
 ) => {
+  const mapIndexed = R.addIndex(R.map);
   // prevent overwritting original object
   const transformOptions = Object.assign({}, options.transforms);
 
@@ -200,9 +202,11 @@ const makeSrcSet = (
     R.identity,
   ), options.resolutions);
 
-  const urls: any[] = R.map(R.compose(
-    createFileLink(handle, transformOptions),
-    getWidth(width)), options.resolutions);
+  const widths = R.map(getWidth(width), options.resolutions);
+
+  const urls: any[] = mapIndexed((width: number, index: number) => {
+    return createFileLink(handle, transformOptions)(width, index);
+  }, widths);
 
   return R.join(', ', R.map(R.join(' '), R.zip(urls, resolutions)));
 };
