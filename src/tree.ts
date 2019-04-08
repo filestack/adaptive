@@ -150,7 +150,7 @@ const createFileLink = (handle: FileHandle, transformOptions: TransformOptions =
     transformOptions.resize = { width };
   }
 
-  // If validator is enabled useonly for the first filelink in set
+  // If validator is enabled use only for the first filelink in set
   if (!useValidator || (indexInSet && indexInSet > 0)) {
     fileLink.setUseValidator(false);
   }
