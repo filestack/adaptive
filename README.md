@@ -295,6 +295,12 @@ const options = {
 picture('5aYkEQJSQCmYShsoCnZN', options);
 ```
 
+To speed up generating of final output (useful when you have a bunch of images on your site) you can optionally disable validation by adding to options object
+
+```
+useValidator: false
+```
+
 Output:
 
 ```html
