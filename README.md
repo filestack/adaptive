@@ -30,7 +30,7 @@ The `package.json` specifies three separate modules:
 * `module` for the ES Module (suitable for bundlers like Webpack and Rollup)
 * `browser` for the UMD module (usable in HTML script tags)
 
-You can find a minified UMD module on the Filestack CDN [here](https://static.filestackapi.com/adaptive/0.2.5/adaptive.min.js).
+You can find a minified UMD module on the Filestack CDN [here](https://static.filestackapi.com/adaptive/0.2.7/adaptive.min.js).
 
 ## API Documentation
 
@@ -293,6 +293,12 @@ const options = {
   }
 };
 picture('5aYkEQJSQCmYShsoCnZN', options);
+```
+
+To speed up generating of final output (useful when you have a bunch of images on your site) you can optionally disable validation by adding to options object
+
+```
+useValidator: false
 ```
 
 Output:

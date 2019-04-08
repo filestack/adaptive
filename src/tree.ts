@@ -44,6 +44,10 @@ export interface Security {
 
 export interface PictureOptions {
   /**
+   * Set if should use validator for params task
+   */
+  useValidator?: boolean;
+  /**
    * Alt name for image element.
    */
   alt?: string;
@@ -134,7 +138,7 @@ const getUnit = (data: string) => {
 /**
  * Based on the provided transform options object create filestack filelink
  */
-const createFileLink = (handle: FileHandle, transformOptions: TransformOptions = {}) => (width?: number): string => {
+const createFileLink = (handle: FileHandle, transformOptions: TransformOptions = {}, useValidator: boolean, indexInSet?: number) => (width?: number): string => {
   let fileLink: Filelink;
   // Use storage alias handle
   if (isFileHandleByStorageAlias(handle)) {
@@ -142,9 +146,13 @@ const createFileLink = (handle: FileHandle, transformOptions: TransformOptions =
   } else {
     fileLink = new Filelink(handle);
   }
-
   if (width) {
     transformOptions.resize = { width };
+  }
+
+  // If validator is enabled use only for the first filelink in set
+  if (!useValidator || (indexInSet && indexInSet > 0)) {
+    fileLink.setUseValidator(false);
   }
   Object.keys(transformOptions).forEach((key: keyof TransformOptions) => {
     fileLink = fileLink.addTask(key, transformOptions[key]);
@@ -168,8 +176,11 @@ const getWidth = (width?: number | string) => (resolution: number | string) => {
  * Construct Filestack URL out of CDN base and handle, with optional security
  */
 const getCdnUrl = (handle: FileHandle, options: PictureOptions) => {
+  if (options.useValidator === undefined) {
+    options.useValidator = true;
+  }
   const transformOptions = Object.assign({}, options.transforms); // prevent overwritting original object
-  return createFileLink(handle, transformOptions)();
+  return createFileLink(handle, transformOptions, options.useValidator)();
 };
 
 /**
@@ -183,6 +194,7 @@ const makeSrcSet = (
   width?: number | string,
   format?: string,
 ) => {
+  const mapIndexed = R.addIndex(R.map);
   // prevent overwritting original object
   const transformOptions = Object.assign({}, options.transforms);
 
@@ -191,7 +203,7 @@ const makeSrcSet = (
   }
 
   if (!width && format) {
-    return createFileLink(handle, transformOptions)();
+    return createFileLink(handle, transformOptions, options.useValidator)();
   }
 
   const resolutions: any[] = R.map(R.ifElse(
@@ -200,9 +212,11 @@ const makeSrcSet = (
     R.identity,
   ), options.resolutions);
 
-  const urls: any[] = R.map(R.compose(
-    createFileLink(handle, transformOptions),
-    getWidth(width)), options.resolutions);
+  const widths = R.map(getWidth(width), options.resolutions);
+
+  const urls: any[] = mapIndexed((width: number, index: number) => {
+    return createFileLink(handle, transformOptions, options.useValidator, index)(width);
+  }, widths);
 
   return R.join(', ', R.map(R.join(' '), R.zip(urls, resolutions)));
 };
@@ -212,13 +226,15 @@ const makeSrcSet = (
  * This may contain a resized URL if a fallback size is provided.
  */
 const makeSrc = (handle: FileHandle, fallback: string, options: PictureOptions) => {
+  if (options.useValidator === undefined) {
+    options.useValidator = true;
+  }
   const unit = getUnit(fallback);
   if (unit === 'vw') {
     return getCdnUrl(handle, options);
   }
-
   const width: number = getN(fallback);
-  return createFileLink(handle, options.transforms)(width);
+  return createFileLink(handle, options.transforms, options.useValidator)(width);
 };
 
 /**
@@ -265,6 +281,9 @@ const makeSourcesTree = (handle: FileHandle, options: any): Source[] => {
  * a specific width which will incorporate pixel resolutions options in a srcset.
  */
 const makeImgTree = (handle: FileHandle, options: PictureOptions): Img => {
+  if (options.useValidator === undefined) {
+    options.useValidator = true;
+  }
   if (options.width) {
     return removeEmpty({
       src: makeSrc(handle, options.width, options),
@@ -291,6 +310,9 @@ const makeImgTree = (handle: FileHandle, options: PictureOptions): Img => {
  * For example see https://github.com/choojs/hyperx
  */
 export const makePictureTree = (handle?: FileHandle, opts?: PictureOptions): Picture => {
+  if (opts && opts.useValidator === undefined) {
+    opts.useValidator = true;
+  }
   if (typeof handle !== 'string' && !isFileHandleByStorageAlias(handle)) {
     throw new TypeError('Filestack handle must be a string');
   }
