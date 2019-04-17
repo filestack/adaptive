@@ -297,6 +297,7 @@ const makeSourcesTree = (handle: FileHandle, options: any): Source[] => {
 
   let sources: any[] = toPairs(options.sizes);
 
+
   if (options.formats) {
     sources = R.compose(
       R.splitEvery(3),
@@ -304,7 +305,19 @@ const makeSourcesTree = (handle: FileHandle, options: any): Source[] => {
       R.xprod(sources),
     )(options.formats);
   }
-  console.log('###2', options.formats);
+
+  function cartesianProduct(arr: any) {
+    return arr.reduce(function(a: any, b: any) {
+      return a.map(function(x: any) {
+        return b.map(function(y: any) {
+          return x.concat([y]);
+        });
+      }).reduce(function(a: any, b: any) { return a.concat(b); },[]);
+    }, [[]]);
+  }
+
+  console.log('###1', sources, options.formats);
+  console.log('###2', R.xprod(sources, options.formats), cartesianProduct([[sources], [options.formats]]));
   return R.filter((v: any) => !!v, R.map(R.apply(makeSource), sources));
 };
 
