@@ -117,16 +117,28 @@ const defaultResolutions = [
 /**
  * Remove falsey values from object.
  */
-const removeEmpty = R.pickBy((v: any) => !!v);
+const removeEmpty = (obj: any) => {
+  const newObj: any = {};
+  for (let key in obj) {
+    if (obj.hasOwnProperty(key) && obj[key]) {
+      newObj[key] = obj[key];
+    }
+  }
+  return newObj;
+};
 
 /**
  * Utility to get numbers from ambiguous types.
  */
-const getN = R.ifElse(
-  R.is(Number),
-  R.identity,
-  R.curry(R.flip(parseInt))(10),
-);
+const getN = (value: any): number => {
+  let numberValue;
+  if (typeof value === 'number') {
+    numberValue = value;
+  } else {
+    numberValue = parseInt(value, 10);
+  }
+  return numberValue;
+};
 
 /**
  * Utility to get unit of width or resolution
@@ -169,7 +181,7 @@ const getWidth = (width?: number | string) => (resolution: number | string) => {
     return getN(resolution);
   }
   // Pixel density (2x == 2 * size)
-  return R.multiply(getN(width), getN(resolution));
+  return getN(width) * getN(resolution);
 };
 
 /**
@@ -194,7 +206,6 @@ const makeSrcSet = (
   width?: number | string,
   format?: string,
 ) => {
-  const mapIndexed = R.addIndex(R.map);
   // prevent overwritting original object
   const transformOptions = Object.assign({}, options.transforms);
 
@@ -206,19 +217,24 @@ const makeSrcSet = (
     return createFileLink(handle, transformOptions, options.useValidator)();
   }
 
-  const resolutions: any[] = R.map(R.ifElse(
-    R.is(Number),
-    (n: number) => `${n}w`,
-    R.identity,
-  ), options.resolutions);
+  const resolutions = options.resolutions.map((val: any) => {
+    let resString = typeof val === 'number' ? `${val}w` : val;
+    return resString;
+  });
 
-  const widths = R.map(getWidth(width), options.resolutions);
+  const widths = options.resolutions.map((val: any) => {
+    return getWidth(width)(val);
+  });
 
-  const urls: any[] = mapIndexed((width: number, index: number) => {
+  const urls: any[] = widths.map((width: number, index: number) => {
     return createFileLink(handle, transformOptions, options.useValidator, index)(width);
   }, widths);
 
-  return R.join(', ', R.map(R.join(' '), R.zip(urls, resolutions)));
+  const urlWithReso = urls.map((url, index) => {
+    return `${url} ${resolutions[index]}`;
+  });
+
+  return urlWithReso.join(', ');
 };
 
 /**
@@ -263,9 +279,24 @@ const makeSourcesTree = (handle: FileHandle, options: any): Source[] => {
   };
   // Handle three cases -- sizes + type, just sizes, just type
   if (!options.sizes && options.formats) {
-    return R.reject(R.isNil, R.map((f: string) => makeSource(null, null, f), options.formats));
+    const sources = options.formats.map((format: string) => {
+      return makeSource(null, null, format);
+    }).filter((source: string) => {
+      return source;
+    });
+    return sources;
   }
-  let sources: any[] = R.toPairs(options.sizes);
+
+  const toPairs = (obj: any) => {
+    console.log('###4', obj);
+    return Object.keys(obj).map(function(key) {
+      return [key, obj[key]];
+    });
+  };
+
+
+  let sources: any[] = toPairs(options.sizes);
+
   if (options.formats) {
     sources = R.compose(
       R.splitEvery(3),
@@ -273,6 +304,7 @@ const makeSourcesTree = (handle: FileHandle, options: any): Source[] => {
       R.xprod(sources),
     )(options.formats);
   }
+  console.log('###2', options.formats);
   return R.filter((v: any) => !!v, R.map(R.apply(makeSource), sources));
 };
 
