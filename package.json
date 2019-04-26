@@ -40,7 +40,6 @@
     "filestack-js": "^2.0.4",
     "hyperx": "^2.5.4",
     "nanohtml": "^1.4.0",
-    "ramda": "^0.26.1",
     "tslib": "^1.9.3"
   },
   "devDependencies": {
@@ -48,7 +47,6 @@
     "@babel/preset-env": "^7.3.4",
     "@types/mocha": "^5.2.6",
     "@types/node": "^10.5.2",
-    "@types/ramda": "^0.25.50",
     "aws-sdk": "^2.410.0",
     "babel-plugin-minify-dead-code-elimination": "^0.5.0",
     "commitizen": "^3.0.7",

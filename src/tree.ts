@@ -1,5 +1,5 @@
-import * as R from 'ramda';
 import { TransformOptions, Filelink } from 'filestack-js';
+import utils from './utils';
 
 export interface FileHandleByStorageAlias {
   srcHandle: string;
@@ -65,7 +65,7 @@ export interface PictureOptions {
    * between 180w and 3024w. Can also be numbers representing widths
    * or strings representing pixel densities, e.g. ['1x', '2x'].
    */
-  resolutions?: string[] | number[];
+  resolutions?: (string | number)[];
   /**
    * Object containing Filestack security policy and signature.
    */
@@ -288,37 +288,23 @@ const makeSourcesTree = (handle: FileHandle, options: any): Source[] => {
   }
 
   const toPairs = (obj: any) => {
-    console.log('###4', obj);
     return Object.keys(obj).map(function(key) {
       return [key, obj[key]];
     });
   };
 
-
   let sources: any[] = toPairs(options.sizes);
 
-
   if (options.formats) {
-    sources = R.compose(
-      R.splitEvery(3),
-      R.flatten,
-      R.xprod(sources),
-    )(options.formats);
+    let cartesian = utils.cartesian([sources, options.formats]);
+    let cartesianFlattened = cartesian.flat(2);
+    sources = utils.arrToChunks(cartesianFlattened, 3);
   }
 
-  function cartesianProduct(arr: any) {
-    return arr.reduce(function(a: any, b: any) {
-      return a.map(function(x: any) {
-        return b.map(function(y: any) {
-          return x.concat([y]);
-        });
-      }).reduce(function(a: any, b: any) { return a.concat(b); },[]);
-    }, [[]]);
-  }
-
-  console.log('###1', sources, options.formats);
-  console.log('###2', R.xprod(sources, options.formats), cartesianProduct([[sources], [options.formats]]));
-  return R.filter((v: any) => !!v, R.map(R.apply(makeSource), sources));
+  const sourcesTree = sources.map((source: any) => {
+    return makeSource.apply(null, source);
+  }).filter(source => !!source);
+  return sourcesTree;
 };
 
 /**
@@ -362,11 +348,17 @@ export const makePictureTree = (handle?: FileHandle, opts?: PictureOptions): Pic
     throw new TypeError('Filestack handle must be a string');
   }
   if (opts && opts.resolutions && opts.resolutions.length) {
-    const rUnits: string[] = R.map(getUnit, R.filter(R.is(String), opts.resolutions));
-    if (!opts.sizes && (R.any(R.is(Number), opts.resolutions) || R.contains('w', rUnits))) {
+    const rUnits: string[] = opts.resolutions.filter((resolution: any) => {
+      return typeof resolution === 'string';
+    }).map((resolution: string) => {
+      return getUnit(resolution);
+    });
+    // console.log('###1', !opts.sizes, (R.any(R.is(Number), opts.resolutions) || R.contains('w', rUnits)));
+    // console.log('###2', !opts.sizes,)
+    if (!opts.sizes && (opts.resolutions.some((resolution) => typeof resolution === 'number') || rUnits​.indexOf('w') > -1)) {
       throw new Error('You must specify at least one size to use width descriptors');
     }
-    if (!opts.width && R.contains('x', rUnits)) {
+    if (!opts.width && rUnits.indexOf('w')) {
       throw new Error('You must specify a width to use pixel densities.');
     }
   }
