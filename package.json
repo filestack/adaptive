@@ -39,8 +39,7 @@
   "dependencies": {
     "filestack-js": "^2.0.4",
     "hyperx": "^2.5.4",
-    "nanohtml": "^1.4.0",
-    "tslib": "^1.9.3"
+    "nanohtml": "^1.4.0"
   },
   "devDependencies": {
     "@babel/core": "^7.3.4",
@@ -68,7 +67,6 @@
     "rollup-plugin-node-resolve": "^4.0.1",
     "rollup-plugin-uglify": "^6.0.2",
     "standard-version": "^5.0.0",
-    "trash-cli": "^1.4.0",
     "tslint": "^5.13.0",
     "tslint-config-semistandard": "^7.0.0",
     "typedoc": "^0.14.2",

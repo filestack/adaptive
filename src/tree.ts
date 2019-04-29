@@ -115,39 +115,6 @@ const defaultResolutions = [
 ];
 
 /**
- * Remove falsey values from object.
- */
-const removeEmpty = (obj: any) => {
-  const newObj: any = {};
-  for (let key in obj) {
-    if (obj.hasOwnProperty(key) && obj[key]) {
-      newObj[key] = obj[key];
-    }
-  }
-  return newObj;
-};
-
-/**
- * Utility to get numbers from ambiguous types.
- */
-const getN = (value: any): number => {
-  let numberValue;
-  if (typeof value === 'number') {
-    numberValue = value;
-  } else {
-    numberValue = parseInt(value, 10);
-  }
-  return numberValue;
-};
-
-/**
- * Utility to get unit of width or resolution
- */
-const getUnit = (data: string) => {
-  return data.replace ? data.replace(/\d*(\D+)$/gi, '$1') : 'px';
-};
-
-/**
  * Based on the provided transform options object create filestack filelink
  */
 const createFileLink = (handle: FileHandle, transformOptions: TransformOptions = {}, useValidator: boolean, indexInSet?: number) => (width?: number): string => {
@@ -176,12 +143,12 @@ const getWidth = (width?: number | string) => (resolution: number | string) => {
   if (typeof resolution === 'number') {
     return resolution;
   }
-  const unit = getUnit(resolution);
+  const unit = utils.getUnit(resolution);
   if (unit === 'w') {
-    return getN(resolution);
+    return utils.getNumber(resolution);
   }
   // Pixel density (2x == 2 * size)
-  return getN(width) * getN(resolution);
+  return utils.getNumber(width) * utils.getNumber(resolution);
 };
 
 /**
@@ -245,11 +212,11 @@ const makeSrc = (handle: FileHandle, fallback: string, options: PictureOptions) 
   if (options.useValidator === undefined) {
     options.useValidator = true;
   }
-  const unit = getUnit(fallback);
+  const unit = utils.getUnit(fallback);
   if (unit === 'vw') {
     return getCdnUrl(handle, options);
   }
-  const width: number = getN(fallback);
+  const width: number = utils.getNumber(fallback);
   return createFileLink(handle, options.transforms, options.useValidator)(width);
 };
 
@@ -267,7 +234,7 @@ const makeSourcesTree = (handle: FileHandle, options: any): Source[] => {
     if (!format && media === 'fallback') {
       return undefined;
     }
-    return removeEmpty({
+    return utils.removeEmpty({
       media: media === 'fallback' ? undefined : media,
       sizes: width,
       srcSet: makeSrcSet(handle, options, width, format),
@@ -297,7 +264,7 @@ const makeSourcesTree = (handle: FileHandle, options: any): Source[] => {
 
   if (options.formats) {
     let cartesian = utils.cartesian([sources, options.formats]);
-    let cartesianFlattened = cartesian.flat(2);
+    let cartesianFlattened = utils.flat(cartesian, 2);
     sources = utils.arrToChunks(cartesianFlattened, 3);
   }
 
@@ -316,15 +283,15 @@ const makeImgTree = (handle: FileHandle, options: PictureOptions): Img => {
     options.useValidator = true;
   }
   if (options.width) {
-    return removeEmpty({
+    return utils.removeEmpty({
       src: makeSrc(handle, options.width, options),
       srcSet: makeSrcSet(handle, options, options.width),
       alt: options.alt,
-      width: getN(options.width),
+      width: utils.getNumber(options.width),
     });
   }
   const fallback = options.sizes && options.sizes.fallback;
-  return removeEmpty({
+  return utils.removeEmpty({
     src: fallback ? makeSrc(handle, fallback, options) : getCdnUrl(handle, options),
     srcSet: options.sizes ? makeSrcSet(handle, options, fallback) : undefined,
     alt: options.alt,
@@ -351,14 +318,12 @@ export const makePictureTree = (handle?: FileHandle, opts?: PictureOptions): Pic
     const rUnits: string[] = opts.resolutions.filter((resolution: any) => {
       return typeof resolution === 'string';
     }).map((resolution: string) => {
-      return getUnit(resolution);
+      return utils.getUnit(resolution);
     });
-    // console.log('###1', !opts.sizes, (R.any(R.is(Number), opts.resolutions) || R.contains('w', rUnits)));
-    // console.log('###2', !opts.sizes,)
-    if (!opts.sizes && (opts.resolutions.some((resolution) => typeof resolution === 'number') || rUnits​.indexOf('w') > -1)) {
+    if (!opts.sizes && (opts.resolutions.some((resolution) => typeof resolution === 'number') || rUnits.indexOf('w') > -1)) {
       throw new Error('You must specify at least one size to use width descriptors');
     }
-    if (!opts.width && rUnits.indexOf('w')) {
+    if (!opts.width && rUnits.indexOf('x') > -1) {
       throw new Error('You must specify a width to use pixel densities.');
     }
   }
@@ -380,5 +345,5 @@ export const makePictureTree = (handle?: FileHandle, opts?: PictureOptions): Pic
     const sources: Source[] = makeSourcesTree(handle, options);
     tree.sources = sources && sources.length ? sources : undefined;
   }
-  return removeEmpty(tree);
+  return utils.removeEmpty(tree);
 };
