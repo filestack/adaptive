@@ -2,7 +2,7 @@ const utils = {
   /**
    * Creates a new list out of the two supplied by creating each possible pair from the lists.
    * It works similar to https://ramdajs.com/docs/#xprod
-   * @param arr
+   * @param arr - An array to be processed
    */
   cartesian(arr: any[]) {
     return arr.reduce(function (a: any, b: any) {
@@ -15,8 +15,8 @@ const utils = {
   },
   /**
    * Split an array into many arrays with a provided chunk factor
-   * @param array - an original array to be splitted
-   * @param chunk - a number of elements which new arrays will contain
+   * @param array - An original array to be splitted
+   * @param chunk - A number of elements which new arrays will contain
    */
   arrToChunks(array: [], chunk = 1) {
     let tempArray = [];
@@ -27,7 +27,7 @@ const utils = {
   },
   /**
    * Remove falsey values from object.
-   * @param obj - an object to be filtered
+   * @param obj - An object to be filtered
    */
   removeEmpty(obj: any) {
     const newObj: any = {};
@@ -40,7 +40,7 @@ const utils = {
   },
   /**
    * Utility to get numbers from ambiguous types.
-   * @param value - a value to be checked
+   * @param value - A value to be checked
    */
   getNumber(value: any): number {
     let numberValue;
@@ -54,12 +54,17 @@ const utils = {
 
   /**
    * Utility to get unit of width or resolution
-   * @param value - a value from which a unit will be extracted
+   * @param value - A value from which a unit will be extracted
    */
   getUnit(value: string): string {
     return value.replace ? value.replace(/\d*(\D+)$/gi, '$1') : 'px';
   },
 
+  /**
+   * Flat elements in array to provided depthness
+   * @param arr - The array to flatten
+   * @param depth - A maximum recursion depth
+   */
   flat(arr: [], depth: number): [] {
     let len = arr.length >>> 0;
     let flattened: any = [];
@@ -76,6 +81,14 @@ const utils = {
       i++;
     }
     return flattened;
+  },
+
+  /**
+   * Transform object into [key, value] array
+   * @param obj
+   */
+  toPairs(obj: any) {
+    return Object.entries(obj);
   },
 };
 
