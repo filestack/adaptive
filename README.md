@@ -306,13 +306,14 @@ npm run build
 This newly created directory contains
 ```text
 build/
-├── browser/                # files intended for browser runtimes
-   └── index.umd.js         # (UMD Module)
-├── main/                   # contains src/ compiled to javascript
-   └── ...                  #
-└── module/                 # files intended for Node runtimes (used NPM package)
+├── browser/                # for the UMD module (usable in HTML script tags)
+   └── index.umd.js         #
+├── main/                   # for the CommonJS module
    ├── ...                  #
-   └── index.js             # entry point for npm (CommonJS module)
+   └── index.js             # 
+└── module/                 # for the ES Module (suitable for bundlers like Webpack and Rollup)
+   ├── ...                  #
+   └── index.js             #
 ```
 
 ## Documentation
