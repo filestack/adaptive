@@ -292,7 +292,28 @@ const options = {
 }
 ```
 
-## Development & contribution
+## Development
+To install and work on Adaptiv locally:
+```bash
+git clone git@github.com:filestack/adaptive.git
+cd adaptive
+npm install
+```
+To create build directory:
+```
+npm run build
+```
+This newly created directory contains
+```text
+build/
+├── browser/                # files intended for browser runtimes
+   └── index.umd.js         # (UMD Module)
+├── main/                   # contains src/ compiled to javascript
+   └── ...                  #
+└── module/                 # files intended for Node runtimes (used NPM package)
+   ├── ...                  #
+   └── index.js             # entry point for npm (CommonJS module)
+```
 
 ## Documentation
 For more info about available methods and options check browser documentation:
