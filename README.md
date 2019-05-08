@@ -34,7 +34,6 @@
 
 <!-- toc -->
 - [What is Adaptive](#what-is-adaptive)
-- [Installation](#installation)
 - [Usage](#usage)
   - [CDN](#cdn)
   - [NPM (react example)](#npm-react-example)
