@@ -2,7 +2,9 @@
   <a href="https://www.filestack.com"><img src="http://static.filestackapi.com/adaptive/adaptive.svg?refresh" align="center" width="230" /></a>  
 </p>
 
-> Generate responsive HTML picture elements powered by on-the-fly [Filestack](https://github.com/filestack/filestack-js) image conversions.
+<p align="center">
+  Generate responsive HTML picture elements powered by  on-the-fly <a href="https://github.com/filestack/">Filestack</a> image conversions.
+</p>
 
 <p align="center">
   <a href="https://travis-ci.org/filestack/adaptive">
@@ -31,14 +33,21 @@
 **Table of Contents**
 
 <!-- toc -->
-- [What is Adaptive](what-is-adaptive)
-- [Installation](installation)
-- [Usage](usage)
-  - [Node](node)
-  - [Browser cdn]()
-- [Development](development)
-- [Documentation](documentation)
-- [Future](future)
+- [What is Adaptive](#what-is-adaptive)
+- [Installation](#installation)
+- [Usage](#usage)
+  - [CDN](#cdn)
+  - [NPM (react example)](#npm-react-example)
+    - [Use with JSX](#use-with-jsx)
+  - [Transformations support](#transformations-support)
+    - [Disable validator](#disable-validator)
+  - [Storage aliases](#storage-aliases)
+  - [Image width and pixel density](#image-width-and-pixel-density)
+  - [Using width descriptors](#using-width-descriptors)
+  - [WebP support](#webp-support)
+- [Development](#development)
+- [Documentation](#documentation)
+- [Future](#future)
 
 ## What is Adaptive
 Adaptive is a tool which allow [Filestack](https://github.com/filestack/filestack-js) users to combine the power of on-the-fly image processing with the latest standard for responsive web images.
@@ -55,7 +64,6 @@ This library ships with a built-in virtual DOM adapter powered by hyperx, which 
 - Easily integrable with external virtual DOM renderers
 
 ## Usage
-Adaptive can be used to build a simple website with a responsive gallery as well as complex SPA. To meet different requirements, we provide it on our cdn and as npm package.
 
 ### CDN
 You can find the newest version at https://static.filestackapi.com/adaptive/adaptive.min.js
@@ -75,7 +83,7 @@ https://static.filestackapi.com/adaptive/0.2.7/adaptive.min.js
         document.body.appendChild(el);
     </script>
 ```
-will output with the following code:
+Output:
 ```html
 <picture>
     <img src="https://cdn.filestackcontent.com/5aYkEQJSQCmYShsoCnZN"
@@ -287,7 +295,8 @@ const options = {
 ## Development & contribution
 
 ## Documentation
-For more info about available methods and options check an api documentation
+For more info about available methods and options check browser documentation:
+<br>
 https://filestack.github.io/adaptive/
 
 ## Future
