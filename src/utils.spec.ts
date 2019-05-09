@@ -53,6 +53,12 @@ describe('utils', () => {
     });
   });
   describe('getNumber', () => {
+    it('should return initial when it is number', () => {
+      const value = 542;
+      const result = utils.getNumber(value);
+      const expected = 542;
+      assert.strictEqual(result, expected);
+    });
     it('should parse string to a number when it is possible', () => {
       const value = '542';
       const result = utils.getNumber(value);
