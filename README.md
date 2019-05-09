@@ -56,7 +56,7 @@ This library ships with a built-in virtual DOM adapter powered by hyperx, which 
 
 ### Features
 - Focus on usability and performance
-- Works with Filestack [handles](https://www.filestack.com/docs/concepts/getting-started/#vocabulary) and [storage aliases](https://www.filestack.com/docs/concepts/storage/#storage-aliases)
+- Works with Filestack [handles](https://www.filestack.com/docs/concepts/getting-started/#vocabulary), [storage aliases](https://www.filestack.com/docs/concepts/storage/#storage-aliases) and external urls
 - Support for different sizes and formats in srcSet
 - Allows you to add some [image transformations](https://www.filestack.com/docs/api/processing/#image-transformations)
 - Easily integrable with external virtual DOM renderers
