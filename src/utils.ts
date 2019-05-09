@@ -18,7 +18,7 @@ const utils = {
    * @param array - An original array to be splitted
    * @param chunk - A number of elements which new arrays will contain
    */
-  arrToChunks(array: [], chunk = 1) {
+  arrToChunks(array: any[], chunk = 1) {
     let tempArray = [];
     for (let i = 0; i < array.length; i += chunk) {
       tempArray.push(array.slice(i,i + chunk));
@@ -56,7 +56,7 @@ const utils = {
    * Utility to get unit of width or resolution
    * @param value - A value from which a unit will be extracted
    */
-  getUnit(value: string): string {
+  getUnit(value: any): string {
     return value.replace ? value.replace(/\d*(\D+)$/gi, '$1') : 'px';
   },
 
@@ -65,7 +65,7 @@ const utils = {
    * @param arr - The array to flatten
    * @param depth - A maximum recursion depth
    */
-  flat(arr: [], depth: number): [] {
+  flat(arr: any[], depth: number): [] {
     let len = arr.length >>> 0;
     let flattened: any = [];
     let i = 0;
@@ -81,14 +81,6 @@ const utils = {
       i++;
     }
     return flattened;
-  },
-
-  /**
-   * Transform object into [key, value] array
-   * @param obj
-   */
-  toPairs(obj: any) {
-    return Object.entries(obj);
   },
 };
 

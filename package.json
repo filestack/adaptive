@@ -21,7 +21,7 @@
     "publish": "npm run build && npm run build:cdn && node scripts/publish.js",
     "pretest": "rm -rf build && npm run build:test",
     "release": "npm test && npm run build && standard-version",
-    "test": "npm run lint && nyc mocha"
+    "test": "npm run lint && tsc && nyc mocha"
   },
   "license": "Apache-2.0",
   "keywords": [
@@ -45,6 +45,7 @@
   "devDependencies": {
     "@babel/core": "^7.4.4",
     "@babel/preset-env": "^7.4.4",
+    "@istanbuljs/nyc-config-typescript": "^0.1.3",
     "@types/mocha": "^5.2.6",
     "@types/node": "^11.13.8",
     "aws-sdk": "^2.444.0",
@@ -73,21 +74,6 @@
     "typedoc": "^0.14.2",
     "typescript": "^3.4.5",
     "validate-commit-msg": "^2.14.0"
-  },
-  "nyc": {
-    "check-coverage": true,
-    "lines": 80,
-    "statements": 80,
-    "functions": 80,
-    "branches": 80,
-    "exclude": [
-      "src/index.ts",
-      "**/*.spec.*"
-    ],
-    "reporter": [
-      "lcov",
-      "text-summary"
-    ]
   },
   "config": {
     "commitizen": {

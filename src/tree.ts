@@ -254,7 +254,7 @@ const makeSourcesTree = (handle: FileHandle, options: any): Source[] => {
     return sources;
   }
 
-  let sources: any[] = utils.toPairs(options.sizes);
+  let sources: any[] = Object.entries(options.sizes);
 
   if (options.formats) {
     let cartesian = utils.cartesian([sources, options.formats]);

@@ -26,8 +26,6 @@
   <img src="https://badges.herokuapp.com/browsers?labels=none&googlechrome=38&firefox=38&microsoftedge=13&safari=9.1&opera=25" />
 </p>
 
-
-
 <hr/>
 
 **Table of Contents**
@@ -45,6 +43,7 @@
   - [Using width descriptors](#using-width-descriptors)
   - [WebP support](#webp-support)
 - [Development](#development)
+- [Contributing](#contributing)
 - [Documentation](#documentation)
 - [Future](#future)
 
@@ -319,6 +318,9 @@ build/
 For more info about available methods and options check browser documentation:
 <br>
 https://filestack.github.io/adaptive/
+
+## Contributing
+We follow the [conventional commits](https://conventionalcommits.org/) specification to ensure consistent commit messages and changelog formatting.
 
 ## Future
 Adaptive is joining an ecosystem already populated with many utilities for responsive images.

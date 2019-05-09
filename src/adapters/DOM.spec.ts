@@ -111,6 +111,7 @@ describe('DOM adapter', () => {
         }
       })
       .catch((err: Error) => {
+        console.log('###11111111');
         done(err);
       });
   });
