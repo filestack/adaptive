@@ -38,7 +38,7 @@
     - [Use with JSX](#use-with-jsx)
   - [Transformations support](#transformations-support)
     - [Disable validator](#disable-validator)
-  - [Storage aliases](#storage-aliases)
+  - [Storage aliases and external urls](#storage-aliases-and-external-urls)
   - [Image width and pixel density](#image-width-and-pixel-density)
   - [Using width descriptors](#using-width-descriptors)
   - [WebP support](#webp-support)
@@ -151,22 +151,32 @@ class Picture extends Component {
 
 export default Picture;
 ```
-### Storage aliases
-You can also use Filestack storage alias as an image source:
+### Storage aliases and external urls
+You can also use [Filestack storage alias](https://www.filestack.com/docs/concepts/storage/#storage-aliases) or external urls as an image source:
 ```html
-<script crossorigin src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
-<script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
-<script src="https://static.filestackapi.com/adaptive/adaptive.min.js"></script>
-<script>
-  const options = { 
-    alt: 'windsurfer', 
-    sizes: { 
-      fallback: '100vw' 
-    } 
-  };
-  const tree = fsAdaptive.picture('5aYkEQJSQCmYShsoCnZN', options, React.createElement);
-  ReactDOM.render(tree, document.body);
-</script>
+  <script src="https://static.filestackapi.com/adaptive/adaptive.min.js"></script>
+  <script>
+      const options = {
+          alt: 'windsurfer',
+          sizes: {
+              fallback: '60vw',
+          }
+      };
+      const srcHandle1 = {
+        srcHandle: 'src://your_storage_alias_name/example.jpg',
+        apiKey: 'YOUR_FILESTACK_API_KEY'
+      };
+      const el1 = fsAdaptive.picture(srcHandle1, options);
+      document.body.appendChild(el1);
+
+
+      const srcHandle2 = {
+        srcHandle: 'https://yourdomain.com/photo1.jpg,
+        apiKey: 'YOUR_FILESTACK_API_KEY'
+      };
+      const el2 = fsAdaptive.picture(srcHandle2, options);
+      document.body.appendChild(el2);
+  </script>
 ```
 ### Image width and pixel density
 
