@@ -185,7 +185,7 @@ const makeSrcSet = (
   }
 
   const resolutions = options.resolutions.map((val: any) => {
-    let resString = typeof val === 'number' ? `${val}w` : val;
+    const resString = typeof val === 'number' ? `${val}w` : val;
     return resString;
   });
 
