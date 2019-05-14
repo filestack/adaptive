@@ -117,7 +117,7 @@ const defaultResolutions = [
 /**
  * Based on the provided transform options object create filestack filelink
  */
-const createFileLink = (handle: FileHandle, transformOptions: TransformOptions = {}, useValidator: boolean, indexInSet?: number) => (width?: number): string => {
+const createFileLink = (handle: FileHandle, transformOptions: TransformOptions = {}, useValidator: boolean = true, indexInSet?: number) => (width?: number): string => {
   let fileLink: Filelink;
   // Use storage alias handle
   if (isFileHandleByStorageAlias(handle)) {
@@ -155,9 +155,6 @@ const getWidth = (width?: number | string) => (resolution: number | string) => {
  * Construct Filestack URL out of CDN base and handle, with optional security
  */
 const getCdnUrl = (handle: FileHandle, options: PictureOptions) => {
-  if (options.useValidator === undefined) {
-    options.useValidator = true;
-  }
   const transformOptions = Object.assign({}, options.transforms); // prevent overwritting original object
   return createFileLink(handle, transformOptions, options.useValidator)();
 };
@@ -184,10 +181,7 @@ const makeSrcSet = (
     return createFileLink(handle, transformOptions, options.useValidator)();
   }
 
-  const resolutions = options.resolutions.map((val: any) => {
-    const resString = typeof val === 'number' ? `${val}w` : val;
-    return resString;
-  });
+  const resolutions = options.resolutions.map((val: any) => typeof val === 'number' ? `${val}w` : val);
 
   const widths = options.resolutions.map((val: any) => {
     return getWidth(width)(val);
@@ -197,11 +191,7 @@ const makeSrcSet = (
     return createFileLink(handle, transformOptions, options.useValidator, index)(width);
   }, widths);
 
-  const urlWithReso = urls.map((url, index) => {
-    return `${url} ${resolutions[index]}`;
-  });
-
-  return urlWithReso.join(', ');
+  return urls.map((url, index) => `${url} ${resolutions[index]}`).join(', ');
 };
 
 /**
@@ -209,9 +199,6 @@ const makeSrcSet = (
  * This may contain a resized URL if a fallback size is provided.
  */
 const makeSrc = (handle: FileHandle, fallback: string, options: PictureOptions) => {
-  if (options.useValidator === undefined) {
-    options.useValidator = true;
-  }
   const unit = utils.getUnit(fallback);
   if (unit === 'vw') {
     return getCdnUrl(handle, options);
@@ -246,20 +233,14 @@ const makeSourcesTree = (handle: FileHandle, options: any): Source[] => {
   };
   // Handle three cases -- sizes + type, just sizes, just type
   if (!options.sizes && options.formats) {
-    const sources = options.formats.map((format: string) => {
-      return makeSource(null, null, format);
-    }).filter((source: string) => {
-      return source;
-    });
+    const sources = options.formats.map((format: string) => makeSource(null, null, format)).filter((source: string) => !!source);
     return sources;
   }
 
   let sources: any[] = Object.entries(options.sizes);
 
   if (options.formats) {
-    let cartesian = utils.cartesian([sources, options.formats]);
-    let cartesianFlattened = utils.flat(cartesian, 2);
-    sources = utils.arrToChunks(cartesianFlattened, 3);
+    sources = utils.arrToChunks(utils.flat(utils.cartesian([sources, options.formats]), 2), 3);
   }
 
   const sourcesTree = sources.map((source: any) => {
@@ -273,9 +254,6 @@ const makeSourcesTree = (handle: FileHandle, options: any): Source[] => {
  * a specific width which will incorporate pixel resolutions options in a srcset.
  */
 const makeImgTree = (handle: FileHandle, options: PictureOptions): Img => {
-  if (options.useValidator === undefined) {
-    options.useValidator = true;
-  }
   if (options.width) {
     return utils.removeEmpty({
       src: makeSrc(handle, options.width, options),
@@ -302,9 +280,6 @@ const makeImgTree = (handle: FileHandle, options: PictureOptions): Img => {
  * For example see https://github.com/choojs/hyperx
  */
 export const makePictureTree = (handle?: FileHandle, opts?: PictureOptions): Picture => {
-  if (opts && opts.useValidator === undefined) {
-    opts.useValidator = true;
-  }
   if (typeof handle !== 'string' && !isFileHandleByStorageAlias(handle)) {
     throw new TypeError('Filestack handle must be a string');
   }
