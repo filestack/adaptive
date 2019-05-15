@@ -33,8 +33,9 @@
 <!-- toc -->
 - [What is Adaptive](#what-is-adaptive)
 - [Usage](#usage)
-  - [CDN](#cdn)
-  - [NPM (react example)](#npm-react-example)
+  - [Browser](#browser)
+    - [SRI](#SRI)
+  - [Node (react example)](#node-react-example)
     - [Use with JSX](#use-with-jsx)
   - [Transformations support](#transformations-support)
     - [Disable validator](#disable-validator)
@@ -63,13 +64,13 @@ This library ships with a built-in virtual DOM adapter powered by hyperx, which 
 
 ## Usage
 
-### CDN
+### Browser
 You can find the newest version at https://static.filestackapi.com/adaptive/adaptive.min.js
 <br>
-or use fixed version
+or you can use fixed version
 https://static.filestackapi.com/adaptive/0.2.7/adaptive.min.js
 ```html
-    <script src="https://static.filestackapi.com/adaptive/adaptive.min.js"></script>
+    <script src="https://static.filestackapi.com/adaptive/adaptive.min.js" crossorigin="anonymous"></script>
     <script>
         const options = {
             alt: 'windsurfer',
@@ -105,7 +106,23 @@ Output:
          sizes="60vw">
 </picture>
 ```
-### NPM (react example)
+#### SRI
+Subresource Integrity (SRI) is a security feature that enables browsers to verify that files they fetch (for example, from a CDN) are delivered without unexpected manipulation. It works by allowing you to provide a cryptographic hash that a fetched file must match
+
+To obtain sri hashes for adaptive library check manifest.json file on CDN:
+
+```
+https://static.filestackapi.com/adaptive/{LIBRARY_VERSION}/manifest.json
+```
+
+```HTML
+<script src="//static.filestackapi.com/adaptive/{LIBRARY_VERSION}/adaptive.min.js" integrity="{FILE_HASH}" crossorigin="anonymous"></script>
+```
+
+Where ```{LIBRARY_VERSION}``` is currently used library version and ```{FILE_HASH}``` is one of the hashes from integrity field in manifest.json file
+
+
+### Node (react example)
 ```bash
 npm install filestack-adaptive
 ```

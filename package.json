@@ -13,7 +13,7 @@
     "build:main": "tsc -p tsconfig.json",
     "build:module": "tsc -p config/tsconfig.module.json",
     "build:browser": "rollup -c config/rollup.config.js",
-    "build:cdn": "NODE_ENV=production rollup -c config/rollup.config.js",
+    "build:cdn": "NODE_ENV=production rollup -c config/rollup.config.js && node scripts/manifest.js",
     "build:test": "tsc -p tsconfig.json --inlineSourceMap",
     "docs": "rm -rf build/docs && typedoc src",
     "docs:publish": "npm run docs && gh-pages -d build/docs",
@@ -73,7 +73,10 @@
     "tslint-config-semistandard": "^8.0.0",
     "typedoc": "^0.14.2",
     "typescript": "^3.4.5",
-    "validate-commit-msg": "^2.14.0"
+    "validate-commit-msg": "^2.14.0",
+    "webpack": "^4.30.0",
+    "webpack-assets-manifest": "^3.1.1",
+    "webpack-cli": "^3.3.1"
   },
   "config": {
     "commitizen": {
