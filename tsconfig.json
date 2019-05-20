@@ -17,6 +17,7 @@
     "traceResolution": false,
     "types": [
       "mocha",
+      "lodash",
       "node"
     ],
     "typeRoots": [
@@ -31,7 +32,8 @@
     "noImplicitReturns": true,
     "noImplicitThis": true,
     "noUnusedLocals": true,
-    "noUnusedParameters": true
+    "noUnusedParameters": true,
+    "esModuleInterop": true
   },
   "include": [
     "src/**/*.ts"

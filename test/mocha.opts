@@ -1,3 +1,4 @@
+--recursive
 --full-trace
 --timeout 10000
 build/main/**/*.spec.js

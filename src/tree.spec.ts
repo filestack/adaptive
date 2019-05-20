@@ -427,4 +427,30 @@ describe('makePictureTree', () => {
     const tree = makePictureTree(storageAliasHandle, options);
     assert.deepStrictEqual(tree, expected);
   });
+
+  it('should be able to disable a transformation validator', () => {
+    const storageAliasHandle = {
+      srcHandle: handle,
+      apiKey,
+    };
+    const options = {
+      width: '768px',
+      keys: false,
+      transforms: {
+        quality: {
+          value: 5,
+        },
+      },
+      useValidator: false,
+    };
+    const expected = {
+      img: {
+        src: 'https://cdn.filestackcontent.com/BBcu94EFL1STGYvkM6a8usz/quality=value:5/resize=width:768/seW1thvcR1aQBfOCF8bX',
+        srcSet: 'https://cdn.filestackcontent.com/BBcu94EFL1STGYvkM6a8usz/quality=value:5/resize=width:768/seW1thvcR1aQBfOCF8bX 1x, https://cdn.filestackcontent.com/BBcu94EFL1STGYvkM6a8usz/quality=value:5/resize=width:1536/seW1thvcR1aQBfOCF8bX 2x',
+        width: 768,
+      },
+    };
+    const tree = makePictureTree(storageAliasHandle, options);
+    assert.deepStrictEqual(tree, expected);
+  });
 });

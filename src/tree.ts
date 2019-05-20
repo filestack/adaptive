@@ -1,5 +1,5 @@
-import * as R from 'ramda';
 import { TransformOptions, Filelink } from 'filestack-js';
+import utils from './utils';
 
 export interface FileHandleByStorageAlias {
   srcHandle: string;
@@ -65,7 +65,7 @@ export interface PictureOptions {
    * between 180w and 3024w. Can also be numbers representing widths
    * or strings representing pixel densities, e.g. ['1x', '2x'].
    */
-  resolutions?: string[] | number[];
+  resolutions?: (string | number)[];
   /**
    * Object containing Filestack security policy and signature.
    */
@@ -115,30 +115,9 @@ const defaultResolutions = [
 ];
 
 /**
- * Remove falsey values from object.
- */
-const removeEmpty = R.pickBy((v: any) => !!v);
-
-/**
- * Utility to get numbers from ambiguous types.
- */
-const getN = R.ifElse(
-  R.is(Number),
-  R.identity,
-  R.curry(R.flip(parseInt))(10),
-);
-
-/**
- * Utility to get unit of width or resolution
- */
-const getUnit = (data: string) => {
-  return data.replace ? data.replace(/\d*(\D+)$/gi, '$1') : 'px';
-};
-
-/**
  * Based on the provided transform options object create filestack filelink
  */
-const createFileLink = (handle: FileHandle, transformOptions: TransformOptions = {}, useValidator: boolean, indexInSet?: number) => (width?: number): string => {
+const createFileLink = (handle: FileHandle, transformOptions: TransformOptions = {}, useValidator: boolean = true, indexInSet?: number) => (width?: number): string => {
   let fileLink: Filelink;
   // Use storage alias handle
   if (isFileHandleByStorageAlias(handle)) {
@@ -164,21 +143,18 @@ const getWidth = (width?: number | string) => (resolution: number | string) => {
   if (typeof resolution === 'number') {
     return resolution;
   }
-  const unit = getUnit(resolution);
+  const unit = utils.getUnit(resolution);
   if (unit === 'w') {
-    return getN(resolution);
+    return utils.getNumber(resolution);
   }
   // Pixel density (2x == 2 * size)
-  return R.multiply(getN(width), getN(resolution));
+  return utils.getNumber(width) * utils.getNumber(resolution);
 };
 
 /**
  * Construct Filestack URL out of CDN base and handle, with optional security
  */
 const getCdnUrl = (handle: FileHandle, options: PictureOptions) => {
-  if (options.useValidator === undefined) {
-    options.useValidator = true;
-  }
   const transformOptions = Object.assign({}, options.transforms); // prevent overwritting original object
   return createFileLink(handle, transformOptions, options.useValidator)();
 };
@@ -194,7 +170,6 @@ const makeSrcSet = (
   width?: number | string,
   format?: string,
 ) => {
-  const mapIndexed = R.addIndex(R.map);
   // prevent overwritting original object
   const transformOptions = Object.assign({}, options.transforms);
 
@@ -206,19 +181,17 @@ const makeSrcSet = (
     return createFileLink(handle, transformOptions, options.useValidator)();
   }
 
-  const resolutions: any[] = R.map(R.ifElse(
-    R.is(Number),
-    (n: number) => `${n}w`,
-    R.identity,
-  ), options.resolutions);
+  const resolutions = options.resolutions.map((val: any) => typeof val === 'number' ? `${val}w` : val);
 
-  const widths = R.map(getWidth(width), options.resolutions);
+  const widths = options.resolutions.map((val: any) => {
+    return getWidth(width)(val);
+  });
 
-  const urls: any[] = mapIndexed((width: number, index: number) => {
+  const urls: any[] = widths.map((width: number, index: number) => {
     return createFileLink(handle, transformOptions, options.useValidator, index)(width);
   }, widths);
 
-  return R.join(', ', R.map(R.join(' '), R.zip(urls, resolutions)));
+  return urls.map((url, index) => `${url} ${resolutions[index]}`).join(', ');
 };
 
 /**
@@ -226,14 +199,11 @@ const makeSrcSet = (
  * This may contain a resized URL if a fallback size is provided.
  */
 const makeSrc = (handle: FileHandle, fallback: string, options: PictureOptions) => {
-  if (options.useValidator === undefined) {
-    options.useValidator = true;
-  }
-  const unit = getUnit(fallback);
+  const unit = utils.getUnit(fallback);
   if (unit === 'vw') {
     return getCdnUrl(handle, options);
   }
-  const width: number = getN(fallback);
+  const width: number = utils.getNumber(fallback);
   return createFileLink(handle, options.transforms, options.useValidator)(width);
 };
 
@@ -251,7 +221,7 @@ const makeSourcesTree = (handle: FileHandle, options: any): Source[] => {
     if (!format && media === 'fallback') {
       return undefined;
     }
-    return removeEmpty({
+    return utils.removeEmpty({
       media: media === 'fallback' ? undefined : media,
       sizes: width,
       srcSet: makeSrcSet(handle, options, width, format),
@@ -263,17 +233,20 @@ const makeSourcesTree = (handle: FileHandle, options: any): Source[] => {
   };
   // Handle three cases -- sizes + type, just sizes, just type
   if (!options.sizes && options.formats) {
-    return R.reject(R.isNil, R.map((f: string) => makeSource(null, null, f), options.formats));
+    const sources = options.formats.map((format: string) => makeSource(null, null, format)).filter((source: string) => !!source);
+    return sources;
   }
-  let sources: any[] = R.toPairs(options.sizes);
+
+  let sources: any[] = Object.entries(options.sizes);
+
   if (options.formats) {
-    sources = R.compose(
-      R.splitEvery(3),
-      R.flatten,
-      R.xprod(sources),
-    )(options.formats);
+    sources = utils.arrToChunks(utils.flat(utils.cartesian([sources, options.formats]), 2), 3);
   }
-  return R.filter((v: any) => !!v, R.map(R.apply(makeSource), sources));
+
+  const sourcesTree = sources.map((source: any) => {
+    return makeSource.apply(null, source);
+  }).filter(source => !!source);
+  return sourcesTree;
 };
 
 /**
@@ -281,19 +254,16 @@ const makeSourcesTree = (handle: FileHandle, options: any): Source[] => {
  * a specific width which will incorporate pixel resolutions options in a srcset.
  */
 const makeImgTree = (handle: FileHandle, options: PictureOptions): Img => {
-  if (options.useValidator === undefined) {
-    options.useValidator = true;
-  }
   if (options.width) {
-    return removeEmpty({
+    return utils.removeEmpty({
       src: makeSrc(handle, options.width, options),
       srcSet: makeSrcSet(handle, options, options.width),
       alt: options.alt,
-      width: getN(options.width),
+      width: utils.getNumber(options.width),
     });
   }
   const fallback = options.sizes && options.sizes.fallback;
-  return removeEmpty({
+  return utils.removeEmpty({
     src: fallback ? makeSrc(handle, fallback, options) : getCdnUrl(handle, options),
     srcSet: options.sizes ? makeSrcSet(handle, options, fallback) : undefined,
     alt: options.alt,
@@ -310,18 +280,19 @@ const makeImgTree = (handle: FileHandle, options: PictureOptions): Img => {
  * For example see https://github.com/choojs/hyperx
  */
 export const makePictureTree = (handle?: FileHandle, opts?: PictureOptions): Picture => {
-  if (opts && opts.useValidator === undefined) {
-    opts.useValidator = true;
-  }
   if (typeof handle !== 'string' && !isFileHandleByStorageAlias(handle)) {
     throw new TypeError('Filestack handle must be a string');
   }
   if (opts && opts.resolutions && opts.resolutions.length) {
-    const rUnits: string[] = R.map(getUnit, R.filter(R.is(String), opts.resolutions));
-    if (!opts.sizes && (R.any(R.is(Number), opts.resolutions) || R.contains('w', rUnits))) {
+    const rUnits: string[] = opts.resolutions.filter((resolution: any) => {
+      return typeof resolution === 'string';
+    }).map((resolution: string) => {
+      return utils.getUnit(resolution);
+    });
+    if (!opts.sizes && (opts.resolutions.some((resolution) => typeof resolution === 'number') || rUnits.indexOf('w') > -1)) {
       throw new Error('You must specify at least one size to use width descriptors');
     }
-    if (!opts.width && R.contains('x', rUnits)) {
+    if (!opts.width && rUnits.indexOf('x') > -1) {
       throw new Error('You must specify a width to use pixel densities.');
     }
   }
@@ -343,5 +314,5 @@ export const makePictureTree = (handle?: FileHandle, opts?: PictureOptions): Pic
     const sources: Source[] = makeSourcesTree(handle, options);
     tree.sources = sources && sources.length ? sources : undefined;
   }
-  return removeEmpty(tree);
+  return utils.removeEmpty(tree);
 };
