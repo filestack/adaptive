@@ -137,7 +137,7 @@ const createElement = (Component, props, children) => {
 };
 
 const options = { alt: 'windsurfer', sizes: { fallback: '100vw' } };
-const tree = picture('5aYkEQJSQCmYShsoCnZN', options, createElement);
+const tree = picture(FILESTACK_HANDLE, options, createElement);
 ReactDOM.render(tree, document.body);
 ```
 #### Use with JSX
@@ -205,7 +205,7 @@ const options = {
   alt: 'windsurfer', 
   width: '768px',
 };
-picture('5aYkEQJSQCmYShsoCnZN', options);
+picture(FILESTACK_HANDLE, options);
 ```
 
 Output:
@@ -234,7 +234,7 @@ const options = {
   },
   resolutions: [540, 1080],
 };
-picture('5aYkEQJSQCmYShsoCnZN', options);
+picture(FILESTACK_HANDLE, options);
 ```
 
 Output:
@@ -263,7 +263,7 @@ const options = {
   alt: 'windsurfer', 
   formats: ['webp', 'jpg'], // order matters!
 };
-picture('5aYkEQJSQCmYShsoCnZN', options);
+picture(FILESTACK_HANDLE, options);
 ```
 
 Output:
@@ -296,7 +296,7 @@ const options = {
     border: true, // use default options of border transformation
   }
 };
-picture('5aYkEQJSQCmYShsoCnZN', options);
+picture(FILESTACK_HANDLE, options);
 ```
 
 Output:

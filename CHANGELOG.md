@@ -2,8 +2,10 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-## [0.2.8](https://github.com/filestack/adaptive/compare/v0.2.7...v0.2.8) (2019-05-20)
-
+## [1.0.0](https://github.com/filestack/adaptive/compare/v0.2.7...v1.0.0) (2019-05-20)
+* Remove Ramda from dependencies
+* Add manifest.json with [SRI hash](https://developer.mozilla.org/en-US/docs/Web/Security/Subresource_Integrity)
+* Update readme
 
 
 ## [0.2.7](https://github.com/filestack/adaptive/compare/v0.2.6...v0.2.7) (2019-04-08)
