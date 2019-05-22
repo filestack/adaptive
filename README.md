@@ -15,11 +15,11 @@
   <a href="https://npmjs.com/package/filestack-adaptive">
     <img src="https://img.shields.io/npm/v/filestack-adaptive.svg" />
   </a>
-  <a href="https://static.filestackapi.com/adaptive/adaptive.min.js">
-    <img src="http://img.badgesize.io/http://static.filestackapi.com/adaptive/adaptive.min.js?compression=gzip&color=green" />
+  <a href="https://static.filestackapi.com/adaptive/1.0.0/adaptive.min.js">
+    <img src="http://img.badgesize.io/http://static.filestackapi.com/adaptive/1.0.0/adaptive.min.js?compression=gzip&color=green" />
   </a>
-  <a href="https://static.filestackapi.com/adaptive/adaptive.min.js">
-    <img src="http://img.badgesize.io/http://static.filestackapi.com/adaptive/adaptive.min.js?color=green" />
+  <a href="https://static.filestackapi.com/adaptive/1.0.0/adaptive.min.js">
+    <img src="http://img.badgesize.io/http://static.filestackapi.com/adaptive/1.0.0/adaptive.min.js?color=green" />
   </a>
   <img src="https://img.shields.io/badge/module%20formats-cjs%2C%20umd%2C%20esm-green.svg" />
   <br/>
@@ -65,12 +65,10 @@ This library ships with a built-in virtual DOM adapter powered by hyperx, which 
 ## Usage
 
 ### Browser
-You can find the newest version at https://static.filestackapi.com/adaptive/adaptive.min.js
+You can find the newest version at https://static.filestackapi.com/adaptive/1.0.0/adaptive.min.js
 <br>
-or you can use fixed version
-https://static.filestackapi.com/adaptive/0.2.7/adaptive.min.js
 ```html
-    <script src="https://static.filestackapi.com/adaptive/adaptive.min.js" crossorigin="anonymous"></script>
+    <script src="https://static.filestackapi.com/adaptive/1.0.0/adaptive.min.js" crossorigin="anonymous"></script>
     <script>
         const options = {
             alt: 'windsurfer',
@@ -171,7 +169,7 @@ export default Picture;
 ### Storage aliases and external urls
 You can also use [Filestack storage alias](https://www.filestack.com/docs/concepts/storage/#storage-aliases) or external urls as an image source:
 ```html
-  <script src="https://static.filestackapi.com/adaptive/adaptive.min.js"></script>
+  <script src="https://static.filestackapi.com/adaptive/1.0.0/adaptive.min.js"></script>
   <script>
       const options = {
           alt: 'windsurfer',
