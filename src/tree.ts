@@ -1,6 +1,13 @@
 import { TransformOptions, Filelink } from 'filestack-js';
 import utils from './utils';
 
+export interface FileLinkOptions {
+  transform: TransformOptions;
+  useValidator?: boolean;
+  indexInSet?: number;
+  cname?: string;
+}
+
 export interface FileHandleByStorageAlias {
   srcHandle: string;
   apiKey: string;
@@ -87,6 +94,10 @@ export interface PictureOptions {
    * Static width to use for img with optional pixel density support.
    */
   width?: string;
+  /**
+   * Use custom cname for generated filelinks.
+   */
+  cname?: string;
 
   /**
    * Image transformations options
@@ -117,7 +128,7 @@ const defaultResolutions = [
 /**
  * Based on the provided transform options object create filestack filelink
  */
-const createFileLink = (handle: FileHandle, transformOptions: TransformOptions = {}, useValidator: boolean = true, indexInSet?: number) => (width?: number): string => {
+const createFileLink = (handle: FileHandle, fileLinkOptions: FileLinkOptions) => {
   let fileLink: Filelink;
   // Use storage alias handle
   if (isFileHandleByStorageAlias(handle)) {
@@ -125,17 +136,16 @@ const createFileLink = (handle: FileHandle, transformOptions: TransformOptions =
   } else {
     fileLink = new Filelink(handle);
   }
-  if (width) {
-    transformOptions.resize = { width };
-  }
-
   // If validator is enabled use only for the first filelink in set
-  if (!useValidator || (indexInSet && indexInSet > 0)) {
+  if (!fileLinkOptions.useValidator || (fileLinkOptions.indexInSet && fileLinkOptions.indexInSet > 0)) {
     fileLink.setUseValidator(false);
   }
-  Object.keys(transformOptions).forEach((key: keyof TransformOptions) => {
-    fileLink = fileLink.addTask(key, transformOptions[key]);
+  Object.keys(fileLinkOptions.transform).forEach((key: keyof TransformOptions) => {
+    fileLink = fileLink.addTask(key, fileLinkOptions.transform[key]);
   });
+  if (fileLinkOptions.cname) {
+    fileLink.setCname(fileLinkOptions.cname);
+  }
   return fileLink.toString();
 };
 
@@ -155,8 +165,12 @@ const getWidth = (width?: number | string) => (resolution: number | string) => {
  * Construct Filestack URL out of CDN base and handle, with optional security
  */
 const getCdnUrl = (handle: FileHandle, options: PictureOptions) => {
-  const transformOptions = Object.assign({}, options.transforms); // prevent overwritting original object
-  return createFileLink(handle, transformOptions, options.useValidator)();
+  const fileLinkOptions = {
+    transform: Object.assign({}, options.transforms),
+    useValidator: options.useValidator,
+    cname: options.cname,
+  };
+  return createFileLink(handle, fileLinkOptions);
 };
 
 /**
@@ -170,15 +184,17 @@ const makeSrcSet = (
   width?: number | string,
   format?: string,
 ) => {
-  // prevent overwritting original object
-  const transformOptions = Object.assign({}, options.transforms);
-
+  let fileLinkOptions: FileLinkOptions = {
+    transform: Object.assign({}, options.transforms),
+    useValidator: options.useValidator,
+    cname: options.cname,
+  };
   if (format) {
-    transformOptions.output = { format };
+    fileLinkOptions.transform.output = { format };
   }
 
   if (!width && format) {
-    return createFileLink(handle, transformOptions, options.useValidator)();
+    return createFileLink(handle, fileLinkOptions);
   }
 
   const resolutions = options.resolutions.map((val: any) => typeof val === 'number' ? `${val}w` : val);
@@ -188,7 +204,10 @@ const makeSrcSet = (
   });
 
   const urls: any[] = widths.map((width: number, index: number) => {
-    return createFileLink(handle, transformOptions, options.useValidator, index)(width);
+    fileLinkOptions.indexInSet = index;
+    fileLinkOptions.transform.resize = { width };
+
+    return createFileLink(handle, fileLinkOptions);
   }, widths);
 
   return urls.map((url, index) => `${url} ${resolutions[index]}`).join(', ');
@@ -203,8 +222,13 @@ const makeSrc = (handle: FileHandle, fallback: string, options: PictureOptions) 
   if (unit === 'vw') {
     return getCdnUrl(handle, options);
   }
-  const width: number = utils.getNumber(fallback);
-  return createFileLink(handle, options.transforms, options.useValidator)(width);
+  const fileLinkOptions = {
+    transform: Object.assign({}, options.transforms),
+    useValidator: options.useValidator,
+    cname: options.cname,
+  };
+  fileLinkOptions.transform.resize = { width: utils.getNumber(fallback) };
+  return createFileLink(handle, fileLinkOptions);
 };
 
 /**
