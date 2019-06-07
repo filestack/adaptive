@@ -4,11 +4,11 @@ import * as assert from 'assert';
 const handle = 'seW1thvcR1aQBfOCF8bX';
 const apiKey = 'BBcu94EFL1STGYvkM6a8usz';
 const baseURL = 'https://cdn.filestackcontent.com';
-const result = (opts?: any) => {
+const result = (base: string, opts?: any) => {
   if (opts) {
-    return `${baseURL}/${opts}/${handle}`;
+    return `${base}/${opts}/${handle}`;
   }
-  return `${baseURL}/${handle}`;
+  return `${base}/${handle}`;
 };
 
 describe('makePictureTree', () => {
@@ -51,7 +51,7 @@ describe('makePictureTree', () => {
 
   it('should generate a picture object with no sources', () => {
     const obj = makePictureTree(handle, { keys: false });
-    const url = result();
+    const url = result(baseURL);
     const expected = {
       img: {
         src: url,
@@ -69,7 +69,7 @@ describe('makePictureTree', () => {
       },
       keys: false,
     });
-    const url = result(`security=policy:abc,signature:xyz`);
+    const url = result(baseURL, `security=policy:abc,signature:xyz`);
     const expected = {
       img: {
         src: url,
@@ -82,7 +82,7 @@ describe('makePictureTree', () => {
     const testSize1 = { '(min-width: 640px)': '50vw' };
     const resolutions = [320, 640];
     const obj = makePictureTree(handle, { sizes: testSize1, resolutions, keys: false });
-    const srcSet = `${result('resize=width:320')} 320w, ${result('resize=width:640')} 640w`;
+    const srcSet = `${result(baseURL, 'resize=width:320')} 320w, ${result(baseURL, 'resize=width:640')} 640w`;
     const expected = {
       sources: [
         {
@@ -92,7 +92,7 @@ describe('makePictureTree', () => {
         },
       ],
       img: {
-        src: result(),
+        src: result(baseURL),
         srcSet,
       },
     };
@@ -106,7 +106,7 @@ describe('makePictureTree', () => {
     };
     const resolutions = [320, 640];
     const obj = makePictureTree(handle, { sizes: testSize1, resolutions, keys: false });
-    const srcSet = `${result('resize=width:320')} 320w, ${result('resize=width:640')} 640w`;
+    const srcSet = `${result(baseURL, 'resize=width:320')} 320w, ${result(baseURL, 'resize=width:640')} 640w`;
     const expected = {
       sources: [
         {
@@ -117,7 +117,7 @@ describe('makePictureTree', () => {
       ],
       img: {
         sizes: '300px',
-        src: result('resize=width:300'),
+        src: result(baseURL, 'resize=width:300'),
         srcSet,
       },
     };
@@ -136,7 +136,7 @@ describe('makePictureTree', () => {
       },
       keys: false,
     });
-    const srcSet = `${result('security=policy:abc,signature:xyz/resize=width:320')} 320w, ${result('security=policy:abc,signature:xyz/resize=width:640')} 640w`;
+    const srcSet = `${result(baseURL, 'security=policy:abc,signature:xyz/resize=width:320')} 320w, ${result(baseURL, 'security=policy:abc,signature:xyz/resize=width:640')} 640w`;
     const expected = {
       sources: [
         {
@@ -146,7 +146,7 @@ describe('makePictureTree', () => {
         },
       ],
       img: {
-        src: result('security=policy:abc,signature:xyz'),
+        src: result(baseURL, 'security=policy:abc,signature:xyz'),
         srcSet,
       },
     };
@@ -162,8 +162,8 @@ describe('makePictureTree', () => {
       formats: ['webp'],
       keys: false,
     });
-    const imgSrcset = `${result('resize=width:320')} 320w, ${result('resize=width:640')} 640w`;
-    const url = `${result('output=format:webp/resize=width:320')} 320w, ${result('output=format:webp/resize=width:640')} 640w`;
+    const imgSrcset = `${result(baseURL, 'resize=width:320')} 320w, ${result(baseURL, 'resize=width:640')} 640w`;
+    const url = `${result(baseURL, 'output=format:webp/resize=width:320')} 320w, ${result(baseURL, 'output=format:webp/resize=width:640')} 640w`;
     const expected = {
       sources: [
         {
@@ -174,7 +174,7 @@ describe('makePictureTree', () => {
         },
       ],
       img: {
-        src: result(),
+        src: result(baseURL),
         srcSet: imgSrcset,
       },
     };
@@ -183,7 +183,7 @@ describe('makePictureTree', () => {
 
   it('should generate a picture object with 1 format', () => {
     const obj = makePictureTree(handle, { formats: ['webp'], keys: false });
-    const url = result('output=format:webp');
+    const url = result(baseURL, 'output=format:webp');
     const expected = {
       sources: [
         {
@@ -192,7 +192,7 @@ describe('makePictureTree', () => {
         },
       ],
       img: {
-        src: result(),
+        src: result(baseURL),
       },
     };
     assert.deepStrictEqual(obj, expected);
@@ -213,30 +213,30 @@ describe('makePictureTree', () => {
         {
           media: '(min-width: 640px)',
           sizes: '90vw',
-          srcSet: `${result('output=format:webp/resize=width:640')} 640w`,
+          srcSet: `${result(baseURL, 'output=format:webp/resize=width:640')} 640w`,
           type: 'image/webp',
         },
         {
           media: '(min-width: 640px)',
           sizes: '90vw',
-          srcSet: `${result('output=format:jpg/resize=width:640')} 640w`,
+          srcSet: `${result(baseURL, 'output=format:jpg/resize=width:640')} 640w`,
           type: 'image/jpg',
         },
         {
           sizes: '80vw',
-          srcSet: `${result('output=format:webp/resize=width:640')} 640w`,
+          srcSet: `${result(baseURL, 'output=format:webp/resize=width:640')} 640w`,
           type: 'image/webp',
         },
         {
           sizes: '80vw',
-          srcSet: `${result('output=format:jpg/resize=width:640')} 640w`,
+          srcSet: `${result(baseURL, 'output=format:jpg/resize=width:640')} 640w`,
           type: 'image/jpg',
         },
       ],
       img: {
         sizes: '80vw',
-        src: result(),
-        srcSet: `${result('resize=width:640')} 640w`,
+        src: result(baseURL),
+        srcSet: `${result(baseURL, 'resize=width:640')} 640w`,
       },
     };
     assert.deepStrictEqual(obj, expected);
@@ -255,14 +255,14 @@ describe('makePictureTree', () => {
       sources: [
         {
           sizes: '700px',
-          srcSet: `${result('resize=width:640/output=format:webp')} 640w`,
+          srcSet: `${result(baseURL, 'output=format:webp/resize=width:640')} 640w`,
           type: 'image/webp',
         },
       ],
       img: {
         sizes: '700px',
-        src: result('resize=width:700'),
-        srcSet: `${result('resize=width:640')} 640w`,
+        src: result(baseURL, 'resize=width:700'),
+        srcSet: `${result(baseURL, 'resize=width:640')} 640w`,
       },
     };
     assert.deepStrictEqual(obj, expected);
@@ -280,11 +280,11 @@ describe('makePictureTree', () => {
       resolutions,
       keys: false,
     });
-    const imgSrcset = `${result('resize=width:320')} 320w, ${result('resize=width:640')} 640w`;
-    const srcSet1 = `${result('output=format:jpg/resize=width:320')} 320w, ${result('output=format:jpg/resize=width:640')} 640w`;
-    const srcSet2 = `${result('output=format:webp/resize=width:320')} 320w, ${result('output=format:webp/resize=width:640')} 640w`;
-    const srcSet3 = `${result('output=format:jpg/resize=width:320')} 320w, ${result('output=format:jpg/resize=width:640')} 640w`;
-    const srcSet4 = `${result('output=format:webp/resize=width:320')} 320w, ${result('output=format:webp/resize=width:640')} 640w`;
+    const imgSrcset = `${result(baseURL, 'resize=width:320')} 320w, ${result(baseURL, 'resize=width:640')} 640w`;
+    const srcSet1 = `${result(baseURL, 'output=format:jpg/resize=width:320')} 320w, ${result(baseURL, 'output=format:jpg/resize=width:640')} 640w`;
+    const srcSet2 = `${result(baseURL, 'output=format:webp/resize=width:320')} 320w, ${result(baseURL, 'output=format:webp/resize=width:640')} 640w`;
+    const srcSet3 = `${result(baseURL, 'output=format:jpg/resize=width:320')} 320w, ${result(baseURL, 'output=format:jpg/resize=width:640')} 640w`;
+    const srcSet4 = `${result(baseURL, 'output=format:webp/resize=width:320')} 320w, ${result(baseURL, 'output=format:webp/resize=width:640')} 640w`;
     const expected = {
       sources: [
         {
@@ -313,7 +313,7 @@ describe('makePictureTree', () => {
         },
       ],
       img: {
-        src: result(),
+        src: result(baseURL),
         srcSet: imgSrcset,
       },
     };
@@ -331,7 +331,7 @@ describe('makePictureTree', () => {
     const tree = makePictureTree(handle, options);
     const expected = {
       img: {
-        src: result(),
+        src: result(baseURL),
         sizes: '100vw',
       },
     };
@@ -346,11 +346,11 @@ describe('makePictureTree', () => {
       resolutions: [320, 640],
       keys: false,
     };
-    const srcSet = `${result('resize=width:320')} 320w, ${result('resize=width:640')} 640w`;
+    const srcSet = `${result(baseURL, 'resize=width:320')} 320w, ${result(baseURL, 'resize=width:640')} 640w`;
     const tree = makePictureTree(handle, options);
     const expected = {
       img: {
-        src: result(),
+        src: result(baseURL),
         sizes: '100vw',
         srcSet,
       },
@@ -367,11 +367,11 @@ describe('makePictureTree', () => {
       resolutions: [320, 640],
       keys: false,
     };
-    const srcSet = `${result('resize=width:320')} 320w, ${result('resize=width:640')} 640w`;
+    const srcSet = `${result(baseURL, 'resize=width:320')} 320w, ${result(baseURL, 'resize=width:640')} 640w`;
     const tree = makePictureTree(handle, options);
     const expected = {
       img: {
-        src: result('resize=width:300'),
+        src: result(baseURL, 'resize=width:300'),
         sizes: '300px',
         srcSet,
       },
@@ -391,11 +391,11 @@ describe('makePictureTree', () => {
       width: '768px',
       keys: false,
     };
-    const srcSet = `${result('resize=width:768')} 1x, ${result('resize=width:1536')} 2x`;
+    const srcSet = `${result(baseURL, 'resize=width:768')} 1x, ${result(baseURL, 'resize=width:1536')} 2x`;
     const expected = {
       img: {
         width: 768,
-        src: result('resize=width:768'),
+        src: result(baseURL, 'resize=width:768'),
         srcSet,
       },
     };
@@ -451,6 +451,24 @@ describe('makePictureTree', () => {
       },
     };
     const tree = makePictureTree(storageAliasHandle, options);
+    assert.deepStrictEqual(tree, expected);
+  });
+
+  it('should return filelinks with custom cname', () => {
+    const options = {
+      cname: 'fs.test123.com',
+      width: '768px',
+      keys: false,
+    };
+    const srcSet = `${result(`https://cdn.${options.cname}`, 'resize=width:768')} 1x, ${result(`https://cdn.${options.cname}`, 'resize=width:1536')} 2x`;
+    const expected = {
+      img: {
+        width: 768,
+        src: result(`https://cdn.${options.cname}`, 'resize=width:768'),
+        srcSet,
+      },
+    };
+    const tree = makePictureTree(handle, options);
     assert.deepStrictEqual(tree, expected);
   });
 });

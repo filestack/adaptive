@@ -37,7 +37,7 @@
     "html picture"
   ],
   "dependencies": {
-    "filestack-js": "^2.0.7",
+    "filestack-js": "^3.2.0",
     "hyperx": "^2.5.4",
     "nanohtml": "^1.6.1",
     "tslib": "^1.9.3"
