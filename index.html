@@ -907,32 +907,11 @@ img { max-width: 100%; }
 </header>
 <nav class="tsd-navigation secondary">
 	<ul>
-		<li class=" tsd-kind-enum">
-			<a href="enums/ealignfacesoptions.html" class="tsd-kind-icon">EAlign<wbr>Faces<wbr>Options</a>
+		<li class=" tsd-kind-interface">
+			<a href="interfaces/filehandlebystoragealias.html" class="tsd-kind-icon">File<wbr>Handle<wbr>ByStorage<wbr>Alias</a>
 		</li>
-		<li class=" tsd-kind-enum">
-			<a href="enums/ealignoptions.html" class="tsd-kind-icon">EAlign<wbr>Options</a>
-		</li>
-		<li class=" tsd-kind-enum">
-			<a href="enums/eblurmode.html" class="tsd-kind-icon">EBlur<wbr>Mode</a>
-		</li>
-		<li class=" tsd-kind-enum">
-			<a href="enums/ecolorspacetype.html" class="tsd-kind-icon">EColorspace<wbr>Type</a>
-		</li>
-		<li class=" tsd-kind-enum">
-			<a href="enums/ecropfacestype.html" class="tsd-kind-icon">ECropfaces<wbr>Type</a>
-		</li>
-		<li class=" tsd-kind-enum">
-			<a href="enums/efitoptions.html" class="tsd-kind-icon">EFit<wbr>Options</a>
-		</li>
-		<li class=" tsd-kind-enum">
-			<a href="enums/enoisetype.html" class="tsd-kind-icon">ENoise<wbr>Type</a>
-		</li>
-		<li class=" tsd-kind-enum">
-			<a href="enums/eshapetype.html" class="tsd-kind-icon">EShape<wbr>Type</a>
-		</li>
-		<li class=" tsd-kind-enum">
-			<a href="enums/estyletype.html" class="tsd-kind-icon">EStyle<wbr>Type</a>
+		<li class=" tsd-kind-interface">
+			<a href="interfaces/filelinkoptions.html" class="tsd-kind-icon">File<wbr>Link<wbr>Options</a>
 		</li>
 		<li class=" tsd-kind-interface">
 			<a href="interfaces/img.html" class="tsd-kind-icon">Img</a>
@@ -952,8 +931,8 @@ img { max-width: 100%; }
 		<li class=" tsd-kind-interface">
 			<a href="interfaces/source.html" class="tsd-kind-icon">Source</a>
 		</li>
-		<li class=" tsd-kind-interface">
-			<a href="interfaces/transformationoptions.html" class="tsd-kind-icon">Transformation<wbr>Options</a>
+		<li class=" tsd-kind-type-alias">
+			<a href="globals.html#filehandle" class="tsd-kind-icon">File<wbr>Handle</a>
 		</li>
 		<li class=" tsd-kind-function">
 			<a href="globals.html#makepicture" class="tsd-kind-icon">make<wbr>Picture</a>
@@ -964,57 +943,121 @@ img { max-width: 100%; }
 		<li class=" tsd-kind-function">
 			<a href="globals.html#picture" class="tsd-kind-icon">picture</a>
 		</li>
-		<li class=" tsd-kind-function">
-			<a href="globals.html#transform" class="tsd-kind-icon">transform</a>
-		</li>
 	</ul>
 </nav>
 <div class="container container-main">
 	<div class="content-wrap">
 		<div class="tsd-panel tsd-typography">
-			<p><p align="center">
-			<a href="https://www.filestack.com"><img src="http://static.filestackapi.com/adaptive/adaptive.svg?refresh" align="center" width="230" /></a><br></p></p>
-			<p><p align="center">
-					<p align="center">Generate responsive HTML picture elements powered by on-the-fly Filestack image conversions.</p>
-			</p></p>
-			<p><p align="center">
-					<a href="https://npmjs.com/package/filestack-adaptive"><img src="https://img.shields.io/npm/v/filestack-adaptive.svg" /></a>
-					<a href="https://static.filestackapi.com/adaptive/adaptive.min.js"><img src="http://img.badgesize.io/http://static.filestackapi.com/adaptive/adaptive.min.js?compression=gzip&color=green" /></a>
-					<a href="https://static.filestackapi.com/adaptive/adaptive.min.js"><img src="http://img.badgesize.io/http://static.filestackapi.com/adaptive/adaptive.min.js?color=green" /></a>
-					<img src="https://img.shields.io/badge/module%20formats-cjs%2C%20umd%2C%20esm-green.svg" />
-					<a href="https://conventionalcommits.org"><img src="https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg" /></a>
-				<a href="https://travis-ci.org/filestack/adaptive"><img src="https://travis-ci.org/filestack/adaptive.svg?branch=develop" /></a></p>
-				<hr/>
-				<p>You will need a Filestack developer account to use this library. Get a free one <a href="https://dev.filestack.com/register/free">here</a>.</p>
-				<p>If you&#39;re looking for a self-initializing Javascript solution please see the powerful <a href="https://github.com/aFarkas/lazysizes">lazysizes</a> library.
-				It can integrate easily with Filestack conversions by using the <a href="https://github.com/aFarkas/lazysizes/tree/gh-pages/plugins/rias">RIAS plugin</a>.</p>
-				<h2 id="install">Install</h2>
-				<pre><code class="lang-bash">npm install filestack-adaptive
-</code></pre>
-				<p>The <code>package.json</code> specifies three separate modules: </p>
-				<ul>
-					<li><code>main</code> for the CommonJS module</li>
-					<li><code>module</code> for the ES Module (suitable for bundlers like Webpack and Rollup)</li>
-					<li><code>browser</code> for the UMD module (usable in HTML script tags)</li>
-				</ul>
-				<p>You can find a minified UMD module on the Filestack CDN <a href="https://static.filestackapi.com/adaptive/0.2.0/adaptive.min.js">here</a>.</p>
-				<h2 id="api-documentation">API Documentation</h2>
-				<p><a href="https://filestack.github.io/adaptive/">https://filestack.github.io/adaptive/</a></p>
-				<h2 id="what-can-this-do-">What can this do?</h2>
-				<p>Adaptive at its core is a generator for objects representing the structure of HTML picture tags. These in turn can be consumed by different interpreters. </p>
-				<p>This library ships with a built-in virtual DOM adapter powered by <a href="https://github.com/choojs/hyperx">hyperx</a>, which allows you to simply call <code>picture(handle, options, renderer)</code>, where <code>renderer</code> can be any DOM builder supported by hyperx. If <code>renderer</code> is not provided then <code>picture</code> will default to returning plain DOM. For example it can support React components:</p>
-				<p>Browser (using umd):</p>
-				<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">crossorigin</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://unpkg.com/react@16/umd/react.production.min.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">crossorigin</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://static.filestackapi.com/adaptive/adaptive.min.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript">
-  <span class="hljs-keyword">const</span> options = { <span class="hljs-attr">alt</span>: <span class="hljs-string">'windsurfer'</span>, <span class="hljs-attr">sizes</span>: { <span class="hljs-attr">fallback</span>: <span class="hljs-string">'100vw'</span> } };
-  <span class="hljs-keyword">const</span> tree = fsAdaptive.picture(<span class="hljs-string">'5aYkEQJSQCmYShsoCnZN'</span>, options, React.createElement);
-  ReactDOM.render(tree, <span class="hljs-built_in">document</span>.body);
-</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
-</code></pre>
-				<p>Browser (using bundler):</p>
-				<pre><code class="lang-js"><span class="hljs-keyword">import</span> react <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
+			<p align="center">
+				<a href="https://www.filestack.com"><img src="http://static.filestackapi.com/adaptive/adaptive.svg?refresh" align="center" width="230" /></a>
+			</p>
+			<p align="center">
+				Generate responsive HTML picture elements powered by  on-the-fly <a href="https://github.com/filestack/">Filestack</a> image conversions.
+			</p>
+			<p align="center">
+				<a href="https://travis-ci.org/filestack/adaptive">
+					<img src="https://travis-ci.org/filestack/adaptive.svg?branch=develop" />
+				</a>
+			</p>
+			<p align="center">
+				<a href="https://npmjs.com/package/filestack-adaptive">
+					<img src="https://img.shields.io/npm/v/filestack-adaptive.svg" />
+				</a>
+				<a href="https://static.filestackapi.com/adaptive/1.0.0/adaptive.min.js">
+					<img src="http://img.badgesize.io/http://static.filestackapi.com/adaptive/1.0.0/adaptive.min.js?compression=gzip&color=green" />
+				</a>
+				<a href="https://static.filestackapi.com/adaptive/1.0.0/adaptive.min.js">
+					<img src="http://img.badgesize.io/http://static.filestackapi.com/adaptive/1.0.0/adaptive.min.js?color=green" />
+				</a>
+				<img src="https://img.shields.io/badge/module%20formats-cjs%2C%20umd%2C%20esm-green.svg" />
+				<br/>
+				<img src="https://badges.herokuapp.com/browsers?labels=none&googlechrome=38&firefox=38&microsoftedge=13&safari=9.1&opera=25" />
+			</p>
+			<hr/>
+			<p><strong>Table of Contents</strong></p>
+			<!-- toc -->
+			<ul>
+				<li><a href="#what-is-adaptive">What is Adaptive</a></li>
+				<li><a href="#usage">Usage</a><ul>
+						<li><a href="#browser">Browser</a><ul>
+								<li><a href="#SRI">SRI</a></li>
+							</ul>
+						</li>
+						<li><a href="#node-react-example">Node (react example)</a><ul>
+								<li><a href="#use-with-jsx">Use with JSX</a></li>
+							</ul>
+						</li>
+						<li><a href="#transformations-support">Transformations support</a><ul>
+								<li><a href="#disable-validator">Disable validator</a></li>
+							</ul>
+						</li>
+						<li><a href="#storage-aliases-and-external-urls">Storage aliases and external urls</a></li>
+						<li><a href="#image-width-and-pixel-density">Image width and pixel density</a></li>
+						<li><a href="#using-width-descriptors">Using width descriptors</a></li>
+						<li><a href="#webp-support">WebP support</a></li>
+					</ul>
+				</li>
+				<li><a href="#development">Development</a></li>
+				<li><a href="#contributing">Contributing</a></li>
+				<li><a href="#documentation">Documentation</a></li>
+				<li><a href="#future">Future</a></li>
+			</ul>
+			<h2 id="what-is-adaptive">What is Adaptive</h2>
+			<p>Adaptive is a tool which allow <a href="https://github.com/filestack/filestack-js">Filestack</a> users to combine the power of on-the-fly image processing with the latest standard for responsive web images.</p>
+			<p>This library ships with a built-in virtual DOM adapter powered by hyperx, which allows you to simply call <code>picture(source, options, renderer)</code>, where renderer can be any DOM builder supported by hyperx (e.g React.createElement). If renderer is not provided then picture will default to returning plain DOM. </p>
+			<h3 id="features">Features</h3>
+			<ul>
+				<li>Focus on usability and performance</li>
+				<li>Works with Filestack <a href="https://www.filestack.com/docs/concepts/getting-started/#vocabulary">handles</a>, <a href="https://www.filestack.com/docs/concepts/storage/#storage-aliases">storage aliases</a> and external urls</li>
+				<li>Support for different sizes and formats in srcSet</li>
+				<li>Allows you to add some <a href="https://www.filestack.com/docs/api/processing/#image-transformations">image transformations</a></li>
+				<li>Easily integrable with external virtual DOM renderers</li>
+			</ul>
+			<h2 id="usage">Usage</h2>
+			<h3 id="browser">Browser</h3>
+			<p>You can find the newest version at <a href="https://static.filestackapi.com/adaptive/1.0.0/adaptive.min.js">https://static.filestackapi.com/adaptive/1.0.0/adaptive.min.js</a>
+			<br></p>
+			<pre><code class="language-html">    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://static.filestackapi.com/adaptive/1.0.0/adaptive.min.js"</span> <span class="hljs-attr">crossorigin</span>=<span class="hljs-string">"anonymous"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="javascript">
+        <span class="hljs-keyword">const</span> options = {
+            <span class="hljs-attr">alt</span>: <span class="hljs-string">'windsurfer'</span>,
+            <span class="hljs-attr">sizes</span>: {
+                <span class="hljs-attr">fallback</span>: <span class="hljs-string">'60vw'</span>,
+            }
+        };
+        <span class="hljs-keyword">const</span> el = fsAdaptive.picture(FILESTACK_HANDLE, options);
+        <span class="hljs-built_in">document</span>.body.appendChild(el);
+    </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+			<p>Output:</p>
+			<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">picture</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://cdn.filestackcontent.com/5aYkEQJSQCmYShsoCnZN"</span>
+         <span class="hljs-attr">srcset</span>=<span class="hljs-string">"
+            https://cdn.filestackcontent.com/resize=width:180/5aYkEQJSQCmYShsoCnZN 180w, 
+            https://cdn.filestackcontent.com/resize=width:360/5aYkEQJSQCmYShsoCnZN 360w, 
+            https://cdn.filestackcontent.com/resize=width:540/5aYkEQJSQCmYShsoCnZN 540w, 
+            https://cdn.filestackcontent.com/resize=width:720/5aYkEQJSQCmYShsoCnZN 720w, 
+            https://cdn.filestackcontent.com/resize=width:900/5aYkEQJSQCmYShsoCnZN 900w, 
+            https://cdn.filestackcontent.com/resize=width:1080/5aYkEQJSQCmYShsoCnZN 1080w, 
+            https://cdn.filestackcontent.com/resize=width:1296/5aYkEQJSQCmYShsoCnZN 1296w, 
+            https://cdn.filestackcontent.com/resize=width:1512/5aYkEQJSQCmYShsoCnZN 1512w, 
+            https://cdn.filestackcontent.com/resize=width:1728/5aYkEQJSQCmYShsoCnZN 1728w, 
+            https://cdn.filestackcontent.com/resize=width:1944/5aYkEQJSQCmYShsoCnZN 1944w, 
+            https://cdn.filestackcontent.com/resize=width:2160/5aYkEQJSQCmYShsoCnZN 2160w, 
+            https://cdn.filestackcontent.com/resize=width:2376/5aYkEQJSQCmYShsoCnZN 2376w, 
+            https://cdn.filestackcontent.com/resize=width:2592/5aYkEQJSQCmYShsoCnZN 2592w,
+            https://cdn.filestackcontent.com/resize=width:2808/5aYkEQJSQCmYShsoCnZN 2808w, 
+            https://cdn.filestackcontent.com/resize=width:3024/5aYkEQJSQCmYShsoCnZN 3024w"</span>
+         <span class="hljs-attr">alt</span>=<span class="hljs-string">"photo_01"</span> 
+         <span class="hljs-attr">sizes</span>=<span class="hljs-string">"60vw"</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">picture</span>&gt;</span></code></pre>
+			<h4 id="sri">SRI</h4>
+			<p>Subresource Integrity (SRI) is a security feature that enables browsers to verify that files they fetch (for example, from a CDN) are delivered without unexpected manipulation. It works by allowing you to provide a cryptographic hash that a fetched file must match</p>
+			<p>To obtain sri hashes for adaptive library check manifest.json file on CDN:</p>
+			<pre><code>https:<span class="hljs-regexp">//</span>static.filestackapi.com<span class="hljs-regexp">/adaptive/</span>{LIBRARY_VERSION}<span class="hljs-regexp">/manifest.json</span></code></pre><pre><code class="language-HTML"><span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"//static.filestackapi.com/adaptive/{LIBRARY_VERSION}/adaptive.min.js"</span> <span class="hljs-attr">integrity</span>=<span class="hljs-string">"{FILE_HASH}"</span> <span class="hljs-attr">crossorigin</span>=<span class="hljs-string">"anonymous"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+			<p>Where <code>{LIBRARY_VERSION}</code> is currently used library version and <code>{FILE_HASH}</code> is one of the hashes from integrity field in manifest.json file</p>
+			<h3 id="node-react-example-">Node (react example)</h3>
+			<pre><code class="language-bash">npm install filestack-adaptive</code></pre>
+			<pre><code class="language-js"><span class="hljs-keyword">import</span> react <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
 <span class="hljs-keyword">import</span> reactDOM <span class="hljs-keyword">from</span> <span class="hljs-string">'react-dom'</span>;
 <span class="hljs-keyword">import</span> { picture } <span class="hljs-keyword">from</span> <span class="hljs-string">'filestack-adaptive'</span>;
 
@@ -1024,27 +1067,11 @@ img { max-width: 100%; }
 };
 
 <span class="hljs-keyword">const</span> options = { <span class="hljs-attr">alt</span>: <span class="hljs-string">'windsurfer'</span>, <span class="hljs-attr">sizes</span>: { <span class="hljs-attr">fallback</span>: <span class="hljs-string">'100vw'</span> } };
-<span class="hljs-keyword">const</span> tree = picture(<span class="hljs-string">'5aYkEQJSQCmYShsoCnZN'</span>, options, createElement);
-ReactDOM.render(tree, <span class="hljs-built_in">document</span>.body);
-</code></pre>
-				<p>Server:</p>
-				<pre><code class="lang-js"><span class="hljs-keyword">import</span> react <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
-<span class="hljs-keyword">import</span> reactDOM <span class="hljs-keyword">from</span> <span class="hljs-string">'react-dom/server'</span>;
-<span class="hljs-keyword">import</span> { picture } <span class="hljs-keyword">from</span> <span class="hljs-string">'filestack-adaptive'</span>;
-
-<span class="hljs-keyword">const</span> toString = reactDOM.renderToString;
-<span class="hljs-comment">// Need to spread children parameter to prevent React key warnings</span>
-<span class="hljs-keyword">const</span> createElement = <span class="hljs-function">(<span class="hljs-params">Component, props, children</span>) =&gt;</span> {
-  <span class="hljs-keyword">return</span> React.createElement(Component, props, ...children);
-};
-
-<span class="hljs-keyword">const</span> options = { <span class="hljs-attr">alt</span>: <span class="hljs-string">'windsurfer'</span>, <span class="hljs-attr">sizes</span>: { <span class="hljs-attr">fallback</span>: <span class="hljs-string">'100vw'</span> } };
-<span class="hljs-keyword">const</span> tree = picture(<span class="hljs-string">'5aYkEQJSQCmYShsoCnZN'</span>, options, createElement);
-<span class="hljs-built_in">console</span>.log(toString(tree));
-</code></pre>
-				<p>The attribute structure returned from <code>makePictureTree</code> can be used in JSX directly, if for example you would prefer writing your own adapter (not using the <code>picture</code> helper).</p>
-				<p>JSX:</p>
-				<pre><code class="lang-js"><span class="hljs-keyword">import</span> React, { Component } <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
+<span class="hljs-keyword">const</span> tree = picture(FILESTACK_HANDLE, options, createElement);
+ReactDOM.render(tree, <span class="hljs-built_in">document</span>.body);</code></pre>
+			<h4 id="use-with-jsx">Use with JSX</h4>
+			<p>In a case of need to create your own <code>&lt;picture/&gt;</code> element you can call <strong>makePictureTree</strong> directly in your JSX</p>
+			<pre><code class="language-js"><span class="hljs-keyword">import</span> React, { Component } <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
 <span class="hljs-keyword">import</span> { makePictureTree } <span class="hljs-keyword">from</span> <span class="hljs-string">'filestack-adaptive'</span>;
 
 <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Picture</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Component</span> </span>{
@@ -1067,71 +1094,52 @@ ReactDOM.render(tree, <span class="hljs-built_in">document</span>.body);
   }
 }
 
-export default Picture;
-</code></pre>
-				<h2 id="usage">Usage</h2>
-				<p>Most cases can be covered with the <code>picture</code> function for generating plain DOM elements. Support for art direction (distinct/cropped images per media query) is not yet implemented.</p>
-				<pre><code class="lang-js"><span class="hljs-keyword">import</span> { picture } <span class="hljs-keyword">from</span> <span class="hljs-string">'filestack-adaptive'</span>;
+export default Picture;</code></pre>
+			<h3 id="storage-aliases-and-external-urls">Storage aliases and external urls</h3>
+			<p>You can also use <a href="https://www.filestack.com/docs/concepts/storage/#storage-aliases">Filestack storage alias</a> or external urls as an image source:</p>
+			<pre><code class="language-html">  <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://static.filestackapi.com/adaptive/1.0.0/adaptive.min.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">script</span>&gt;</span><span class="undefined">
+      const options = {
+          alt: 'windsurfer',
+          sizes: {
+              fallback: '60vw',
+          }
+      };
+      const srcHandle1 = {
+        srcHandle: 'src://your_storage_alias_name/example.jpg',
+        apiKey: 'YOUR_FILESTACK_API_KEY'
+      };
+      const el1 = fsAdaptive.picture(srcHandle1, options);
+      document.body.appendChild(el1);
 
-<span class="hljs-keyword">const</span> options = { 
-  <span class="hljs-attr">alt</span>: <span class="hljs-string">'windsurfer'</span>, 
-  <span class="hljs-attr">sizes</span>: { 
-    <span class="hljs-attr">fallback</span>: <span class="hljs-string">'60vw'</span>,
-  }, 
-};
-<span class="hljs-keyword">const</span> el = picture(<span class="hljs-string">'5aYkEQJSQCmYShsoCnZN'</span>, options);
-<span class="hljs-built_in">document</span>.body.appendChild(el);
-</code></pre>
-				<p>This will generate a DOM node with the following structure:</p>
-				<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">picture</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">"windsurfer"</span> 
-       <span class="hljs-attr">sizes</span>=<span class="hljs-string">"60vw"</span>
-       <span class="hljs-attr">src</span>=<span class="hljs-string">"https://cdn.filestackcontent.com/5aYkEQJSQCmYShsoCnZN"</span> 
-       <span class="hljs-attr">srcset</span>=<span class="hljs-string">"https://cdn.filestackcontent.com/resize=width:180/5aYkEQJSQCmYShsoCnZN 180w, 
-               https://cdn.filestackcontent.com/resize=width:360/5aYkEQJSQCmYShsoCnZN 360w, 
-               https://cdn.filestackcontent.com/resize=width:540/5aYkEQJSQCmYShsoCnZN 540w, 
-               https://cdn.filestackcontent.com/resize=width:720/5aYkEQJSQCmYShsoCnZN 720w, 
-               https://cdn.filestackcontent.com/resize=width:900/5aYkEQJSQCmYShsoCnZN 900w, 
-               https://cdn.filestackcontent.com/resize=width:1080/5aYkEQJSQCmYShsoCnZN 1080w, 
-               https://cdn.filestackcontent.com/resize=width:1296/5aYkEQJSQCmYShsoCnZN 1296w, 
-               https://cdn.filestackcontent.com/resize=width:1512/5aYkEQJSQCmYShsoCnZN 1512w, 
-               https://cdn.filestackcontent.com/resize=width:1728/5aYkEQJSQCmYShsoCnZN 1728w, 
-               https://cdn.filestackcontent.com/resize=width:1944/5aYkEQJSQCmYShsoCnZN 1944w, 
-               https://cdn.filestackcontent.com/resize=width:2160/5aYkEQJSQCmYShsoCnZN 2160w, 
-               https://cdn.filestackcontent.com/resize=width:2376/5aYkEQJSQCmYShsoCnZN 2376w, 
-               https://cdn.filestackcontent.com/resize=width:2592/5aYkEQJSQCmYShsoCnZN 2592w, 
-               https://cdn.filestackcontent.com/resize=width:2808/5aYkEQJSQCmYShsoCnZN 2808w, 
-               https://cdn.filestackcontent.com/resize=width:3024/5aYkEQJSQCmYShsoCnZN 3024w"</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">picture</span>&gt;</span>
-</code></pre>
-				<p>The srcset here is using a list of default resolutions that apply whenever <code>sizes</code> is specified, but these can be overridden. The alt is not required but it is strongly recommended to comply
-				with the HTML5 + ARIA specification. </p>
-				<h2 id="browser-support">Browser support</h2>
-				<p><a href="http://caniuse.com/#search=picture">Current state of picture support</a>.</p>
-				<p>For unsupported browsers we recommend the <a href="https://github.com/scottjehl/picturefill">picturefill</a> polyfill.</p>
-				<h2 id="examples">Examples</h2>
-				<h3 id="image-width-and-pixel-density">Image width and pixel density</h3>
-				<p>When the image width is known it will generate a srcset for HiDPI screens at 2x. More densities can be specified
-				by passing an array to the <code>resolutions</code> option, e.g. <code>resolutions: [&#39;1x&#39;, &#39;2x&#39;, &#39;3x&#39;]</code>.</p>
-				<pre><code class="lang-js"><span class="hljs-keyword">const</span> options = {
+
+      const srcHandle2 = {
+        srcHandle: 'https://yourdomain.com/photo1.jpg,
+        apiKey: 'YOUR_FILESTACK_API_KEY'
+      };
+      const el2 = fsAdaptive.picture(srcHandle2, options);
+      document.body.appendChild(el2);
+  </span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+			<h3 id="image-width-and-pixel-density">Image width and pixel density</h3>
+			<p>When the image width is known it will generate a srcset for HiDPI screens at 2x. More densities can be specified
+			by passing an array to the <code>resolutions</code> option, e.g. <code>resolutions: [&#39;1x&#39;, &#39;2x&#39;, &#39;3x&#39;]</code>.</p>
+			<pre><code class="language-js"><span class="hljs-keyword">const</span> options = {
   <span class="hljs-attr">alt</span>: <span class="hljs-string">'windsurfer'</span>, 
   <span class="hljs-attr">width</span>: <span class="hljs-string">'768px'</span>,
 };
-picture(<span class="hljs-string">'5aYkEQJSQCmYShsoCnZN'</span>, options);
-</code></pre>
-				<p>Output:</p>
-				<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">picture</span>&gt;</span>
+picture(FILESTACK_HANDLE, options);</code></pre>
+			<p>Output:</p>
+			<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">picture</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://cdn.filestackcontent.com/resize=width:768/5aYkEQJSQCmYShsoCnZN"</span> 
        <span class="hljs-attr">srcset</span>=<span class="hljs-string">"https://cdn.filestackcontent.com/resize=width:768/5aYkEQJSQCmYShsoCnZN 1x, 
                https://cdn.filestackcontent.com/resize=width:1536/5aYkEQJSQCmYShsoCnZN 2x"</span> 
        <span class="hljs-attr">alt</span>=<span class="hljs-string">"windsurfer"</span> 
        <span class="hljs-attr">width</span>=<span class="hljs-string">"768"</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">picture</span>&gt;</span>
-</code></pre>
-				<h3 id="using-width-descriptors">Using width descriptors</h3>
-				<p>You can specify generated widths by using <code>resolutions</code>, which takes an array
-				of numbers or strings (e.g. <code>540</code> or <code>&#39;540w&#39;</code>).</p>
-				<pre><code class="lang-js"><span class="hljs-keyword">const</span> options = {
+<span class="hljs-tag">&lt;/<span class="hljs-name">picture</span>&gt;</span></code></pre>
+			<h3 id="using-width-descriptors">Using width descriptors</h3>
+			<p>You can specify generated widths by using <code>resolutions</code>, which takes an array
+			of numbers or strings (e.g. <code>540</code> or <code>&#39;540w&#39;</code>).</p>
+			<pre><code class="language-js"><span class="hljs-keyword">const</span> options = {
   <span class="hljs-attr">alt</span>: <span class="hljs-string">'windsurfer'</span>, 
   <span class="hljs-attr">sizes</span>: {
     <span class="hljs-string">'(min-width: 1080px)'</span>: <span class="hljs-string">'100vw'</span>,
@@ -1139,10 +1147,9 @@ picture(<span class="hljs-string">'5aYkEQJSQCmYShsoCnZN'</span>, options);
   },
   <span class="hljs-attr">resolutions</span>: [<span class="hljs-number">540</span>, <span class="hljs-number">1080</span>],
 };
-picture(<span class="hljs-string">'5aYkEQJSQCmYShsoCnZN'</span>, options);
-</code></pre>
-				<p>Output:</p>
-				<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">picture</span>&gt;</span>
+picture(FILESTACK_HANDLE, options);</code></pre>
+			<p>Output:</p>
+			<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">picture</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">source</span> <span class="hljs-attr">media</span>=<span class="hljs-string">"(min-width: 1080px)"</span> 
           <span class="hljs-attr">sizes</span>=<span class="hljs-string">"100vw"</span> 
           <span class="hljs-attr">srcset</span>=<span class="hljs-string">"https://cdn.filestackcontent.com/resize=width:540/5aYkEQJSQCmYShsoCnZN 540w, 
@@ -1152,31 +1159,28 @@ picture(<span class="hljs-string">'5aYkEQJSQCmYShsoCnZN'</span>, options);
                https://cdn.filestackcontent.com/resize=width:1080/5aYkEQJSQCmYShsoCnZN 1080w"</span> 
        <span class="hljs-attr">alt</span>=<span class="hljs-string">"windsurfer"</span> 
        <span class="hljs-attr">sizes</span>=<span class="hljs-string">"90vw"</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">picture</span>&gt;</span>
-</code></pre>
-				<h3 id="webp-support">WebP support</h3>
-				<p>WebP can be used when it&#39;s supported by the browser. Filestack will take care of the image conversion
-				and cache it on the delivery network for future requests.</p>
-				<pre><code class="lang-js"><span class="hljs-keyword">const</span> options = {
+<span class="hljs-tag">&lt;/<span class="hljs-name">picture</span>&gt;</span></code></pre>
+			<h3 id="webp-support">WebP support</h3>
+			<p>WebP can be used when it&#39;s supported by the browser. Filestack will take care of the image conversion
+			and cache it on the delivery network for future requests.</p>
+			<pre><code class="language-js"><span class="hljs-keyword">const</span> options = {
   <span class="hljs-attr">alt</span>: <span class="hljs-string">'windsurfer'</span>, 
   <span class="hljs-attr">formats</span>: [<span class="hljs-string">'webp'</span>, <span class="hljs-string">'jpg'</span>], <span class="hljs-comment">// order matters!</span>
 };
-picture(<span class="hljs-string">'5aYkEQJSQCmYShsoCnZN'</span>, options);
-</code></pre>
-				<p>Output:</p>
-				<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">picture</span>&gt;</span>
+picture(FILESTACK_HANDLE, options);</code></pre>
+			<p>Output:</p>
+			<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">picture</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">source</span> <span class="hljs-attr">srcset</span>=<span class="hljs-string">"https://cdn.filestackcontent.com/output=format:webp/5aYkEQJSQCmYShsoCnZN"</span> 
           <span class="hljs-attr">type</span>=<span class="hljs-string">"image/webp"</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">source</span> <span class="hljs-attr">srcset</span>=<span class="hljs-string">"https://cdn.filestackcontent.com/output=format:jpg/5aYkEQJSQCmYShsoCnZN"</span> 
           <span class="hljs-attr">type</span>=<span class="hljs-string">"image/jpg"</span>&gt;</span> 
   <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://cdn.filestackcontent.com/5aYkEQJSQCmYShsoCnZN"</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">"windsurfer"</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">picture</span>&gt;</span>
-</code></pre>
-				<h3 id="transformations-support">Transformations support</h3>
-				<p>Adaptive also supports Filestack transformations.
-				Available options are listed in doc:</p>
-				<p><a href="https://www.filestack.com/docs/image-transformations">https://www.filestack.com/docs/image-transformations</a></p>
-				<pre><code class="lang-js"><span class="hljs-keyword">const</span> options = {
+<span class="hljs-tag">&lt;/<span class="hljs-name">picture</span>&gt;</span></code></pre>
+			<h3 id="transformations-support">Transformations support</h3>
+			<p>Adaptive also supports Filestack transformations.
+			Available options are listed in doc:</p>
+			<p><a href="https://www.filestack.com/docs/image-transformations">https://www.filestack.com/docs/image-transformations</a></p>
+			<pre><code class="language-js"><span class="hljs-keyword">const</span> options = {
   <span class="hljs-attr">alt</span>: <span class="hljs-string">'windsurfer'</span>, 
   <span class="hljs-attr">width</span>: <span class="hljs-number">400</span>,
   <span class="hljs-attr">transforms</span>: {
@@ -1186,24 +1190,52 @@ picture(<span class="hljs-string">'5aYkEQJSQCmYShsoCnZN'</span>, options);
     <span class="hljs-attr">border</span>: <span class="hljs-literal">true</span>, <span class="hljs-comment">// use default options of border transformation</span>
   }
 };
-picture(<span class="hljs-string">'5aYkEQJSQCmYShsoCnZN'</span>, options);
-</code></pre>
-				<p>Output:</p>
-				<pre><code class="lang-html"><span class="hljs-tag">&lt;<span class="hljs-name">picture</span>&gt;</span>
+picture(FILESTACK_HANDLE, options);</code></pre>
+			<p>Output:</p>
+			<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">picture</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://cdn.filestackcontent.com/blur=amount:5/border/resize=width:400/5aYkEQJSQCmYShsoCnZN"</span> <span class="hljs-attr">srcset</span>=<span class="hljs-string">"https://cdn.filestackcontent.com/blur=amount:5/border/resize=width:400/5aYkEQJSQCmYShsoCnZN 1x, https://cdn.filestackcontent.com/blur=amount:5/border/resize=width:800/5aYkEQJSQCmYShsoCnZN 2x"</span> <span class="hljs-attr">alt</span>=<span class="hljs-string">"windsurfer"</span> <span class="hljs-attr">width</span>=<span class="hljs-string">"400"</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">picture</span>&gt;</span>
 </code></pre>
-				<h2 id="future">Future</h2>
-				<p>Adaptive is joining an ecosystem already populated with many utilities for responsive images.
-					We want to remain flexible while still having some opinions on how to implement picture elements using Filestack conversions, and we know it is hard to
-				cover every use case. Contributions and ideas are welcome that would help improve the usefulness of this library.</p>
-				<p>Current ideas:</p>
-				<ul>
-					<li>LQIP using the Filestack blur transformation</li>
-					<li>Compress HiDPI images using Filestack compress task</li>
-					<li>Implement art direction with Filestack crop </li>
-					<li>Develop a PostHTML transform for post-processing HTML using <code>makePictureTree</code></li>
-				</ul>
+			<h4 id="disable-validator">Disable validator</h4>
+			<p>To speed up generating of final output (useful when you have a bunch of images on your site) you can optionally disable validation of transformation params by passing additional prop in options:</p>
+			<pre><code class="language-js"><span class="hljs-keyword">const</span> options = {
+  ...
+  useValidator: <span class="hljs-literal">false</span>,
+  ...
+}</code></pre>
+			<h2 id="development">Development</h2>
+			<p>To install and work on Adaptiv locally:</p>
+			<pre><code class="language-bash">git <span class="hljs-built_in">clone</span> git@github.com:filestack/adaptive.git
+<span class="hljs-built_in">cd</span> adaptive
+npm install</code></pre>
+			<p>To create build directory:</p>
+			<pre><code>npm <span class="hljs-keyword">run</span><span class="bash"> build</span></code></pre><p>This newly created directory contains</p>
+			<pre><code class="language-text">build/
+├── browser/                # for the UMD module (usable in HTML script tags)
+   └── index.umd.js         #
+├── main/                   # for the CommonJS module
+   ├── ...                  #
+   └── index.js             # 
+└── module/                 # for the ES Module (suitable for bundlers like Webpack and Rollup)
+   ├── ...                  #
+   └── index.js             #</code></pre>
+			<h2 id="documentation">Documentation</h2>
+			<p>For more info about available methods and options check browser documentation:
+				<br>
+			<a href="https://filestack.github.io/adaptive/">https://filestack.github.io/adaptive/</a></p>
+			<h2 id="contributing">Contributing</h2>
+			<p>We follow the <a href="https://conventionalcommits.org/">conventional commits</a> specification to ensure consistent commit messages and changelog formatting.</p>
+			<h2 id="future">Future</h2>
+			<p>Adaptive is joining an ecosystem already populated with many utilities for responsive images.
+				We want to remain flexible while still having some opinions on how to implement picture elements using Filestack conversions, and we know it is hard to
+			cover every use case. Contributions and ideas are welcome that would help improve the usefulness of this library.</p>
+			<p>Current ideas:</p>
+			<ul>
+				<li>LQIP using the Filestack blur transformation</li>
+				<li>Compress HiDPI images using Filestack compress task</li>
+				<li>Implement art direction with Filestack crop </li>
+				<li>Develop a PostHTML transform for post-processing HTML using <code>makePictureTree</code></li>
+			</ul>
 		</div>
 		<div style="position:relative;"><a name="typedoc-main-index" class="tsd-anchor"></a></div>
 		<section class="tsd-panel-group tsd-index-group">
@@ -1211,29 +1243,22 @@ picture(<span class="hljs-string">'5aYkEQJSQCmYShsoCnZN'</span>, options);
 			<section class="tsd-panel tsd-index-panel">
 				<div class="tsd-index-content">
 					<section class="tsd-index-section ">
-						<h3>Enumerations</h3>
-						<ul class="tsd-index-list">
-							<li class="tsd-kind-enum"><a href="enums/ealignfacesoptions.html" class="tsd-kind-icon">EAlign<wbr>Faces<wbr>Options</a></li>
-							<li class="tsd-kind-enum"><a href="enums/ealignoptions.html" class="tsd-kind-icon">EAlign<wbr>Options</a></li>
-							<li class="tsd-kind-enum"><a href="enums/eblurmode.html" class="tsd-kind-icon">EBlur<wbr>Mode</a></li>
-							<li class="tsd-kind-enum"><a href="enums/ecolorspacetype.html" class="tsd-kind-icon">EColorspace<wbr>Type</a></li>
-							<li class="tsd-kind-enum"><a href="enums/ecropfacestype.html" class="tsd-kind-icon">ECropfaces<wbr>Type</a></li>
-							<li class="tsd-kind-enum"><a href="enums/efitoptions.html" class="tsd-kind-icon">EFit<wbr>Options</a></li>
-							<li class="tsd-kind-enum"><a href="enums/enoisetype.html" class="tsd-kind-icon">ENoise<wbr>Type</a></li>
-							<li class="tsd-kind-enum"><a href="enums/eshapetype.html" class="tsd-kind-icon">EShape<wbr>Type</a></li>
-							<li class="tsd-kind-enum"><a href="enums/estyletype.html" class="tsd-kind-icon">EStyle<wbr>Type</a></li>
-						</ul>
-					</section>
-					<section class="tsd-index-section ">
 						<h3>Interfaces</h3>
 						<ul class="tsd-index-list">
+							<li class="tsd-kind-interface"><a href="interfaces/filehandlebystoragealias.html" class="tsd-kind-icon">File<wbr>Handle<wbr>ByStorage<wbr>Alias</a></li>
+							<li class="tsd-kind-interface"><a href="interfaces/filelinkoptions.html" class="tsd-kind-icon">File<wbr>Link<wbr>Options</a></li>
 							<li class="tsd-kind-interface"><a href="interfaces/img.html" class="tsd-kind-icon">Img</a></li>
 							<li class="tsd-kind-interface"><a href="interfaces/picture.html" class="tsd-kind-icon">Picture</a></li>
 							<li class="tsd-kind-interface"><a href="interfaces/pictureoptions.html" class="tsd-kind-icon">Picture<wbr>Options</a></li>
 							<li class="tsd-kind-interface"><a href="interfaces/security.html" class="tsd-kind-icon">Security</a></li>
 							<li class="tsd-kind-interface"><a href="interfaces/size.html" class="tsd-kind-icon">Size</a></li>
 							<li class="tsd-kind-interface"><a href="interfaces/source.html" class="tsd-kind-icon">Source</a></li>
-							<li class="tsd-kind-interface"><a href="interfaces/transformationoptions.html" class="tsd-kind-icon">Transformation<wbr>Options</a></li>
+						</ul>
+					</section>
+					<section class="tsd-index-section ">
+						<h3>Type aliases</h3>
+						<ul class="tsd-index-list">
+							<li class="tsd-kind-type-alias"><a href="globals.html#filehandle" class="tsd-kind-icon">File<wbr>Handle</a></li>
 						</ul>
 					</section>
 					<section class="tsd-index-section ">
@@ -1242,17 +1267,29 @@ picture(<span class="hljs-string">'5aYkEQJSQCmYShsoCnZN'</span>, options);
 							<li class="tsd-kind-function"><a href="globals.html#makepicture" class="tsd-kind-icon">make<wbr>Picture</a></li>
 							<li class="tsd-kind-function"><a href="globals.html#makepicturetree" class="tsd-kind-icon">make<wbr>Picture<wbr>Tree</a></li>
 							<li class="tsd-kind-function"><a href="globals.html#picture" class="tsd-kind-icon">picture</a></li>
-							<li class="tsd-kind-function"><a href="globals.html#transform" class="tsd-kind-icon">transform</a></li>
 						</ul>
 					</section>
 				</div>
 			</section>
 		</section>
 		<section class="tsd-panel-group tsd-member-group ">
+			<h2>Type aliases</h2>
+			<section class="tsd-panel tsd-member tsd-kind-type-alias">
+				<a name="filehandle" class="tsd-anchor"></a>
+				<h3>File<wbr>Handle</h3>
+				<div class="tsd-signature tsd-kind-icon">File<wbr>Handle<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><a href="interfaces/filehandlebystoragealias.html" class="tsd-signature-type">FileHandleByStorageAlias</a></div>
+				<aside class="tsd-sources">
+					<ul>
+						<li>Defined in <a href="https://github.com/filestack/adaptive/blob/45661f7/src/tree.ts#L16">tree.ts:16</a></li>
+					</ul>
+				</aside>
+			</section>
+		</section>
+		<section class="tsd-panel-group tsd-member-group ">
 			<h2>Functions</h2>
 			<section class="tsd-panel tsd-member tsd-kind-function">
 				<a name="makepicture" class="tsd-anchor"></a>
-				<h3>make<wbr>Picture</h3>
+				<h3><span class="tsd-flag ts-flagConst">Const</span> make<wbr>Picture</h3>
 				<ul class="tsd-signatures tsd-kind-function">
 					<li class="tsd-signature tsd-kind-icon">make<wbr>Picture<span class="tsd-signature-symbol">(</span>renderer<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, obj<span class="tsd-signature-symbol">: </span><a href="interfaces/picture.html" class="tsd-signature-type">Picture</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
 				</ul>
@@ -1260,7 +1297,7 @@ picture(<span class="hljs-string">'5aYkEQJSQCmYShsoCnZN'</span>, options);
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/filestack/adaptive/blob/18602bb/src/adapters/DOM.ts#L15">adapters/DOM.ts:15</a></li>
+								<li>Defined in <a href="https://github.com/filestack/adaptive/blob/45661f7/src/adapters/DOM.ts#L15">adapters/DOM.ts:15</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1278,15 +1315,15 @@ picture(<span class="hljs-string">'5aYkEQJSQCmYShsoCnZN'</span>, options);
 			</section>
 			<section class="tsd-panel tsd-member tsd-kind-function">
 				<a name="makepicturetree" class="tsd-anchor"></a>
-				<h3>make<wbr>Picture<wbr>Tree</h3>
+				<h3><span class="tsd-flag ts-flagConst">Const</span> make<wbr>Picture<wbr>Tree</h3>
 				<ul class="tsd-signatures tsd-kind-function">
-					<li class="tsd-signature tsd-kind-icon">make<wbr>Picture<wbr>Tree<span class="tsd-signature-symbol">(</span>handle<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span>, opts<span class="tsd-signature-symbol">?: </span><a href="interfaces/pictureoptions.html" class="tsd-signature-type">PictureOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="interfaces/picture.html" class="tsd-signature-type">Picture</a></li>
+					<li class="tsd-signature tsd-kind-icon">make<wbr>Picture<wbr>Tree<span class="tsd-signature-symbol">(</span>handle<span class="tsd-signature-symbol">?: </span><a href="globals.html#filehandle" class="tsd-signature-type">FileHandle</a>, opts<span class="tsd-signature-symbol">?: </span><a href="interfaces/pictureoptions.html" class="tsd-signature-type">PictureOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="interfaces/picture.html" class="tsd-signature-type">Picture</a></li>
 				</ul>
 				<ul class="tsd-descriptions">
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/filestack/adaptive/blob/18602bb/src/tree.ts#L288">tree.ts:288</a></li>
+								<li>Defined in <a href="https://github.com/filestack/adaptive/blob/45661f7/src/tree.ts#L308">tree.ts:308</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1300,7 +1337,7 @@ picture(<span class="hljs-string">'5aYkEQJSQCmYShsoCnZN'</span>, options);
 						<h4 class="tsd-parameters-title">Parameters</h4>
 						<ul class="tsd-parameters">
 							<li>
-								<h5><span class="tsd-flag ts-flagOptional">Optional</span> handle: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> handle: <a href="globals.html#filehandle" class="tsd-signature-type">FileHandle</a></h5>
 							</li>
 							<li>
 								<h5><span class="tsd-flag ts-flagOptional">Optional</span> opts: <a href="interfaces/pictureoptions.html" class="tsd-signature-type">PictureOptions</a></h5>
@@ -1312,15 +1349,15 @@ picture(<span class="hljs-string">'5aYkEQJSQCmYShsoCnZN'</span>, options);
 			</section>
 			<section class="tsd-panel tsd-member tsd-kind-function">
 				<a name="picture" class="tsd-anchor"></a>
-				<h3>picture</h3>
+				<h3><span class="tsd-flag ts-flagConst">Const</span> picture</h3>
 				<ul class="tsd-signatures tsd-kind-function">
-					<li class="tsd-signature tsd-kind-icon">picture<span class="tsd-signature-symbol">(</span>handle<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span>, opts<span class="tsd-signature-symbol">?: </span><a href="interfaces/pictureoptions.html" class="tsd-signature-type">PictureOptions</a>, renderer<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
+					<li class="tsd-signature tsd-kind-icon">picture<span class="tsd-signature-symbol">(</span>handle<span class="tsd-signature-symbol">: </span><a href="globals.html#filehandle" class="tsd-signature-type">FileHandle</a>, opts<span class="tsd-signature-symbol">?: </span><a href="interfaces/pictureoptions.html" class="tsd-signature-type">PictureOptions</a>, renderer<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
 				</ul>
 				<ul class="tsd-descriptions">
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/filestack/adaptive/blob/18602bb/src/index.ts#L21">index.ts:21</a></li>
+								<li>Defined in <a href="https://github.com/filestack/adaptive/blob/45661f7/src/index.ts#L29">index.ts:29</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1332,7 +1369,7 @@ picture(<span class="hljs-string">'5aYkEQJSQCmYShsoCnZN'</span>, options);
 						<h4 class="tsd-parameters-title">Parameters</h4>
 						<ul class="tsd-parameters">
 							<li>
-								<h5><span class="tsd-flag ts-flagOptional">Optional</span> handle: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
+								<h5>handle: <a href="globals.html#filehandle" class="tsd-signature-type">FileHandle</a></h5>
 							</li>
 							<li>
 								<h5><span class="tsd-flag ts-flagOptional">Optional</span> opts: <a href="interfaces/pictureoptions.html" class="tsd-signature-type">PictureOptions</a></h5>
@@ -1342,39 +1379,6 @@ picture(<span class="hljs-string">'5aYkEQJSQCmYShsoCnZN'</span>, options);
 							</li>
 						</ul>
 						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
-					</li>
-				</ul>
-			</section>
-			<section class="tsd-panel tsd-member tsd-kind-function">
-				<a name="transform" class="tsd-anchor"></a>
-				<h3>transform</h3>
-				<ul class="tsd-signatures tsd-kind-function">
-					<li class="tsd-signature tsd-kind-icon">transform<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">: </span><a href="interfaces/transformationoptions.html" class="tsd-signature-type">TransformationOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></li>
-				</ul>
-				<ul class="tsd-descriptions">
-					<li class="tsd-description">
-						<aside class="tsd-sources">
-							<ul>
-								<li>Defined in <a href="https://github.com/filestack/adaptive/blob/18602bb/src/transformations.ts#L688">transformations.ts:688</a></li>
-							</ul>
-						</aside>
-						<div class="tsd-comment tsd-typography">
-							<div class="lead">
-								<p>Creates filestack transform url</p>
-							</div>
-						</div>
-						<h4 class="tsd-parameters-title">Parameters</h4>
-						<ul class="tsd-parameters">
-							<li>
-								<h5>options: <a href="interfaces/transformationoptions.html" class="tsd-signature-type">TransformationOptions</a></h5>
-								<div class="tsd-comment tsd-typography">
-									<div class="lead">
-										<p>Transformation options</p>
-									</div>
-								</div>
-							</li>
-						</ul>
-						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h4>
 					</li>
 				</ul>
 			</section>
