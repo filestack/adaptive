@@ -1,7 +1,7 @@
 {
   "name": "filestack-adaptive",
   "author": "Filestack (https://filestack.com)",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "HTML5 picture elements powered by Filestack",
   "main": "build/main/index.js",
   "module": "build/module/index.js",
@@ -87,11 +87,6 @@
     "validate-commit-msg": {
       "types": "conventional-commit-types",
       "helpMessage": "Use \"git cz\" or conventional-changelog format :) (https://github.com/commitizen/cz-cli)"
-    }
-  },
-  "husky": {
-    "hooks": {
-      "commit-msg": "validate-commit-msg"
     }
   }
 }

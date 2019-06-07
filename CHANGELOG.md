@@ -1,5 +1,9 @@
 # Change Log
 
+## 1.1.0 (2019-06-07)
+- chore(package): Add releas-o-tron
+- Feature/support cname (#16)
+
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
 ## [1.0.0](https://github.com/filestack/adaptive/compare/v0.2.7...v1.0.0) (2019-05-20)
