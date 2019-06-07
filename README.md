@@ -15,11 +15,11 @@
   <a href="https://npmjs.com/package/filestack-adaptive">
     <img src="https://img.shields.io/npm/v/filestack-adaptive.svg" />
   </a>
-  <a href="https://static.filestackapi.com/adaptive/1.0.0/adaptive.min.js">
-    <img src="http://img.badgesize.io/http://static.filestackapi.com/adaptive/1.0.0/adaptive.min.js?compression=gzip&color=green" />
+  <a href="https://static.filestackapi.com/adaptive/1.1.0/adaptive.min.js">
+    <img src="http://img.badgesize.io/http://static.filestackapi.com/adaptive/1.1.0/adaptive.min.js?compression=gzip&color=green" />
   </a>
-  <a href="https://static.filestackapi.com/adaptive/1.0.0/adaptive.min.js">
-    <img src="http://img.badgesize.io/http://static.filestackapi.com/adaptive/1.0.0/adaptive.min.js?color=green" />
+  <a href="https://static.filestackapi.com/adaptive/1.1.0/adaptive.min.js">
+    <img src="http://img.badgesize.io/http://static.filestackapi.com/adaptive/1.1.0/adaptive.min.js?color=green" />
   </a>
   <img src="https://img.shields.io/badge/module%20formats-cjs%2C%20umd%2C%20esm-green.svg" />
   <br/>
@@ -43,6 +43,7 @@
   - [Image width and pixel density](#image-width-and-pixel-density)
   - [Using width descriptors](#using-width-descriptors)
   - [WebP support](#webp-support)
+  - [Custom cname](#custom-cname)
 - [Development](#development)
 - [Contributing](#contributing)
 - [Documentation](#documentation)
@@ -65,10 +66,10 @@ This library ships with a built-in virtual DOM adapter powered by hyperx, which 
 ## Usage
 
 ### Browser
-You can find the newest version at https://static.filestackapi.com/adaptive/1.0.0/adaptive.min.js
+You can find the newest version at https://static.filestackapi.com/adaptive/1.1.0/adaptive.min.js
 <br>
 ```html
-    <script src="https://static.filestackapi.com/adaptive/1.0.0/adaptive.min.js" crossorigin="anonymous"></script>
+    <script src="https://static.filestackapi.com/adaptive/1.1.0/adaptive.min.js" crossorigin="anonymous"></script>
     <script>
         const options = {
             alt: 'windsurfer',
@@ -169,7 +170,7 @@ export default Picture;
 ### Storage aliases and external urls
 You can also use [Filestack storage alias](https://www.filestack.com/docs/concepts/storage/#storage-aliases) or external urls as an image source:
 ```html
-  <script src="https://static.filestackapi.com/adaptive/1.0.0/adaptive.min.js"></script>
+  <script src="https://static.filestackapi.com/adaptive/1.1.0/adaptive.min.js"></script>
   <script>
       const options = {
           alt: 'windsurfer',
@@ -273,6 +274,22 @@ Output:
   <source srcset="https://cdn.filestackcontent.com/output=format:jpg/5aYkEQJSQCmYShsoCnZN" 
           type="image/jpg"> 
   <img src="https://cdn.filestackcontent.com/5aYkEQJSQCmYShsoCnZN" alt="windsurfer">
+</picture>
+```
+### Custom CNAME
+
+In order to use custom cname for generated file links just use cname option: 
+```js
+const options = { 
+  cname: 'fs.test123.com'
+};
+picture(FILESTACK_HANDLE, options);
+```
+
+Output:
+```html
+<picture>
+  <img src="https://cdn.fs.test123.com/5aYkEQJSQCmYShsoCnZN">
 </picture>
 ```
 
