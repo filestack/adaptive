@@ -184,11 +184,13 @@ const makeSrcSet = (
   width?: number | string,
   format?: string,
 ) => {
+
   let fileLinkOptions: FileLinkOptions = {
     transform: Object.assign({}, options.transforms),
     useValidator: options.useValidator,
     cname: options.cname,
   };
+
   if (format) {
     fileLinkOptions.transform.output = { format };
   }
