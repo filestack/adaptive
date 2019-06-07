@@ -468,23 +468,6 @@ describe('makePictureTree', () => {
         srcSet,
       },
     };
-
-    // const options = {
-    //   cname: 'fs.test123.com',
-    //   transforms: {
-    //     resize: {
-    //       width: 300,
-    //     },
-    //   },
-    // };
-    // const srcSet = `${result(baseURL, 'resize=width:300')}`;
-    // const expected = {
-    //   img: {
-    //     width: 300,
-    //     src: result(`https://cdn.${options.cname}`, 'resize=width:300'),
-    //     srcSet,
-    //   },
-    // };
     const tree = makePictureTree(handle, options);
     assert.deepStrictEqual(tree, expected);
   });
