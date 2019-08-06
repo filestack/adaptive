@@ -454,6 +454,29 @@ describe('makePictureTree', () => {
     assert.deepStrictEqual(tree, expected);
   });
 
+  it('should move output task always as the first in the filelink', () => {
+    const options = {
+      transforms: {
+        quality: {
+          value: 5,
+        },
+        output: {
+          format: 'webp',
+        },
+        sepia: {
+          tone: 70,
+        },
+      },
+    };
+    const expected = {
+      img: {
+        src: 'https://cdn.filestackcontent.com/output=format:webp/quality=value:5/sepia=tone:70/seW1thvcR1aQBfOCF8bX',
+      },
+    };
+    const tree = makePictureTree(handle, options);
+    assert.deepStrictEqual(tree, expected);
+  });
+
   it('should return filelinks with custom cname', () => {
     const options = {
       cname: 'fs.test123.com',
