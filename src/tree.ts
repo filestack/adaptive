@@ -129,7 +129,6 @@ const defaultResolutions = [
  * Based on the provided transform options object create filestack filelink
  */
 const createFileLink = (handle: FileHandle, fileLinkOptions: FileLinkOptions) => {
-  // let fileLinkOptions = Object.assign({}, flo);
   let fileLink: Filelink;
   // Use storage alias handle
   if (isFileHandleByStorageAlias(handle)) {
