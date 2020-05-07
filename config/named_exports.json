@@ -14,5 +14,6 @@
     "validate",
     "maybe",
     "list"
-  ]
+  ],
+  "node_modules/nanohtml/lib/browser.js": ["createElement"]
 }
