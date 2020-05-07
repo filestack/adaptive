@@ -9,9 +9,9 @@
       true,
       {
         "multiline": {
-          "objects": "always",
+          "objects": "ignore",
           "arrays": "always",
-          "functions": "always",
+          "functions": "ignore",
           "typeLiterals": "ignore"
         }
       }
