@@ -1,4 +1,3 @@
-import { createElement } from 'nanohtml';
 import { makePictureTree, PictureOptions, FileHandle } from './tree';
 import {
   TransformOptions,
@@ -17,16 +16,28 @@ import {
   EVideoAccess,
   EUrlscreenshotAgent,
   EUrlscreenshotMode,
-  EUrlscreenshotOrientation
+  EUrlscreenshotOrientation,
 } from 'filestack-js';
 
 import { makePicture } from './adapters/DOM';
+
+const createElement = (tag: string, attributes: any) => {
+  const element = document.createElement(tag);
+  for (const attribute in attributes) {
+    element.setAttribute(attribute, attributes[attribute]);
+  }
+  return document.body.appendChild(element);
+};
 
 /**
  * Helper that composes makePictureTree with the DOM adapter for generating
  * actual picture elements.
  */
-export const picture = (handle: FileHandle, opts?: PictureOptions, renderer?: any): any => {
+export const picture = (
+  handle: FileHandle,
+  opts?: PictureOptions,
+  renderer?: any
+): any => {
   if (renderer) {
     return makePicture(renderer, makePictureTree(handle, opts));
   }
@@ -51,5 +62,5 @@ export {
   EVideoAccess,
   EUrlscreenshotAgent,
   EUrlscreenshotMode,
-  EUrlscreenshotOrientation
+  EUrlscreenshotOrientation,
 };
