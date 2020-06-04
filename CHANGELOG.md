@@ -1,5 +1,14 @@
 # Change Log
 
+## 1.1.3 (2020-03-09)
+- Merge branch 'master' of github.com:filestack/adaptive
+- chore(bump version)
+- chore(test fix) (#21)
+- chore(dependencies (#20))
+
+## 1.1.1 (2019-08-06)
+- feat(createFilelink): Always use output task as the first one (#17)
+
 ## 1.1.0 (2019-06-07)
 - chore(package): Add releas-o-tron
 - Feature/support cname (#16)

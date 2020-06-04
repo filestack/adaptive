@@ -17,7 +17,6 @@
     "traceResolution": false,
     "types": [
       "mocha",
-      "lodash",
       "node"
     ],
     "typeRoots": [
