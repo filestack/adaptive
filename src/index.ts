@@ -1,3 +1,5 @@
+import 'regenerator-runtime/runtime';
+import { LitElement, property, customElement } from 'lit-element';
 import { makePictureTree, PictureOptions, FileHandle } from './tree';
 import {
   TransformOptions,
@@ -33,7 +35,7 @@ const createElement = (tag: string, attributes: any) => {
  * Helper that composes makePictureTree with the DOM adapter for generating
  * actual picture elements.
  */
-export const picture = (
+const picture = (
   handle: FileHandle,
   opts?: PictureOptions,
   renderer?: any
@@ -64,3 +66,54 @@ export {
   EUrlscreenshotMode,
   EUrlscreenshotOrientation,
 };
+
+export const fsAdaptive = { picture };
+
+@customElement('fs-adaptive')
+export class FsAdaptiveWebComponent extends LitElement {
+  @property({ type: String, reflect: true })
+  src: string = '';
+
+  @property({ type: String,  reflect: true })
+  alt: any;
+
+  @property({ type: String,  reflect: true })
+  width: any;
+
+  @property({ type: String,  reflect: true })
+  cname: any;
+
+  @property({ type: String,  reflect: true })
+  signature: any;
+
+  @property({ type: String,  reflect: true })
+  policy: any;
+
+  @property({ type: Boolean,  reflect: true })
+  keys: any;
+
+  @property({ type: Array,  reflect: true })
+  resolutions: any;
+
+  render() {
+    let security;
+
+    if (this.signature && this.policy) {
+      security = { signature: this.signature, policy: this.policy };
+    }
+
+    const options = {
+      security,
+      resolutions: this.resolutions,
+      alt: this.alt,
+      width: this.width,
+      cname: this.cname,
+      keys: this.keys,
+    };
+
+    return fsAdaptive.picture(this.src, options);
+  }
+}
+
+// resolutions?: (string | number)[];
+// sizes?: Size;

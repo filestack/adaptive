@@ -179,6 +179,7 @@ const getCdnUrl = (handle: FileHandle, options: PictureOptions) => {
     useValidator: options.useValidator,
     cname: options.cname,
   };
+
   return createFileLink(handle, fileLinkOptions);
 };
 
@@ -297,7 +298,9 @@ const makeImgTree = (handle: FileHandle, options: PictureOptions): Img => {
       width: utils.getNumber(options.width),
     });
   }
+
   const fallback = options.sizes && options.sizes.fallback;
+
   return utils.removeEmpty({
     src: fallback ? makeSrc(handle, fallback, options) : getCdnUrl(handle, options),
     srcSet: options.sizes ? makeSrcSet(handle, options, fallback) : undefined,
@@ -318,6 +321,7 @@ export const makePictureTree = (handle?: FileHandle, opts?: PictureOptions): Pic
   if (typeof handle !== 'string' && !isFileHandleByStorageAlias(handle)) {
     throw new TypeError('Filestack handle must be a string');
   }
+
   if (opts && opts.resolutions && opts.resolutions.length) {
     const rUnits: string[] = opts.resolutions.filter((resolution: any) => {
       return typeof resolution === 'string';
@@ -331,6 +335,7 @@ export const makePictureTree = (handle?: FileHandle, opts?: PictureOptions): Pic
       throw new Error('You must specify a width to use pixel densities.');
     }
   }
+
   const options: PictureOptions = {
     resolutions: opts && opts.width ? ['1x', '2x'] : defaultResolutions,
     keys: true,
@@ -345,9 +350,11 @@ export const makePictureTree = (handle?: FileHandle, opts?: PictureOptions): Pic
 
   const img: Img = makeImgTree(handle, options);
   const tree: Picture = { img };
+
   if (options.sizes || options.formats) {
     const sources: Source[] = makeSourcesTree(handle, options);
     tree.sources = sources && sources.length ? sources : undefined;
   }
+
   return utils.removeEmpty(tree);
 };

@@ -32,21 +32,23 @@
 
 <!-- toc -->
 - [What is Adaptive](#what-is-adaptive)
+  - [Features](#features)
 - [Usage](#usage)
   - [Browser](#browser)
-    - [SRI](#SRI)
+    - [SRI](#sri)
   - [Node (react example)](#node-react-example)
     - [Use with JSX](#use-with-jsx)
-  - [Transformations support](#transformations-support)
-    - [Disable validator](#disable-validator)
   - [Storage aliases and external urls](#storage-aliases-and-external-urls)
   - [Image width and pixel density](#image-width-and-pixel-density)
+  - [Webcomponent](#webcomponent)
   - [Using width descriptors](#using-width-descriptors)
   - [WebP support](#webp-support)
-  - [Custom cname](#custom-cname)
+  - [Custom CNAME](#custom-cname)
+  - [Transformations support](#transformations-support)
+    - [Disable validator](#disable-validator)
 - [Development](#development)
-- [Contributing](#contributing)
 - [Documentation](#documentation)
+- [Contributing](#contributing)
 - [Future](#future)
 
 ## What is Adaptive
@@ -214,6 +216,24 @@ Output:
   <img src="https://cdn.filestackcontent.com/resize=width:768/5aYkEQJSQCmYShsoCnZN" 
        srcset="https://cdn.filestackcontent.com/resize=width:768/5aYkEQJSQCmYShsoCnZN 1x, 
                https://cdn.filestackcontent.com/resize=width:1536/5aYkEQJSQCmYShsoCnZN 2x" 
+       alt="windsurfer" 
+       width="768">
+</picture>
+```
+
+### Webcomponent
+Adaptive now supports webcomponent. Supported options: src, width, alt, cname, policy, signature, keys, resolutions
+```HTML
+<fs-adaptive src="NxW2v528S9W6K1l5LnFS" width="769px" alt="windsurfer" ></fs-adaptive>
+```
+
+Output:
+
+```html
+<picture>
+  <img src="https://cdn.filestackcontent.com/resize=width:768/NxW2v528S9W6K1l5LnFS" 
+       srcset="https://cdn.filestackcontent.com/resize=width:768/NxW2v528S9W6K1l5LnFS 1x, 
+               https://cdn.filestackcontent.com/resize=width:1536/NxW2v528S9W6K1l5LnFS 2x" 
        alt="windsurfer" 
        width="768">
 </picture>
