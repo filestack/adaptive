@@ -1,4 +1,13 @@
-# Change Log
+# Changelog
+
+All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+## [1.2.0](https://github.com/filestack/adaptive/compare/v1.0.0...v1.2.0) (2020-06-04)
+
+
+### Features
+
+* **createFilelink:** Always use output task as the first one ([#17](https://github.com/filestack/adaptive/issues/17)) ([61e6127](https://github.com/filestack/adaptive/commit/61e612792c9514ac1365251b1f52c1562db931de))
 
 ## 1.1.3 (2020-03-09)
 - Merge branch 'master' of github.com:filestack/adaptive
