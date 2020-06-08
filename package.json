@@ -18,9 +18,9 @@
     "docs:publish": "npm run docs && gh-pages -d build/docs",
     "lint": "tslint --project .",
     "publish": "npm run build && npm run build:cdn && node scripts/publish.js && npm run docs:publish",
-    "pretest": "rm -rf build && npm run build:test",
+    "pretest": "rm -rf build && npm run build",
     "release": "npx standard-version",
-    "test": "npm run lint && tsc && nyc mocha"
+    "test": "npm run lint && nyc mocha"
   },
   "license": "Apache-2.0",
   "keywords": [

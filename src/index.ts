@@ -1,6 +1,6 @@
 import 'regenerator-runtime/runtime';
-import { LitElement, property, customElement } from 'lit-element';
-import { makePictureTree, PictureOptions, FileHandle } from './tree';
+import { LitElement, property, html, customElement } from 'lit-element';
+import { makePicture } from './adapters/DOM';
 import {
   TransformOptions,
   EFitOptions,
@@ -20,16 +20,7 @@ import {
   EUrlscreenshotMode,
   EUrlscreenshotOrientation,
 } from 'filestack-js';
-
-import { makePicture } from './adapters/DOM';
-
-const createElement = (tag: string, attributes: any) => {
-  const element = document.createElement(tag);
-  for (const attribute in attributes) {
-    element.setAttribute(attribute, attributes[attribute]);
-  }
-  return document.body.appendChild(element);
-};
+import { makePictureTree, PictureOptions, FileHandle } from './tree';
 
 /**
  * Helper that composes makePictureTree with the DOM adapter for generating
@@ -37,13 +28,9 @@ const createElement = (tag: string, attributes: any) => {
  */
 const picture = (
   handle: FileHandle,
-  opts?: PictureOptions,
-  renderer?: any
+  opts?: PictureOptions
 ): any => {
-  if (renderer) {
-    return makePicture(renderer, makePictureTree(handle, opts));
-  }
-  return makePicture(createElement, makePictureTree(handle, opts));
+  return makePicture(makePictureTree(handle, opts));
 };
 
 export {
@@ -75,25 +62,28 @@ export class FsAdaptiveWebComponent extends LitElement {
   src: string = '';
 
   @property({ type: String,  reflect: true })
-  alt: any;
+  alt: string;
 
   @property({ type: String,  reflect: true })
-  width: any;
+  width: string;
 
   @property({ type: String,  reflect: true })
-  cname: any;
+  cname: string;
 
   @property({ type: String,  reflect: true })
-  signature: any;
+  signature: string;
 
   @property({ type: String,  reflect: true })
-  policy: any;
-
-  @property({ type: Boolean,  reflect: true })
-  keys: any;
+  policy: string;
 
   @property({ type: Array,  reflect: true })
-  resolutions: any;
+  resolutions: string[];
+
+  @property({ type: String,  reflect: true })
+  class: string;
+
+  @property({ type: String,  reflect: true })
+  id: string;
 
   render() {
     let security;
@@ -102,18 +92,27 @@ export class FsAdaptiveWebComponent extends LitElement {
       security = { signature: this.signature, policy: this.policy };
     }
 
-    const options = {
+    const options: any = {
       security,
-      resolutions: this.resolutions,
       alt: this.alt,
       width: this.width,
       cname: this.cname,
-      keys: this.keys,
     };
 
-    return fsAdaptive.picture(this.src, options);
+    if (this.resolutions) {
+      options.resolutions = this.resolutions;
+    }
+
+    const el = fsAdaptive.picture(this.src, options);
+
+    if (el && this.class) {
+      el.setAttribute('class', this.class);
+    }
+
+    if (el && this.id) {
+      el.setAttribute('id', this.id);
+    }
+
+    return html`${el}`;
   }
 }
-
-// resolutions?: (string | number)[];
-// sizes?: Size;

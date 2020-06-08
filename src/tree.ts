@@ -32,7 +32,7 @@ export interface Source {
   sizes?: string;
   srcset: string;
   type?: string;
-  key?: string;
+  // key?: string;
 }
 
 export interface Picture {
@@ -262,9 +262,9 @@ const makeSourcesTree = (handle: FileHandle, options: any): Source[] => {
       sizes: width,
       srcSet: makeSrcSet(handle, options, width, format),
       type: format ? `image/${format}` : undefined,
-      key: options.keys
-        ? `${handle}-${media || 'fallback'}-${width || 'auto'}-${format || 'auto'}`
-        : undefined,
+      // key: options.keys
+      //   ? `${handle}-${media || 'fallback'}-${width || 'auto'}-${format || 'auto'}`
+      //   : undefined,
     });
   };
   // Handle three cases -- sizes + type, just sizes, just type
@@ -338,7 +338,7 @@ export const makePictureTree = (handle?: FileHandle, opts?: PictureOptions): Pic
 
   const options: PictureOptions = {
     resolutions: opts && opts.width ? ['1x', '2x'] : defaultResolutions,
-    keys: true,
+    // keys: true,
     ...opts,
   };
 

@@ -18,9 +18,8 @@ const config =  {
   entry: './build/module/index.js',
   output: {
     libraryTarget: 'umd',
-    library: 'filestack',
+    library: 'fsAdaptive',
     path: path.resolve(__dirname, 'build/browser'),
-    filename: 'filestack.umd.js',
   },
   module: {
     rules: [
