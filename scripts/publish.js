@@ -67,7 +67,7 @@ const manifest = require('../package.json');
 
 upload(
   {
-    cwd: 'build/cdn',
+    cwd: 'build/browser',
     matching: '*',
   },
   {
