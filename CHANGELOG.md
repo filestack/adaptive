@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.3.0](https://github.com/filestack/adaptive/compare/v1.2.0...v1.3.0) (2020-06-08)
+
+
+### Features
+
+* **webcomponent:** add support for webcomponent ([00aa3dc](https://github.com/filestack/adaptive/commit/00aa3dc83e97a6463d1735bd7e512a3b1b1793f1))
+* **webcomponent:** add support for webcomponent in adaptive ([3c62eda](https://github.com/filestack/adaptive/commit/3c62edaed5e2dcc70700cfcd8b402581297f4572))
+* **webcomponent:** add support for webcomponent in adaptive ([74c7f50](https://github.com/filestack/adaptive/commit/74c7f5088af6bb0ebd24eadddb4d575162392498))
+
 ## 1.1.3 (2020-03-09)
 - Merge branch 'master' of github.com:filestack/adaptive
 - chore(bump version)
