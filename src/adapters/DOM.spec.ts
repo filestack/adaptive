@@ -1,13 +1,6 @@
 import { makePictureTree } from '../tree';
 import { makePicture } from './DOM';
 
-const React = require('react');
-const reactDOM = require('react-dom/server');
-const toString = reactDOM.renderToString;
-const createElement = (Component: any, props: any, children: any[]) => {
-  return React.createElement(Component, props, ...children);
-};
-
 const validator = require('html-validator');
 const handle = 'seW1thvcR1aQBfOCF8bX';
 
@@ -19,7 +12,7 @@ const makeHTML = (el: any) => {
         <title>Test</title>
       </head>
       <body>
-        ${toString(el)}
+        ${el.toString()}
       </body>
     </html>
   `;
@@ -35,7 +28,6 @@ describe('DOM adapter', () => {
   it('sanity - should invalidate an img without alt', done => {
     const options = {};
     const picture = makePicture(
-      createElement,
       makePictureTree(handle, options)
     );
     validator({ data: makeHTML(picture) }).then((data: any) => {
@@ -49,9 +41,9 @@ describe('DOM adapter', () => {
       width: '768px'
     };
     const picture = makePicture(
-      createElement,
       makePictureTree(handle, options)
     );
+
     validator({ data: makeHTML(picture) }).then((data: any) => {
       done(isInvalid(data));
     });
@@ -67,10 +59,10 @@ describe('DOM adapter', () => {
       resolutions: [540, 670, 1080]
     };
     const picture = makePicture(
-      createElement,
       makePictureTree(handle, options)
     );
     validator({ data: makeHTML(picture) }).then((data: any) => {
+      console.log(data, isInvalid(data));
       done(isInvalid(data));
     });
   });
@@ -86,7 +78,6 @@ describe('DOM adapter', () => {
       formats: ['webp', 'jpg']
     };
     const picture = makePicture(
-      createElement,
       makePictureTree(handle, options)
     );
     validator({ data: makeHTML(picture) }).then((data: any) => {
@@ -103,7 +94,6 @@ describe('DOM adapter', () => {
       formats: ['webp', 'jpg']
     };
     const picture = makePicture(
-      createElement,
       makePictureTree(handle, options)
     );
     validator({ data: makeHTML(picture) }).then((data: any) => {
@@ -117,7 +107,6 @@ describe('DOM adapter', () => {
       formats: ['webp']
     };
     const picture = makePicture(
-      createElement,
       makePictureTree(handle, options)
     );
     validator({ data: makeHTML(picture) }).then((data: any) => {
@@ -134,7 +123,6 @@ describe('DOM adapter', () => {
       resolutions: ['320w', '640w']
     };
     const picture = makePicture(
-      createElement,
       makePictureTree(handle, options)
     );
     validator({ data: makeHTML(picture) }).then((data: any) => {
@@ -152,7 +140,6 @@ describe('DOM adapter', () => {
       }
     };
     const picture = makePicture(
-      createElement,
       makePictureTree(handle, options)
     );
     validator({ data: makeHTML(picture) }).then((data: any) => {
