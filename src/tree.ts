@@ -163,6 +163,7 @@ const getWidth = (width?: number | string) => (resolution: number | string) => {
     return resolution;
   }
   const unit = utils.getUnit(resolution);
+
   if (unit === 'w') {
     return utils.getNumber(resolution);
   }
@@ -335,6 +336,8 @@ export const makePictureTree = (handle?: FileHandle, opts?: PictureOptions): Pic
       throw new Error('You must specify a width to use pixel densities.');
     }
   }
+
+  opts = utils.removeEmpty(opts);
 
   const options: PictureOptions = {
     resolutions: opts && opts.width ? ['1x', '2x'] : defaultResolutions,

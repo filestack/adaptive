@@ -79,6 +79,12 @@ export class FsAdaptiveWebComponent extends LitElement {
   @property({ type: Array,  reflect: true })
   resolutions: string[];
 
+  @property({ type: Array,  reflect: true })
+  formats: string[];
+
+  @property({ type: Object,  reflect: true })
+  sizes: any;
+
   @property({ type: String,  reflect: true })
   class: string;
 
@@ -97,6 +103,8 @@ export class FsAdaptiveWebComponent extends LitElement {
       alt: this.alt,
       width: this.width,
       cname: this.cname,
+      sizes: this.sizes,
+      formats: this.formats,
     };
 
     if (this.resolutions) {
