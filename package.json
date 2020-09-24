@@ -22,7 +22,7 @@
     "release": "npx standard-version",
     "test": "npm run lint && nyc mocha"
   },
-  "license": "Apache-2.0",
+  "license": "MIT",
   "keywords": [
     "filestack",
     "responsive images",
