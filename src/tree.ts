@@ -141,7 +141,7 @@ const createFileLink = (handle: FileHandle, fileLinkOptions: FileLinkOptions) =>
     fileLink.setUseValidator(false);
   }
 
-  Object.keys(fileLinkOptions.transform).sort(outputFirstSort).forEach((key: keyof TransformOptions) => {
+  Object.keys(fileLinkOptions.transform).sort(outputLastSort).forEach((key: keyof TransformOptions) => {
     fileLink = fileLink.addTask(key, fileLinkOptions.transform[key]);
   });
   if (fileLinkOptions.cname) {
@@ -151,11 +151,11 @@ const createFileLink = (handle: FileHandle, fileLinkOptions: FileLinkOptions) =>
 };
 
 /**
- * Sort array of keys in a way that 'output' is always the first
+ * Sort array of keys in a way that 'output' is always the last
  * @param previousKey - First key to be compared in a sort function
  */
-const outputFirstSort = (previousKey: string, nextKey: string) => {
-  return previousKey === 'output' ? -1 : nextKey === 'output' ? 1 : 0;
+const outputLastSort = (previousKey: string, nextKey: string) => {
+  return previousKey === 'output' ? 1 : nextKey === 'output' ? -1 : 0;
 };
 
 const getWidth = (width?: number | string) => (resolution: number | string) => {
