@@ -163,7 +163,7 @@ describe('makePictureTree', () => {
       keys: false,
     });
     const imgSrcset = `${result(baseURL, 'resize=width:320')} 320w, ${result(baseURL, 'resize=width:640')} 640w`;
-    const url = `${result(baseURL, 'output=format:webp/resize=width:320')} 320w, ${result(baseURL, 'output=format:webp/resize=width:640')} 640w`;
+    const url = `${result(baseURL, 'resize=width:320/output=format:webp')} 320w, ${result(baseURL, 'resize=width:640/output=format:webp')} 640w`;
     const expected = {
       sources: [
         {
@@ -213,23 +213,23 @@ describe('makePictureTree', () => {
         {
           media: '(min-width: 640px)',
           sizes: '90vw',
-          srcSet: `${result(baseURL, 'output=format:webp/resize=width:640')} 640w`,
+          srcSet: `${result(baseURL, 'resize=width:640/output=format:webp')} 640w`,
           type: 'image/webp',
         },
         {
           media: '(min-width: 640px)',
           sizes: '90vw',
-          srcSet: `${result(baseURL, 'output=format:jpg/resize=width:640')} 640w`,
+          srcSet: `${result(baseURL, 'resize=width:640/output=format:jpg')} 640w`,
           type: 'image/jpg',
         },
         {
           sizes: '80vw',
-          srcSet: `${result(baseURL, 'output=format:webp/resize=width:640')} 640w`,
+          srcSet: `${result(baseURL, 'resize=width:640/output=format:webp')} 640w`,
           type: 'image/webp',
         },
         {
           sizes: '80vw',
-          srcSet: `${result(baseURL, 'output=format:jpg/resize=width:640')} 640w`,
+          srcSet: `${result(baseURL, 'resize=width:640/output=format:jpg')} 640w`,
           type: 'image/jpg',
         },
       ],
@@ -255,7 +255,7 @@ describe('makePictureTree', () => {
       sources: [
         {
           sizes: '700px',
-          srcSet: `${result(baseURL, 'output=format:webp/resize=width:640')} 640w`,
+          srcSet: `${result(baseURL, 'resize=width:640/output=format:webp')} 640w`,
           type: 'image/webp',
         },
       ],
@@ -281,10 +281,10 @@ describe('makePictureTree', () => {
       keys: false,
     });
     const imgSrcset = `${result(baseURL, 'resize=width:320')} 320w, ${result(baseURL, 'resize=width:640')} 640w`;
-    const srcSet1 = `${result(baseURL, 'output=format:jpg/resize=width:320')} 320w, ${result(baseURL, 'output=format:jpg/resize=width:640')} 640w`;
-    const srcSet2 = `${result(baseURL, 'output=format:webp/resize=width:320')} 320w, ${result(baseURL, 'output=format:webp/resize=width:640')} 640w`;
-    const srcSet3 = `${result(baseURL, 'output=format:jpg/resize=width:320')} 320w, ${result(baseURL, 'output=format:jpg/resize=width:640')} 640w`;
-    const srcSet4 = `${result(baseURL, 'output=format:webp/resize=width:320')} 320w, ${result(baseURL, 'output=format:webp/resize=width:640')} 640w`;
+    const srcSet1 = `${result(baseURL, 'resize=width:320/output=format:jpg')} 320w, ${result(baseURL, 'resize=width:640/output=format:jpg')} 640w`;
+    const srcSet2 = `${result(baseURL, 'resize=width:320/output=format:webp')} 320w, ${result(baseURL, 'resize=width:640/output=format:webp')} 640w`;
+    const srcSet3 = `${result(baseURL, 'resize=width:320/output=format:jpg')} 320w, ${result(baseURL, 'resize=width:640/output=format:jpg')} 640w`;
+    const srcSet4 = `${result(baseURL, 'resize=width:320/output=format:webp')} 320w, ${result(baseURL, 'resize=width:640/output=format:webp')} 640w`;
     const expected = {
       sources: [
         {
@@ -470,7 +470,7 @@ describe('makePictureTree', () => {
     };
     const expected = {
       img: {
-        src: 'https://cdn.filestackcontent.com/output=format:webp/quality=value:5/sepia=tone:70/seW1thvcR1aQBfOCF8bX',
+        src: 'https://cdn.filestackcontent.com/quality=value:5/sepia=tone:70/output=format:webp/seW1thvcR1aQBfOCF8bX',
       },
     };
     const tree = makePictureTree(handle, options);
